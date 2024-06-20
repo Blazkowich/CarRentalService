@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using CarRental.Api.ApiModels.Enum;
 using CarRental.Api.ApiModels.Response;
 using CarRental.BLL.Models;
+using CarRental.BLL.Models.Enum;
 
 namespace CarRental.Api.ApiAutoMapper;
 
@@ -15,6 +17,8 @@ public class AutomapperProfile : Profile
             .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type))
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
             .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl));
+        CreateMap<VehicleTypeEnumApi, VehicleTypeBLL>();
+        CreateMap<VehicleTypeBLL, VehicleTypeEnumApi>();
     }
 }
 

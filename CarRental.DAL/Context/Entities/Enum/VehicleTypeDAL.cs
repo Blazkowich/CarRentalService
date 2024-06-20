@@ -1,6 +1,6 @@
-﻿namespace CarRental.DAL.Context.Entities;
+﻿namespace CarRental.DAL.Context.Entities.Enum;
 
-public enum VehicleTypeEnum
+public enum VehicleTypeDAL
 {
     Sedan,
     Coupe,

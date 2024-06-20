@@ -15,6 +15,10 @@ public class BaseRepository<TKey, TEntity>(DbContext dbContext) : IBaseRepositor
     {
         return await _dbContext.Set<TEntity>().FindAsync([id, ct], cancellationToken: ct);
     }
+    public virtual async Task<TEntity?> GetByNameAsync(string name, CancellationToken ct = default)
+    {
+        return await _dbContext.Set<TEntity>().FindAsync([name, ct], cancellationToken: ct);
+    }
 
     public virtual async Task<List<TEntity>?> GetAllAsync(CancellationToken ct = default)
     {

@@ -7,6 +7,8 @@ public interface IBaseRepository<TKey, TEntity>
 {
     Task<TEntity?> GetByIdAsync(TKey id, CancellationToken ct = default);
 
+    Task<TEntity?> GetByNameAsync(string name, CancellationToken ct = default);
+
     Task<List<TEntity>?> GetAllAsync(CancellationToken ct = default);
 
     Task<EntitiesPagingResponse<TEntity>?> SearchWithPagingAsync(EntitiesPagingRequest<TEntity> request, CancellationToken ct = default);

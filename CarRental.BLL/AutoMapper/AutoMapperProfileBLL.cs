@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using CarRental.BLL.Models;
+using CarRental.BLL.Models.Enum;
 using CarRental.DAL.Context.Entities;
+using CarRental.DAL.Context.Entities.Enum;
 
 namespace CarRental.BLL.AutoMapper;
 
@@ -23,6 +25,8 @@ public class AutomapperProfileBLL : Profile
             .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type))
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
             .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl));
+        CreateMap<VehicleTypeBLL, VehicleTypeDAL>();
+        CreateMap<VehicleTypeDAL, VehicleTypeBLL>();
         #endregion
     }
 }

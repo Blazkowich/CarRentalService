@@ -1,4 +1,4 @@
-﻿using CarRental.DAL.Context.Entities;
+﻿using CarRental.BLL.Models.Enum;
 
 namespace CarRental.BLL.Models;
 
@@ -10,7 +10,7 @@ public class Vehicle
 
     public string Description { get; set; }
 
-    public VehicleTypeEnum Type { get; set; }
+    public VehicleTypeBLL Type { get; set; }
 
     public double Price { get; set; }
 
