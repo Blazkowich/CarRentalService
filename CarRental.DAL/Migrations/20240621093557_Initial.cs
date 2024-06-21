@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -74,6 +75,15 @@ namespace CarRental.DAL.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Customers",
+                columns: new[] { "Id", "Address", "Email", "FirstName", "LastName", "PhoneNumber" },
+                values: new object[,]
+                {
+                    { new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), "456 User Lane", "user@example.com", "Regular", "User", "0987654321" },
+                    { new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"), "123 Admin Street", "admin@example.com", "Admin", "User", "1234567890" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Vehicles",
                 columns: new[] { "Id", "Description", "ImageUrl", "Name", "Price", "Type" },
                 values: new object[,]
@@ -86,6 +96,15 @@ namespace CarRental.DAL.Migrations
                     { new Guid("a8ce79ff-12eb-4538-a376-421f717a5148"), "Family van", "https://cdn.motor1.com/images/mgl/kX72B/s1/2021-toyota-sienna.webp", "Toyota Sienna", 65.0, 2 },
                     { new Guid("ab7d682c-0547-4f64-b78f-b51f2e4cb57b"), "Mid-size sedan", "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202201/2022_Toyota_Camry_Hybrid-_Exte.jpg", "Toyota Camry", 50.0, 0 },
                     { new Guid("eaf81fda-e22b-4cb9-8d49-8bba62a7f83b"), "Sports coupe", "https://cdn.motor1.com/images/mgl/7ZZObp/s3/ford-mustang-2023.jpg", "Ford Mustang", 80.0, 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Bookings",
+                columns: new[] { "Id", "BookingDate", "CustomerId", "EndDate", "StartDate", "TotalPrice", "VehicleId" },
+                values: new object[,]
+                {
+                    { new Guid("ce634062-7b50-4f4a-9eef-151176df31ec"), new DateTime(2024, 6, 21, 9, 35, 56, 944, DateTimeKind.Utc).AddTicks(8670), new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"), new DateTime(2024, 6, 28, 9, 35, 56, 944, DateTimeKind.Utc).AddTicks(8677), new DateTime(2024, 6, 22, 9, 35, 56, 944, DateTimeKind.Utc).AddTicks(8672), 350.0, new Guid("ab7d682c-0547-4f64-b78f-b51f2e4cb57b") },
+                    { new Guid("d96341ea-4cb2-4038-8faa-d857db9586e7"), new DateTime(2024, 6, 21, 9, 35, 56, 944, DateTimeKind.Utc).AddTicks(8681), new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), new DateTime(2024, 7, 1, 9, 35, 56, 944, DateTimeKind.Utc).AddTicks(8682), new DateTime(2024, 6, 24, 9, 35, 56, 944, DateTimeKind.Utc).AddTicks(8681), 560.0, new Guid("eaf81fda-e22b-4cb9-8d49-8bba62a7f83b") }
                 });
 
             migrationBuilder.CreateIndex(

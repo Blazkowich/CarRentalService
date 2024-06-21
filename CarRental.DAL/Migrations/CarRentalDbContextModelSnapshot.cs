@@ -53,6 +53,28 @@ namespace CarRental.DAL.Migrations
                     b.HasIndex("VehicleId");
 
                     b.ToTable("Bookings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ce634062-7b50-4f4a-9eef-151176df31ec"),
+                            BookingDate = new DateTime(2024, 6, 21, 9, 35, 56, 944, DateTimeKind.Utc).AddTicks(8670),
+                            CustomerId = new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"),
+                            EndDate = new DateTime(2024, 6, 28, 9, 35, 56, 944, DateTimeKind.Utc).AddTicks(8677),
+                            StartDate = new DateTime(2024, 6, 22, 9, 35, 56, 944, DateTimeKind.Utc).AddTicks(8672),
+                            TotalPrice = 350.0,
+                            VehicleId = new Guid("ab7d682c-0547-4f64-b78f-b51f2e4cb57b")
+                        },
+                        new
+                        {
+                            Id = new Guid("d96341ea-4cb2-4038-8faa-d857db9586e7"),
+                            BookingDate = new DateTime(2024, 6, 21, 9, 35, 56, 944, DateTimeKind.Utc).AddTicks(8681),
+                            CustomerId = new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"),
+                            EndDate = new DateTime(2024, 7, 1, 9, 35, 56, 944, DateTimeKind.Utc).AddTicks(8682),
+                            StartDate = new DateTime(2024, 6, 24, 9, 35, 56, 944, DateTimeKind.Utc).AddTicks(8681),
+                            TotalPrice = 560.0,
+                            VehicleId = new Guid("eaf81fda-e22b-4cb9-8d49-8bba62a7f83b")
+                        });
                 });
 
             modelBuilder.Entity("CarRental.DAL.Context.Entities.CustomerEntity", b =>
@@ -87,6 +109,26 @@ namespace CarRental.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"),
+                            Address = "123 Admin Street",
+                            Email = "admin@example.com",
+                            FirstName = "Admin",
+                            LastName = "User",
+                            PhoneNumber = "1234567890"
+                        },
+                        new
+                        {
+                            Id = new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"),
+                            Address = "456 User Lane",
+                            Email = "user@example.com",
+                            FirstName = "Regular",
+                            LastName = "User",
+                            PhoneNumber = "0987654321"
+                        });
                 });
 
             modelBuilder.Entity("CarRental.DAL.Context.Entities.VehicleEntity", b =>
