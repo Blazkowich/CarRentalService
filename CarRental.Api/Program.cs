@@ -1,10 +1,21 @@
+using Api.Bootstrapping.CustomExceptions;
+using Api.Bootstrapping.Extensions;
+using Api.Bootstrapping.Middleware;
 using CarRental.Api.ApiAutoMapper;
 using CarRental.BLL.AutoMapper;
-using System.Text.Json.Serialization;
 using CarRental.BLL.DependencyInjections;
+using CarRental.BLL.Models.Settings;
 using CarRental.DAL.DependencyInjections;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Reflection;
+using System.Text;
+using System.Text.Json.Serialization;
 
 namespace CarRental.Api;
 
@@ -14,15 +25,51 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.ConfigureLogger();
+        builder.Host.UseSerilog();
 
-        builder.Services.AddControllers();
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Token").Value)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero,
+                };
+            });
+
+        builder.Services.ConfigureExceptionHandlingMiddleware(new Dictionary<Type, HttpStatusCode>
+        {
+            [typeof(BadRequestException)] = HttpStatusCode.BadRequest,
+            [typeof(ValidationException)] = HttpStatusCode.BadRequest,
+            [typeof(NotFoundException)] = HttpStatusCode.NotFound,
+            [typeof(ForbiddenException)] = HttpStatusCode.Forbidden,
+        });
+
+        builder.Services.AddHttpContextAccessor();
         builder.Services.AddEndpointsApiExplorer();
 
         builder.Services.AddAutoMapper(typeof(AutomapperProfile));
         builder.Services.AddAutoMapper(typeof(AutomapperProfileBLL));
 
+        var authApiBaseUrl = builder.Configuration["ApiSettings:AuthApiUrl"];
+
+        var authApiHttpClient = builder.Services.AddHttpClient("GameStore.Auth.Api", client =>
+        {
+            client.BaseAddress = new Uri(authApiBaseUrl);
+        });
+
+        var authApiSettings = new AuthApiSettings
+        {
+            AuthApiUrl = authApiBaseUrl,
+        };
+
+
         builder.Services.AddDALRepositories(builder.Configuration);
-        builder.Services.AddBLLServices();
+        builder.Services.AddBLLServices(authApiSettings);
 
         builder.Services.AddControllers().AddJsonOptions(options =>
         {
@@ -53,8 +100,21 @@ public class Program
             c.IncludeXmlComments(xmlPath);
         });
 
+        builder.Services.AddAuthorization();
 
         var app = builder.Build();
+
+        app.UseSerilogRequestLogging(options =>
+        {
+            options.MessageTemplate = "[ANALYTICS] API endpoint call info";
+            options.EnrichDiagnosticContext = (IDiagnosticContext diagnosticContext, HttpContext httpContext) =>
+            {
+                diagnosticContext.Set("RequestMethod", httpContext.Request.Method);
+                diagnosticContext.Set("RequestPath", httpContext.Request.Path);
+                diagnosticContext.Set("ResponseStatusCode", httpContext.Response.StatusCode);
+            };
+        });
+
 
         if (app.Environment.IsDevelopment())
         {
@@ -68,14 +128,36 @@ public class Program
             app.UseDeveloperExceptionPage();
 
         }
+        else
+        {
+            app.UseExceptionHandler(new ExceptionHandlerOptions
+            {
+                ExceptionHandler = async context =>
+                {
+                    var exceptionHandler = context
+                        .RequestServices
+                        .GetRequiredService<GlobalExceptionHandler>();
+
+                    await exceptionHandler
+                        .TryHandleAsync(
+                        context,
+                        context.Features.Get<IExceptionHandlerFeature>().Error,
+                        CancellationToken.None);
+                },
+            });
+        }
+
 
         app.UseHttpsRedirection();
         app.UseRouting();
+
+        app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+
+        app.UseAuthentication();
         app.UseAuthorization();
-
-
         app.MapControllers();
 
         app.Run();
+
     }
 }

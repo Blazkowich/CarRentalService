@@ -3,13 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Api", "CarRental.Api\CarRental.Api.csproj", "{EDEA27B9-B06A-4436-AC95-0B434FC98158}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Api", "CarRental.Api\CarRental.Api.csproj", "{EDEA27B9-B06A-4436-AC95-0B434FC98158}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.BLL", "CarRental.BLL\CarRental.BLL.csproj", "{73386E9C-9928-4060-8642-E698267DF005}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.BLL", "CarRental.BLL\CarRental.BLL.csproj", "{73386E9C-9928-4060-8642-E698267DF005}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.DAL", "CarRental.DAL\CarRental.DAL.csproj", "{2D83B7B1-2971-435B-B8FE-5D50048EBB8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.DAL", "CarRental.DAL\CarRental.DAL.csproj", "{2D83B7B1-2971-435B-B8FE-5D50048EBB8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.DAL.Common", "CarRental.DAL.Common\CarRental.DAL.Common.csproj", "{0CCAAC17-C46E-498E-AE67-CE65C0A970E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.DAL.Common", "CarRental.DAL.Common\CarRental.DAL.Common.csproj", "{0CCAAC17-C46E-498E-AE67-CE65C0A970E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth", "Auth", "{67BE5A22-4DEA-4708-9080-5887213D373B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Auth.Api", "CarRental.Auth.Api\CarRental.Auth.Api.csproj", "{3A97F026-D3F3-4192-8690-8217F9DC5136}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Auth.BLL", "CarRental.Auth.BLL\CarRental.Auth.BLL.csproj", "{9B784B32-C787-4DF7-A2DD-C048F3F8E549}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Auth.DAL", "CarRental.Auth.DAL\CarRental.Auth.DAL.csproj", "{942AFCA0-C5DF-40AA-8A78-D3ECB895C327}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Bootstrapping", "Api.Bootstrapping\Api.Bootstrapping.csproj", "{E67F2FA0-8558-413A-A5DB-D55FF207C846}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +43,30 @@ Global
 		{0CCAAC17-C46E-498E-AE67-CE65C0A970E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CCAAC17-C46E-498E-AE67-CE65C0A970E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CCAAC17-C46E-498E-AE67-CE65C0A970E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A97F026-D3F3-4192-8690-8217F9DC5136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A97F026-D3F3-4192-8690-8217F9DC5136}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A97F026-D3F3-4192-8690-8217F9DC5136}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A97F026-D3F3-4192-8690-8217F9DC5136}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B784B32-C787-4DF7-A2DD-C048F3F8E549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B784B32-C787-4DF7-A2DD-C048F3F8E549}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B784B32-C787-4DF7-A2DD-C048F3F8E549}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B784B32-C787-4DF7-A2DD-C048F3F8E549}.Release|Any CPU.Build.0 = Release|Any CPU
+		{942AFCA0-C5DF-40AA-8A78-D3ECB895C327}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{942AFCA0-C5DF-40AA-8A78-D3ECB895C327}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{942AFCA0-C5DF-40AA-8A78-D3ECB895C327}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{942AFCA0-C5DF-40AA-8A78-D3ECB895C327}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E67F2FA0-8558-413A-A5DB-D55FF207C846}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E67F2FA0-8558-413A-A5DB-D55FF207C846}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E67F2FA0-8558-413A-A5DB-D55FF207C846}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E67F2FA0-8558-413A-A5DB-D55FF207C846}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3A97F026-D3F3-4192-8690-8217F9DC5136} = {67BE5A22-4DEA-4708-9080-5887213D373B}
+		{9B784B32-C787-4DF7-A2DD-C048F3F8E549} = {67BE5A22-4DEA-4708-9080-5887213D373B}
+		{942AFCA0-C5DF-40AA-8A78-D3ECB895C327} = {67BE5A22-4DEA-4708-9080-5887213D373B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {38FF9C76-D40E-4F68-A20C-2C8BA9ABD4A0}

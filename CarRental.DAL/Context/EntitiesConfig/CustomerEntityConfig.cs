@@ -1,6 +1,6 @@
 ﻿using CarRental.DAL.Context.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CarRental.DAL.Context.EntitiesConfig;
 

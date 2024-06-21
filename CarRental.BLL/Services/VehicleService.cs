@@ -36,7 +36,7 @@ public class VehicleService(IRentalUnitOfWork rentalUnitOfWork, IMapper mapper) 
         var getVehiclesByType = await _rentalUnitOfWork.VehiclesRepository.GetVehiclesByTypeAsync(_mapper.Map<VehicleTypeDAL>(type), default);
         return _mapper.Map<List<Vehicle>>(getVehiclesByType);
     }
-    
+
     public async Task<Guid> AddVehicleAsync(Vehicle vehicle)
     {
         ArgumentNullException.ThrowIfNull(vehicle);

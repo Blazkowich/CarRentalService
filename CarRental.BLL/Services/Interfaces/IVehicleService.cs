@@ -1,6 +1,5 @@
 ﻿using CarRental.BLL.Models;
 using CarRental.BLL.Models.Enum;
-using CarRental.DAL.Context.Entities;
 
 namespace CarRental.BLL.Services.Interfaces;
 

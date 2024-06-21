@@ -36,7 +36,7 @@ public class VehicleController(IVehicleService vehicleService, IMapper mapper) :
     }
 
     [HttpGet("byType")]
-    public async Task<List<VehicleResponseFull>> GetVehiclesByType([FromQuery]VehicleTypeEnumApi type)
+    public async Task<List<VehicleResponseFull>> GetVehiclesByType([FromQuery] VehicleTypeEnumApi type)
     {
         var getByType = await _vehicleService.GetVehiclesByTypeAsync(_mapper.Map<VehicleTypeBLL>(type));
         return _mapper.Map<List<VehicleResponseFull>>(getByType);

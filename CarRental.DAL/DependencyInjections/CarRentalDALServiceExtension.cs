@@ -1,10 +1,10 @@
 ﻿using CarRental.DAL.Context;
+using CarRental.DAL.Repositories;
 using CarRental.DAL.Repositories.Interfaces;
 using CarRental.DAL.Repositories.RentalUnitOfWork;
-using CarRental.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CarRental.DAL.DependencyInjections;
 
