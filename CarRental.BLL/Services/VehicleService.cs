@@ -60,4 +60,10 @@ public class VehicleService(IRentalUnitOfWork rentalUnitOfWork, IMapper mapper) 
         await _rentalUnitOfWork.VehiclesRepository.DeleteAsync(vehicleId, default);
         await _rentalUnitOfWork.SaveAsync(default);
     }
+
+    public async Task<List<Vehicle>> GetAllAvailableVehiclesAsync()
+    {
+        var getAllAvailables = await _rentalUnitOfWork.VehiclesRepository.GetAllAvailableVehicles();
+        return _mapper.Map<List<Vehicle>>(getAllAvailables);
+    }
 }

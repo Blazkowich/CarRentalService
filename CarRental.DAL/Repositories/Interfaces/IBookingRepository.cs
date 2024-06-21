@@ -5,4 +5,5 @@ namespace CarRental.DAL.Repositories.Interfaces;
 
 public interface IBookingRepository : IBaseRepository<Guid, BookingEntity>
 {
+    Task<List<BookingEntity>> GetOverduedBookingsAsync();
 }

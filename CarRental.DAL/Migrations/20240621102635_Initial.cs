@@ -103,8 +103,9 @@ namespace CarRental.DAL.Migrations
                 columns: new[] { "Id", "BookingDate", "CustomerId", "EndDate", "StartDate", "TotalPrice", "VehicleId" },
                 values: new object[,]
                 {
-                    { new Guid("ce634062-7b50-4f4a-9eef-151176df31ec"), new DateTime(2024, 6, 21, 9, 35, 56, 944, DateTimeKind.Utc).AddTicks(8670), new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"), new DateTime(2024, 6, 28, 9, 35, 56, 944, DateTimeKind.Utc).AddTicks(8677), new DateTime(2024, 6, 22, 9, 35, 56, 944, DateTimeKind.Utc).AddTicks(8672), 350.0, new Guid("ab7d682c-0547-4f64-b78f-b51f2e4cb57b") },
-                    { new Guid("d96341ea-4cb2-4038-8faa-d857db9586e7"), new DateTime(2024, 6, 21, 9, 35, 56, 944, DateTimeKind.Utc).AddTicks(8681), new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), new DateTime(2024, 7, 1, 9, 35, 56, 944, DateTimeKind.Utc).AddTicks(8682), new DateTime(2024, 6, 24, 9, 35, 56, 944, DateTimeKind.Utc).AddTicks(8681), 560.0, new Guid("eaf81fda-e22b-4cb9-8d49-8bba62a7f83b") }
+                    { new Guid("53d35854-bf8d-4d21-8f3f-d5b70861dffa"), new DateTime(2024, 6, 21, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741), new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"), new DateTime(2024, 6, 28, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741), new DateTime(2024, 6, 22, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741), 0.0, new Guid("ab7d682c-0547-4f64-b78f-b51f2e4cb57b") },
+                    { new Guid("f37be743-b50c-4e91-9475-49fa813003a2"), new DateTime(2024, 6, 21, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741), new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), new DateTime(2024, 7, 1, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741), new DateTime(2024, 6, 24, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741), 0.0, new Guid("eaf81fda-e22b-4cb9-8d49-8bba62a7f83b") },
+                    { new Guid("f9023356-a827-40c2-82dd-1d6d8fa67089"), new DateTime(2024, 6, 21, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741), new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), new DateTime(2024, 6, 11, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741), new DateTime(2024, 6, 6, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741), 0.0, new Guid("a8ce79ff-12eb-4538-a376-421f717a5148") }
                 });
 
             migrationBuilder.CreateIndex(

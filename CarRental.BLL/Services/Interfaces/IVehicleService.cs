@@ -18,4 +18,6 @@ public interface IVehicleService
     Task<Vehicle> UpdateVehicleAsync(Vehicle vehicle);
 
     Task DeleteVehicleAsync(Guid vehicleId);
+
+    Task<List<Vehicle>> GetAllAvailableVehiclesAsync();
 }

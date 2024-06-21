@@ -42,7 +42,12 @@ public class VehicleController(IVehicleService vehicleService, IMapper mapper) :
         return _mapper.Map<List<VehicleResponseFull>>(getByType);
     }
 
-    //get all available vehicles
+    [HttpGet("availables")]
+    public async Task<List<VehicleResponseFull>> GetAllAvailableVehicles()
+    {
+        var getAllAvailable = await _vehicleService.GetAllAvailableVehiclesAsync();
+        return _mapper.Map<List<VehicleResponseFull>>(getAllAvailable);
+    }
 
     //get booked vehicles
 

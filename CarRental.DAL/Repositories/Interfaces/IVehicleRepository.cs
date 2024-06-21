@@ -8,4 +8,6 @@ public interface IVehicleRepository : IBaseRepository<Guid, VehicleEntity>
 {
     Task<VehicleEntity> GetVehicleByNameAsync(string name, CancellationToken ct);
     Task<List<VehicleEntity>> GetVehiclesByTypeAsync(VehicleTypeDAL type, CancellationToken ct);
+
+    Task<List<VehicleEntity>> GetAllAvailableVehicles();
 }

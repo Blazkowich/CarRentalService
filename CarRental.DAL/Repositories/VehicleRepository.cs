@@ -24,4 +24,17 @@ internal class VehicleRepository(CarRentalDbContext context) :
             .Where(v => v.Type == type)
             .ToListAsync(ct);
     }
+
+    public async Task<List<VehicleEntity>> GetAllAvailableVehicles()
+    {
+        var bookedVehicleIds = await _context.Bookings
+            .Where(b => b.EndDate >= DateTime.UtcNow)
+            .Select(b => b.VehicleId)
+            .Distinct()
+            .ToListAsync();
+
+        return await _context.Vehicles
+            .Where(v => !bookedVehicleIds.Contains(v.Id))
+            .ToListAsync();
+    }
 }

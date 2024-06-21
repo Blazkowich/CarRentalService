@@ -18,4 +18,11 @@ public class BookingController(IBookingService bookingService, IMapper mapper) :
         var bookingResponse = await _bookingService.GetAllBookingsAsync();
         return _mapper.Map<List<BookingResponseFull>>(bookingResponse);
     }
+
+    [HttpGet("overdued")]
+    public async Task<List<BookingResponseFull>> GetOverduedBookings()
+    {
+        var overduedBookingResponse = await _bookingService.GetOverduedBookingsAsync();
+        return _mapper.Map<List<BookingResponseFull>>(overduedBookingResponse);
+    }
 }
