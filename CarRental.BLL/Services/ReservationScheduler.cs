@@ -1,30 +1,51 @@
-﻿using CarRental.BLL.Services.Interfaces;
+﻿using CarRental.BLL.Models.Enum;
+using CarRental.BLL.Services.Interfaces;
 using CarRental.DAL.Context.Entities.Enum;
+using CarRental.DAL.Repositories.Interfaces;
 using CarRental.DAL.Repositories.RentalUnitOfWork;
+using System;
+using System.Threading.Tasks;
 
-namespace CarRental.BLL.Services;
-
-public class ReservationScheduler(IRentalUnitOfWork rentalUnitOfWork) : IReservationScheduler
+namespace CarRental.BLL.Services
 {
-    private readonly IRentalUnitOfWork _rentalUnitOfWork = rentalUnitOfWork;
-
-    public async Task UpdateReservationsAsync()
+    public class ReservationScheduler : IReservationScheduler
     {
-        var reservations = await _rentalUnitOfWork.BookingsRepository
-            .GetBookingsByConditionAsync(BookingTypeDAL.Reserved);
+        private readonly IRentalUnitOfWork _rentalUnitOfWork;
 
-        foreach (var reservation in reservations)
+        public ReservationScheduler(IRentalUnitOfWork rentalUnitOfWork)
         {
-            if (reservation.StartDate <= DateTime.UtcNow)
+            _rentalUnitOfWork = rentalUnitOfWork;
+        }
+
+        public async Task UpdateReservationsAsync()
+        {
+            var reservations = await _rentalUnitOfWork.BookingsRepository
+                .GetBookingsByConditionAsync(BookingTypeDAL.Reserved);
+
+            foreach (var reservation in reservations)
             {
-                reservation.BookingCondition = BookingTypeDAL.Active;
+                if (reservation.StartDate <= DateTime.UtcNow)
+                {
+                    if (DateTime.UtcNow > reservation.EndDate)
+                    {
+                        reservation.BookingCondition = BookingTypeDAL.Finished;
 
-                var vehicle = await _rentalUnitOfWork.VehiclesRepository.GetByIdAsync(reservation.VehicleId);
-                vehicle.ReservationType = ReservationTypeDAL.Reserved;
+                        var vehicle = await _rentalUnitOfWork.VehiclesRepository.GetByIdAsync(reservation.VehicleId);
+                        vehicle.ReservationType = ReservationTypeDAL.Free;
 
-                await _rentalUnitOfWork.BookingsRepository.UpdateAsync(reservation);
-                await _rentalUnitOfWork.VehiclesRepository.UpdateAsync(vehicle);
-                await _rentalUnitOfWork.SaveAsync();
+                        await _rentalUnitOfWork.BookingsRepository.UpdateAsync(reservation);
+                        await _rentalUnitOfWork.VehiclesRepository.UpdateAsync(vehicle);
+                    }
+                    else
+                    {
+                        reservation.BookingCondition = BookingTypeDAL.Active;
+
+                        var vehicle = await _rentalUnitOfWork.VehiclesRepository.GetByIdAsync(reservation.VehicleId);
+                        vehicle.ReservationType = ReservationTypeDAL.Reserved;
+                    }
+
+                    await _rentalUnitOfWork.SaveAsync();
+                }
             }
         }
     }

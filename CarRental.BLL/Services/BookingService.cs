@@ -135,14 +135,6 @@ internal class BookingService(IRentalUnitOfWork rentalUnitOfWork, IMapper mapper
             var vehicle = await _rentalUnitOfWork.VehiclesRepository.GetByIdAsync(booking.VehicleId);
 
             booking.TotalPrice = CalculateTotalPrice(vehicle.Price, booking.StartDate, booking.EndDate);
-
-            if (DateTime.UtcNow > booking.EndDate)
-            {
-                booking.BookingCondition = BookingTypeBLL.Finished;
-                await _rentalUnitOfWork.SaveAsync();
-
-                await ReturnCarToSalonAsync(_mapper.Map<Vehicle>(vehicle));
-            }
         }
 
         return bookings;
@@ -152,15 +144,6 @@ internal class BookingService(IRentalUnitOfWork rentalUnitOfWork, IMapper mapper
     {
         var totalDays = (endDate - startDate).TotalDays;
         return Math.Round(totalDays * vehiclePricePerDay, 2);
-    }
-
-    private async Task ReturnCarToSalonAsync(Vehicle vehicle)
-    {
-        vehicle.ReservationType = ReservationTypeBLL.Free;
-        await _rentalUnitOfWork.VehiclesRepository
-            .UpdateAsync(_mapper.Map<VehicleEntity>(vehicle));
-
-        await _rentalUnitOfWork.SaveAsync();
     }
     #endregion
 }
