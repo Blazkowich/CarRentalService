@@ -1,17 +1,24 @@
 ﻿using Api.Bootstrapping.CustomExceptions;
 using AutoMapper;
+using CarRental.Auth.BLL.Models;
+using CarRental.Auth.BLL.Services.Interfaces;
 using CarRental.BLL.Models;
 using CarRental.BLL.Models.Enum;
 using CarRental.BLL.Services.Interfaces;
 using CarRental.DAL.Context.Entities;
 using CarRental.DAL.Context.Entities.Enum;
 using CarRental.DAL.Repositories.RentalUnitOfWork;
+using System.Security.Claims;
 
 namespace CarRental.BLL.Services;
 
-internal class BookingService(IRentalUnitOfWork rentalUnitOfWork, IMapper mapper) : IBookingService
+internal class BookingService(
+    IRentalUnitOfWork rentalUnitOfWork,
+    IUserService userService,
+    IMapper mapper) : IBookingService
 {
     private readonly IRentalUnitOfWork _rentalUnitOfWork = rentalUnitOfWork;
+    private readonly IUserService _userService = userService;
     private readonly IMapper _mapper = mapper;
 
     public async Task<List<Booking>> GetAllBookingsAsync()
@@ -28,7 +35,7 @@ internal class BookingService(IRentalUnitOfWork rentalUnitOfWork, IMapper mapper
         return _mapper.Map<List<Booking>>(bookingByCondition);
     }
 
-    public async Task<Booking> ReserveVehicleAsync(Guid vehicleId, DateTime startDate, int durationInDays)
+    public async Task<Booking> ReserveVehicleAsync(Guid vehicleId, DateTime startDate, int durationInDays, ClaimsPrincipal user)
     {
         var vehicle = await _rentalUnitOfWork.VehiclesRepository.GetByIdAsync(vehicleId) ??
             throw new NotFoundException($"Car with ID {vehicleId} not found");
@@ -38,11 +45,16 @@ internal class BookingService(IRentalUnitOfWork rentalUnitOfWork, IMapper mapper
             throw new BadRequestException($"Car {vehicle.Name} is already reserved during the specified period.");
         }
 
+        var customerName = user.FindFirst(ClaimTypes.Name)?.Value ??
+            throw new BadRequestException("Customer Id not found in claims.");
+
+        var customer = await _userService.GetUserByUserNameAsync(customerName);
+
         var booking = new Booking
         {
             Id = Guid.NewGuid(),
             VehicleId = vehicleId,
-            CustomerId = Guid.NewGuid(), // Need To Change
+            CustomerId = Guid.Parse(customer.Id),
             BookingDate = DateTime.UtcNow,
             StartDate = startDate,
             EndDate = startDate.AddDays(durationInDays),
@@ -61,7 +73,7 @@ internal class BookingService(IRentalUnitOfWork rentalUnitOfWork, IMapper mapper
         return booking;
     }
 
-    public async Task<Booking> BookVehicleAsync(Guid vehicleId, int durationInDays)
+    public async Task<Booking> BookVehicleAsync(Guid vehicleId, int durationInDays, ClaimsPrincipal user)
     {
         var vehicle = await _rentalUnitOfWork.VehiclesRepository.GetByIdAsync(vehicleId) ??
             throw new NotFoundException($"Car with ID {vehicleId} not found");
@@ -70,6 +82,11 @@ internal class BookingService(IRentalUnitOfWork rentalUnitOfWork, IMapper mapper
         {
             throw new BadRequestException($"Car {vehicle.Name} Already Reserved");
         }
+
+        var customerName = user.FindFirst(ClaimTypes.Name)?.Value ??
+            throw new BadRequestException("Customer Id not found in claims.");
+
+        var customer = await _userService.GetUserByUserNameAsync(customerName);
 
         var booking = new Booking
         {
@@ -93,9 +110,9 @@ internal class BookingService(IRentalUnitOfWork rentalUnitOfWork, IMapper mapper
 
     public async Task<Booking> CancelBookingAsync(Booking booking)
     {
-        var bookingEntity = await _rentalUnitOfWork.BookingsRepository.GetByIdAsync(booking.Id) ?? 
+        var bookingEntity = await _rentalUnitOfWork.BookingsRepository.GetByIdAsync(booking.Id) ??
             throw new NotFoundException($"Booking with ID {booking.Id} not found");
-        
+
         bookingEntity.BookingCondition = BookingTypeDAL.Cancelled;
 
         var vehicle = await _rentalUnitOfWork.VehiclesRepository.GetByIdAsync(booking.VehicleId);

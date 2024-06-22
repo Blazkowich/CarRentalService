@@ -3,18 +3,21 @@ using CarRental.Api.ApiModels.Enum;
 using CarRental.Api.ApiModels.Response;
 using CarRental.BLL.Models.Enum;
 using CarRental.BLL.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Api.Controllers;
 
 [ApiController]
 [Route("vehicles")]
+[Authorize]
 public class VehicleController(IVehicleService vehicleService, IMapper mapper) : ControllerBase
 {
     private readonly IVehicleService _vehicleService = vehicleService;
     private readonly IMapper _mapper = mapper;
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<List<VehicleResponseFull>> GetAllVehicles()
     {
         var getAllVehicles = await _vehicleService.GetVehiclesAsync();
@@ -36,6 +39,7 @@ public class VehicleController(IVehicleService vehicleService, IMapper mapper) :
     }
 
     [HttpGet("byType")]
+    [AllowAnonymous]
     public async Task<List<VehicleResponseFull>> GetVehiclesByType([FromQuery] VehicleTypeEnumApi type)
     {
         var getByType = await _vehicleService.GetVehiclesByTypeAsync(_mapper.Map<VehicleTypeBLL>(type));
@@ -43,6 +47,7 @@ public class VehicleController(IVehicleService vehicleService, IMapper mapper) :
     }
 
     [HttpGet("available")]
+    [AllowAnonymous]
     public async Task<List<VehicleResponseFull>> GetAllAvailableVehicles()
     {
         var getAllAvailable = await _vehicleService.GetAllAvailableVehiclesAsync();

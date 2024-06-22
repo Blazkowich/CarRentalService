@@ -1,10 +1,6 @@
-﻿using CarRental.BLL.Models.Enum;
-using CarRental.BLL.Services.Interfaces;
+﻿using CarRental.BLL.Services.Interfaces;
 using CarRental.DAL.Context.Entities.Enum;
-using CarRental.DAL.Repositories.Interfaces;
 using CarRental.DAL.Repositories.RentalUnitOfWork;
-using System;
-using System.Threading.Tasks;
 
 namespace CarRental.BLL.Services
 {

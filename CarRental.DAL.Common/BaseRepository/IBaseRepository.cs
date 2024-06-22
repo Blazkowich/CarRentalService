@@ -1,6 +1,6 @@
 ﻿using CarRental.DAL.Common.Paging;
 
-namespace CarRental.DAL.Common.Repositories.Interfaces;
+namespace CarRental.DAL.Common.BaseRepository;
 #nullable enable
 public interface IBaseRepository<TKey, TEntity>
     where TEntity : class

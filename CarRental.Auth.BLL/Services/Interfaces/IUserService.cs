@@ -15,14 +15,10 @@ public interface IUserService
 
     Task DeleteUserAsync(Guid userId);
 
+    Task<User> GetUserByUserNameAsync(string userName);
+
     Task<List<Roles>> GetRolesByUserIdAsync(Guid userId);
 
     Task<List<Permissions>> GetPermissionsByRoleIdAsync(Guid userId);
-
-    Task<string> Login(User user);
-
-    Task<(User UserEntity, string Token)> Register(User user);
-
-    Task<bool> CheckPageAccess(string targetPage, string targetId, ClaimsPrincipal user);
 }
 

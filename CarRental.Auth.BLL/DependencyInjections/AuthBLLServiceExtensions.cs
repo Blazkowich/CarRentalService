@@ -11,6 +11,7 @@ public static class AuthBLLServiceExtensions
     {
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IRolesService, RolesService>();
         services.AddScoped<ITokenService, TokenService>();
 

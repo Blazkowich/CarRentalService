@@ -5,12 +5,14 @@ using CarRental.Api.ApiModels.Response;
 using CarRental.BLL.Models;
 using CarRental.BLL.Models.Enum;
 using CarRental.BLL.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Api.Controllers;
 
 [ApiController]
 [Route("booking")]
+[Authorize]
 public class BookingController(IBookingService bookingService, IMapper mapper) : ControllerBase
 {
     private readonly IBookingService _bookingService = bookingService;
@@ -35,7 +37,7 @@ public class BookingController(IBookingService bookingService, IMapper mapper) :
     [HttpPost("reservation")]
     public async Task<BookingResponseFull> ReserveVehicle(Guid vehicleId, [FromQuery] DateTime startDate, int duration)
     {
-        var reserveVehicle = await _bookingService.ReserveVehicleAsync(vehicleId, startDate, duration);
+        var reserveVehicle = await _bookingService.ReserveVehicleAsync(vehicleId, startDate, duration, HttpContext.User);
 
         return _mapper.Map<BookingResponseFull>(reserveVehicle);
     }
@@ -43,7 +45,7 @@ public class BookingController(IBookingService bookingService, IMapper mapper) :
     [HttpPost("{duration}")]
     public async Task<BookingResponseFull> BookVehicle(Guid vehicleId, int duration)
     {
-        var bookVehicle = await _bookingService.BookVehicleAsync(vehicleId, duration);
+        var bookVehicle = await _bookingService.BookVehicleAsync(vehicleId, duration, HttpContext.User);
 
         return _mapper.Map<BookingResponseFull>(bookVehicle);
     }

@@ -1,10 +1,9 @@
 ﻿using CarRental.DAL.Common.Paging;
-using CarRental.DAL.Common.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 #nullable enable
 
-namespace CarRental.DAL.Common.Repositories;
+namespace CarRental.DAL.Common.BaseRepository;
 
 public class BaseRepository<TKey, TEntity>(DbContext dbContext) : IBaseRepository<TKey, TEntity>
     where TEntity : class

@@ -2,9 +2,12 @@ using Api.Bootstrapping.CustomExceptions;
 using Api.Bootstrapping.Extensions;
 using Api.Bootstrapping.Middleware;
 using CarRental.Api.ApiAutoMapper;
+using CarRental.Api.ApiAutoMapper.Auth;
+using CarRental.Auth.BLL.AutoMapper;
+using CarRental.Auth.BLL.DependencyInjections;
+using CarRental.Auth.DAL.DependencyInjections;
 using CarRental.BLL.AutoMapper;
 using CarRental.BLL.DependencyInjections;
-using CarRental.BLL.Models.Settings;
 using CarRental.BLL.Services;
 using CarRental.DAL.DependencyInjections;
 using Hangfire;
@@ -13,6 +16,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using Swashbuckle.AspNetCore.Filters;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Reflection;
@@ -30,18 +34,6 @@ public class Program
         builder.Services.ConfigureLogger();
         builder.Host.UseSerilog();
 
-        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Token").Value)),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ClockSkew = TimeSpan.Zero,
-                };
-            });
 
         builder.Services.ConfigureExceptionHandlingMiddleware(new Dictionary<Type, HttpStatusCode>
         {
@@ -51,27 +43,45 @@ public class Program
             [typeof(ForbiddenException)] = HttpStatusCode.Forbidden,
         });
 
-        builder.Services.AddHttpContextAccessor();
+        builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddHttpContextAccessor();
+
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+            {
+                Description = "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",
+                In = ParameterLocation.Header,
+                Name = "Authorization",
+                Type = SecuritySchemeType.ApiKey,
+            });
+
+            options.OperationFilter<SecurityRequirementsOperationFilter>();
+        });
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+                        .GetBytes(builder.Configuration.GetSection("Jwt:Token").Value!)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                };
+            });
 
         builder.Services.AddAutoMapper(typeof(AutomapperProfile));
         builder.Services.AddAutoMapper(typeof(AutomapperProfileBLL));
-
-        var authApiBaseUrl = builder.Configuration["ApiSettings:AuthApiUrl"];
-
-        var authApiHttpClient = builder.Services.AddHttpClient("GameStore.Auth.Api", client =>
-        {
-            client.BaseAddress = new Uri(authApiBaseUrl);
-        });
-
-        var authApiSettings = new AuthApiSettings
-        {
-            AuthApiUrl = authApiBaseUrl,
-        };
-
+        builder.Services.AddAutoMapper(typeof(AuthMapperBLL));
+        builder.Services.AddAutoMapper(typeof(AuthApiAutoMapper));
 
         builder.Services.AddDALRepositories(builder.Configuration);
-        builder.Services.AddBLLServices(authApiSettings);
+        builder.Services.AddAuthDALRepositories(builder.Configuration);
+
+        builder.Services.AddBLLServices();
+        builder.Services.AddAuthBLLServices();
 
         builder.Services.AddControllers().AddJsonOptions(options =>
         {
@@ -150,13 +160,13 @@ public class Program
         }
 
 
+        app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
         app.UseHttpsRedirection();
         app.UseRouting();
 
-        app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
-
         app.UseAuthentication();
         app.UseAuthorization();
+
         app.MapControllers();
 
         app.UseHangfireDashboard();

@@ -1,4 +1,4 @@
-﻿using CarRental.DAL.Common.Repositories;
+﻿using CarRental.DAL.Common.BaseRepository;
 using CarRental.DAL.Context;
 using CarRental.DAL.Context.Entities;
 using CarRental.DAL.Context.Entities.Enum;
