@@ -40,5 +40,12 @@ public class AuthController(IAuthService authService, IMapper mapper) : Controll
 
         return Ok(new { User = _mapper.Map<UserResponse>(userEntity), Token = token });
     }
+
+    [HttpPost("logout")]
+    public async Task<IActionResult> LogOut()
+    {
+        await _authService.LogOut();
+        return Ok(new { message = "Successfully logged out." });
+    }
 }
 

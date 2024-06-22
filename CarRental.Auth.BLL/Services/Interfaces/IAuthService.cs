@@ -8,4 +8,5 @@ public interface IAuthService
 
     Task<(User UserEntity, string Token)> Register(User user);
 
+    Task LogOut();
 }

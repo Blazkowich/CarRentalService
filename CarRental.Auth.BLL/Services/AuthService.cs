@@ -6,6 +6,7 @@ using CarRental.Auth.DAL.Context.Entities;
 using CarRental.Auth.DAL.Repositories.AuthUnitOfWork;
 using CarRental.DAL.Common.Paging;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace CarRental.Auth.BLL.Services;
 
@@ -56,6 +57,27 @@ internal class AuthService(
         await _unitOfWork.SaveAsync();
 
         return (_mapper.Map<User>(userEntity), token.Token);
+    }
+
+    public async Task LogOut()
+    {
+        var user = _httpContextAccessor.HttpContext.User;
+        var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            throw new BadRequestException("User ID not found in claims.");
+        }
+
+        var userEntity = await _unitOfWork.UserRepository.GetByIdAsync(Guid.Parse(userId)) ??
+            throw new NotFoundException("User not found.");
+        
+        userEntity.RefreshToken = null;
+        userEntity.TokenCreated = DateTime.MinValue;
+        userEntity.TokenExpires = DateTime.MinValue;
+
+        await _unitOfWork.UserRepository.UpdateAsync(userEntity);
+        await _unitOfWork.SaveAsync();
     }
 
     #region Private Methods
