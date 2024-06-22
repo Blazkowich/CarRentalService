@@ -10,6 +10,7 @@ using CarRental.BLL.AutoMapper;
 using CarRental.BLL.DependencyInjections;
 using CarRental.BLL.Services;
 using CarRental.DAL.DependencyInjections;
+using CarRental.Support.Email.DependencyInjection;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
@@ -82,6 +83,8 @@ public class Program
 
         builder.Services.AddBLLServices();
         builder.Services.AddAuthBLLServices();
+
+        builder.Services.AddEmailBLLServices();
 
         builder.Services.AddControllers().AddJsonOptions(options =>
         {

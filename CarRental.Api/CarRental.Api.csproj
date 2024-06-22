@@ -30,6 +30,7 @@
     <ProjectReference Include="..\Api.Bootstrapping\Api.Bootstrapping.csproj" />
     <ProjectReference Include="..\CarRental.Auth.BLL\CarRental.Auth.BLL.csproj" />
     <ProjectReference Include="..\CarRental.BLL\CarRental.BLL.csproj" />
+    <ProjectReference Include="..\CarRental.Support.Email\CarRental.Support.Email.csproj" />
   </ItemGroup>
 
 </Project>
