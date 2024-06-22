@@ -1,6 +1,5 @@
 ﻿using Api.Bootstrapping.CustomExceptions;
 using AutoMapper;
-using CarRental.Auth.BLL.Models;
 using CarRental.Auth.BLL.Services.Interfaces;
 using CarRental.BLL.Models;
 using CarRental.BLL.Models.Enum;
@@ -92,7 +91,7 @@ internal class BookingService(
         {
             Id = Guid.NewGuid(),
             VehicleId = vehicle.Id,
-            CustomerId = Guid.NewGuid(), // Need to Change
+            CustomerId = Guid.Parse(customer.Id),
             BookingDate = DateTime.UtcNow,
             StartDate = DateTime.UtcNow,
             EndDate = DateTime.UtcNow.AddDays(durationInDays),

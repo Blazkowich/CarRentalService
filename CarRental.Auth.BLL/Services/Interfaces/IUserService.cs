@@ -1,5 +1,4 @@
 ﻿using CarRental.Auth.BLL.Models;
-using System.Security.Claims;
 
 namespace CarRental.Auth.BLL.Services.Interfaces;
 

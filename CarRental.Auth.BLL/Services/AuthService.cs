@@ -59,19 +59,13 @@ internal class AuthService(
         return (_mapper.Map<User>(userEntity), token.Token);
     }
 
-    public async Task LogOut()
+    public async Task LogOut(ClaimsPrincipal user)
     {
-        var user = _httpContextAccessor.HttpContext.User;
-        var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var customerName = user.FindFirst(ClaimTypes.Name)?.Value ??
+            throw new BadRequestException("Customer Id not found in claims.");
 
-        if (string.IsNullOrEmpty(userId))
-        {
-            throw new BadRequestException("User ID not found in claims.");
-        }
+        var userEntity = await _unitOfWork.UserRepository.GetUserByUserNameAsync(customerName);
 
-        var userEntity = await _unitOfWork.UserRepository.GetByIdAsync(Guid.Parse(userId)) ??
-            throw new NotFoundException("User not found.");
-        
         userEntity.RefreshToken = null;
         userEntity.TokenCreated = DateTime.MinValue;
         userEntity.TokenExpires = DateTime.MinValue;

@@ -3,6 +3,7 @@ using CarRental.Api.ApiModels.Auth.Request;
 using CarRental.Api.ApiModels.Auth.Response;
 using CarRental.Auth.BLL.Models;
 using CarRental.Auth.BLL.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Api.Controllers.Auth;
@@ -41,10 +42,12 @@ public class AuthController(IAuthService authService, IMapper mapper) : Controll
         return Ok(new { User = _mapper.Map<UserResponse>(userEntity), Token = token });
     }
 
+    [Authorize]
     [HttpPost("logout")]
     public async Task<IActionResult> LogOut()
     {
-        await _authService.LogOut();
+        await _authService.LogOut(HttpContext.User);
+
         return Ok(new { message = "Successfully logged out." });
     }
 }

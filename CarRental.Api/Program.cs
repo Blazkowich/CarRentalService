@@ -161,6 +161,7 @@ public class Program
 
 
         app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+
         app.UseHttpsRedirection();
         app.UseRouting();
 

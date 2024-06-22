@@ -5,7 +5,6 @@ using CarRental.Auth.BLL.Services.Interfaces;
 using CarRental.Auth.DAL.Context.Entities;
 using CarRental.Auth.DAL.Repositories.AuthUnitOfWork;
 using CarRental.DAL.Common.Paging;
-using System.Security.Claims;
 
 namespace CarRental.Auth.BLL.Services;
 

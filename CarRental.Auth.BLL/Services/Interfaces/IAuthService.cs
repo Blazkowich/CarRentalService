@@ -1,4 +1,5 @@
 ﻿using CarRental.Auth.BLL.Models;
+using System.Security.Claims;
 
 namespace CarRental.Auth.BLL.Services.Interfaces;
 
@@ -8,5 +9,5 @@ public interface IAuthService
 
     Task<(User UserEntity, string Token)> Register(User user);
 
-    Task LogOut();
+    Task LogOut(ClaimsPrincipal user);
 }
