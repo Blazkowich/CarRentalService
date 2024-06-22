@@ -19,9 +19,5 @@ namespace CarRental.DAL.Context.Entities
         public double TotalPrice { get; set; }
 
         public BookingTypeDAL BookingCondition { get; set; }
-
-
-        public CustomerEntity Customer { get; set; }
-        public VehicleEntity Vehicle { get; set; }
     }
 }

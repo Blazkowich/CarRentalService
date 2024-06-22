@@ -28,38 +28,45 @@ internal class BookingService(IRentalUnitOfWork rentalUnitOfWork, IMapper mapper
         return _mapper.Map<List<Booking>>(bookingByCondition);
     }
 
-    public async Task<Booking> ReserveVehicleAsync(Vehicle vehicle, DateTime startDate, int durationInDays)
+    public async Task<Booking> ReserveVehicleAsync(Guid vehicleId, DateTime startDate, int durationInDays)
     {
-        if (await CheckIfVehicleReserved(vehicle.Id))
+        var vehicle = await _rentalUnitOfWork.VehiclesRepository.GetByIdAsync(vehicleId) ??
+            throw new NotFoundException($"Car with ID {vehicleId} not found");
+
+        if (await CheckIfVehicleReserved(vehicleId, startDate, startDate.AddDays(durationInDays)))
         {
-            throw new BadRequestException($"Car {vehicle.Name} Already Reserved");
+            throw new BadRequestException($"Car {vehicle.Name} is already reserved during the specified period.");
         }
 
         var booking = new Booking
         {
             Id = Guid.NewGuid(),
-            VehicleId = vehicle.Id,
-            CustomerId = Guid.NewGuid(), // This should come from the context, e.g., the logged-in user
+            VehicleId = vehicleId,
+            CustomerId = Guid.NewGuid(), // Need To Change
             BookingDate = DateTime.UtcNow,
             StartDate = startDate,
             EndDate = startDate.AddDays(durationInDays),
-            BookingCondition = BookingTypeBLL.Reserved
+            BookingCondition = BookingTypeBLL.Reserved,
+            TotalPrice = CalculateTotalPrice(vehicle.Price, startDate, startDate.AddDays(durationInDays)),
         };
 
-        vehicle.ReservationType = ReservationTypeBLL.Free;
+        vehicle.ReservationType = ReservationTypeDAL.Free;
 
         await _rentalUnitOfWork.BookingsRepository.AddAsync(_mapper.Map<BookingEntity>(booking));
-        await _rentalUnitOfWork.VehiclesRepository.UpdateAsync(_mapper.Map<VehicleEntity>(vehicle));
+        await _rentalUnitOfWork.VehiclesRepository.UpdateAsync(vehicle);
         await _rentalUnitOfWork.SaveAsync();
 
-        // Comment: Implement a method to send a message to the user when the reservation start date arrives.
+        // method to send a message to the user when the reservation start date arrives.
 
         return booking;
     }
 
-    public async Task<Booking> BookVehicleAsync(Vehicle vehicle, int durationInDays)
+    public async Task<Booking> BookVehicleAsync(Guid vehicleId, int durationInDays)
     {
-        if (await CheckIfVehicleReserved(vehicle.Id))
+        var vehicle = await _rentalUnitOfWork.VehiclesRepository.GetByIdAsync(vehicleId) ??
+            throw new NotFoundException($"Car with ID {vehicleId} not found");
+
+        if (await CheckIfVehicleReserved(vehicle.Id, DateTime.UtcNow, DateTime.UtcNow.AddDays(durationInDays)))
         {
             throw new BadRequestException($"Car {vehicle.Name} Already Reserved");
         }
@@ -68,17 +75,17 @@ internal class BookingService(IRentalUnitOfWork rentalUnitOfWork, IMapper mapper
         {
             Id = Guid.NewGuid(),
             VehicleId = vehicle.Id,
-            CustomerId = Guid.NewGuid(), // This should come from the context, e.g., the logged-in user
+            CustomerId = Guid.NewGuid(), // Need to Change
             BookingDate = DateTime.UtcNow,
             StartDate = DateTime.UtcNow,
             EndDate = DateTime.UtcNow.AddDays(durationInDays),
             BookingCondition = BookingTypeBLL.Active
         };
 
-        vehicle.ReservationType = ReservationTypeBLL.Reserved;
+        vehicle.ReservationType = ReservationTypeDAL.Reserved;
 
         await _rentalUnitOfWork.BookingsRepository.AddAsync(_mapper.Map<BookingEntity>(booking));
-        await _rentalUnitOfWork.VehiclesRepository.UpdateAsync(_mapper.Map<VehicleEntity>(vehicle));
+        await _rentalUnitOfWork.VehiclesRepository.UpdateAsync(vehicle);
         await _rentalUnitOfWork.SaveAsync();
 
         return booking;
@@ -86,12 +93,9 @@ internal class BookingService(IRentalUnitOfWork rentalUnitOfWork, IMapper mapper
 
     public async Task<Booking> CancelBookingAsync(Booking booking)
     {
-        var bookingEntity = await _rentalUnitOfWork.BookingsRepository.GetByIdAsync(booking.Id);
-        if (bookingEntity == null)
-        {
+        var bookingEntity = await _rentalUnitOfWork.BookingsRepository.GetByIdAsync(booking.Id) ?? 
             throw new NotFoundException($"Booking with ID {booking.Id} not found");
-        }
-
+        
         bookingEntity.BookingCondition = BookingTypeDAL.Cancelled;
 
         var vehicle = await _rentalUnitOfWork.VehiclesRepository.GetByIdAsync(booking.VehicleId);
@@ -105,11 +109,22 @@ internal class BookingService(IRentalUnitOfWork rentalUnitOfWork, IMapper mapper
     }
 
     #region Private Methods
-    private async Task<bool> CheckIfVehicleReserved(Guid vehicleId)
+    private async Task<bool> CheckIfVehicleReserved(Guid vehicleId, DateTime startDate, DateTime endDate)
     {
-        var getVehicleById = await _rentalUnitOfWork.VehiclesRepository.GetByIdAsync(vehicleId);
+        var bookings = await _rentalUnitOfWork.BookingsRepository.GetBookingsByVehicleIdAsync(vehicleId);
 
-        return getVehicleById.ReservationType == ReservationTypeDAL.Reserved;
+        foreach (var booking in bookings)
+        {
+            if (booking.BookingCondition == BookingTypeDAL.Reserved || booking.BookingCondition == BookingTypeDAL.Active)
+            {
+                if (startDate < booking.EndDate && endDate > booking.StartDate)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private async Task<List<Booking>> MapAndCalculateTotalPricesAsync(List<Booking> bookings)

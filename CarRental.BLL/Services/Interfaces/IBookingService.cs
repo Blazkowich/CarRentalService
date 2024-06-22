@@ -9,9 +9,9 @@ public interface IBookingService
 
     Task<List<Booking>> GetBookingsByConditionAsync(BookingTypeBLL bookingCondition);
 
-    Task<Booking> ReserveVehicleAsync(Vehicle vehicle, DateTime startDate, int durationInDays);
+    Task<Booking> ReserveVehicleAsync(Guid vehicleId, DateTime startDate, int durationInDays);
 
-    Task<Booking> BookVehicleAsync(Vehicle vehicle, int durationInDays);
+    Task<Booking> BookVehicleAsync(Guid vehicleId, int durationInDays);
 
     Task<Booking> CancelBookingAsync(Booking booking);
 }

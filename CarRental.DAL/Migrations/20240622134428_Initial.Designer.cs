@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.DAL.Migrations
 {
     [DbContext(typeof(CarRentalDbContext))]
-    [Migration("20240622121115_Initial")]
+    [Migration("20240622134428_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -54,43 +54,39 @@ namespace CarRental.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("VehicleId");
-
                     b.ToTable("Bookings");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("71a0e20b-41b2-4f00-9593-a8cdfa7c8200"),
+                            Id = new Guid("948ee4ec-195b-4f96-8df2-34f6dcd26741"),
                             BookingCondition = 0,
-                            BookingDate = new DateTime(2024, 6, 22, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506),
+                            BookingDate = new DateTime(2024, 6, 22, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575),
                             CustomerId = new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"),
-                            EndDate = new DateTime(2024, 6, 29, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506),
-                            StartDate = new DateTime(2024, 6, 23, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506),
+                            EndDate = new DateTime(2024, 6, 29, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575),
+                            StartDate = new DateTime(2024, 6, 23, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575),
                             TotalPrice = 0.0,
                             VehicleId = new Guid("ab7d682c-0547-4f64-b78f-b51f2e4cb57b")
                         },
                         new
                         {
-                            Id = new Guid("b2eca48d-a66c-43c3-b067-ffefd5bd1bfb"),
+                            Id = new Guid("9ee0a7ed-0106-4fcb-b555-a39019072685"),
                             BookingCondition = 0,
-                            BookingDate = new DateTime(2024, 6, 22, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506),
+                            BookingDate = new DateTime(2024, 6, 22, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575),
                             CustomerId = new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"),
-                            EndDate = new DateTime(2024, 7, 2, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506),
-                            StartDate = new DateTime(2024, 6, 25, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506),
+                            EndDate = new DateTime(2024, 7, 2, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575),
+                            StartDate = new DateTime(2024, 6, 25, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575),
                             TotalPrice = 0.0,
                             VehicleId = new Guid("eaf81fda-e22b-4cb9-8d49-8bba62a7f83b")
                         },
                         new
                         {
-                            Id = new Guid("157faca2-fb76-49b5-b107-de26f479510a"),
-                            BookingCondition = 2,
-                            BookingDate = new DateTime(2024, 6, 22, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506),
+                            Id = new Guid("ad0f0756-b575-4609-8093-aecc763f3975"),
+                            BookingCondition = 3,
+                            BookingDate = new DateTime(2024, 6, 22, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575),
                             CustomerId = new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"),
-                            EndDate = new DateTime(2024, 6, 12, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506),
-                            StartDate = new DateTime(2024, 6, 7, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506),
+                            EndDate = new DateTime(2024, 6, 12, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575),
+                            StartDate = new DateTime(2024, 6, 7, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575),
                             TotalPrice = 0.0,
                             VehicleId = new Guid("a8ce79ff-12eb-4538-a376-421f717a5148")
                         });
@@ -262,25 +258,6 @@ namespace CarRental.DAL.Migrations
                             ReservationType = 1,
                             Type = 7
                         });
-                });
-
-            modelBuilder.Entity("CarRental.DAL.Context.Entities.BookingEntity", b =>
-                {
-                    b.HasOne("CarRental.DAL.Context.Entities.CustomerEntity", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CarRental.DAL.Context.Entities.VehicleEntity", "Vehicle")
-                        .WithMany()
-                        .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Vehicle");
                 });
 #pragma warning restore 612, 618
         }

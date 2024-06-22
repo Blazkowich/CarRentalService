@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -12,6 +13,24 @@ namespace CarRental.DAL.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Bookings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    VehicleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BookingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TotalPrice = table.Column<double>(type: "float", nullable: false),
+                    BookingCondition = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bookings", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
@@ -45,34 +64,14 @@ namespace CarRental.DAL.Migrations
                     table.PrimaryKey("PK_Vehicles", x => x.Id);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Bookings",
-                columns: table => new
+            migrationBuilder.InsertData(
+                table: "Bookings",
+                columns: new[] { "Id", "BookingCondition", "BookingDate", "CustomerId", "EndDate", "StartDate", "TotalPrice", "VehicleId" },
+                values: new object[,]
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    VehicleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BookingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TotalPrice = table.Column<double>(type: "float", nullable: false),
-                    BookingCondition = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bookings", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Bookings_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Bookings_Vehicles_VehicleId",
-                        column: x => x.VehicleId,
-                        principalTable: "Vehicles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                    { new Guid("948ee4ec-195b-4f96-8df2-34f6dcd26741"), 0, new DateTime(2024, 6, 22, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575), new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"), new DateTime(2024, 6, 29, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575), new DateTime(2024, 6, 23, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575), 0.0, new Guid("ab7d682c-0547-4f64-b78f-b51f2e4cb57b") },
+                    { new Guid("9ee0a7ed-0106-4fcb-b555-a39019072685"), 0, new DateTime(2024, 6, 22, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575), new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), new DateTime(2024, 7, 2, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575), new DateTime(2024, 6, 25, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575), 0.0, new Guid("eaf81fda-e22b-4cb9-8d49-8bba62a7f83b") },
+                    { new Guid("ad0f0756-b575-4609-8093-aecc763f3975"), 3, new DateTime(2024, 6, 22, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575), new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), new DateTime(2024, 6, 12, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575), new DateTime(2024, 6, 7, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575), 0.0, new Guid("a8ce79ff-12eb-4538-a376-421f717a5148") }
                 });
 
             migrationBuilder.InsertData(
@@ -98,26 +97,6 @@ namespace CarRental.DAL.Migrations
                     { new Guid("ab7d682c-0547-4f64-b78f-b51f2e4cb57b"), "Mid-size sedan", "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202201/2022_Toyota_Camry_Hybrid-_Exte.jpg", "Toyota Camry", 50.0, 0, 0 },
                     { new Guid("eaf81fda-e22b-4cb9-8d49-8bba62a7f83b"), "Sports coupe", "https://cdn.motor1.com/images/mgl/7ZZObp/s3/ford-mustang-2023.jpg", "Ford Mustang", 80.0, 0, 1 }
                 });
-
-            migrationBuilder.InsertData(
-                table: "Bookings",
-                columns: new[] { "Id", "BookingCondition", "BookingDate", "CustomerId", "EndDate", "StartDate", "TotalPrice", "VehicleId" },
-                values: new object[,]
-                {
-                    { new Guid("157faca2-fb76-49b5-b107-de26f479510a"), 2, new DateTime(2024, 6, 22, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506), new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), new DateTime(2024, 6, 12, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506), new DateTime(2024, 6, 7, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506), 0.0, new Guid("a8ce79ff-12eb-4538-a376-421f717a5148") },
-                    { new Guid("71a0e20b-41b2-4f00-9593-a8cdfa7c8200"), 0, new DateTime(2024, 6, 22, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506), new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"), new DateTime(2024, 6, 29, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506), new DateTime(2024, 6, 23, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506), 0.0, new Guid("ab7d682c-0547-4f64-b78f-b51f2e4cb57b") },
-                    { new Guid("b2eca48d-a66c-43c3-b067-ffefd5bd1bfb"), 0, new DateTime(2024, 6, 22, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506), new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), new DateTime(2024, 7, 2, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506), new DateTime(2024, 6, 25, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506), 0.0, new Guid("eaf81fda-e22b-4cb9-8d49-8bba62a7f83b") }
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bookings_CustomerId",
-                table: "Bookings",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bookings_VehicleId",
-                table: "Bookings",
-                column: "VehicleId");
         }
 
         /// <inheritdoc />

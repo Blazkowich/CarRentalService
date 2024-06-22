@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using CarRental.Api.ApiModels.Enum;
+using CarRental.Api.ApiModels.Request;
 using CarRental.Api.ApiModels.Response;
+using CarRental.BLL.Models;
 using CarRental.BLL.Models.Enum;
 using CarRental.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -28,5 +30,29 @@ public class BookingController(IBookingService bookingService, IMapper mapper) :
             .GetBookingsByConditionAsync(_mapper.Map<BookingTypeBLL>(bookingCondition));
 
         return _mapper.Map<List<BookingResponseFull>>(getBookingByCondition);
+    }
+
+    [HttpPost("reservation")]
+    public async Task<BookingResponseFull> ReserveVehicle(Guid vehicleId, [FromQuery] DateTime startDate, int duration)
+    {
+        var reserveVehicle = await _bookingService.ReserveVehicleAsync(vehicleId, startDate, duration);
+
+        return _mapper.Map<BookingResponseFull>(reserveVehicle);
+    }
+
+    [HttpPost("{duration}")]
+    public async Task<BookingResponseFull> BookVehicle(Guid vehicleId, int duration)
+    {
+        var bookVehicle = await _bookingService.BookVehicleAsync(vehicleId, duration);
+
+        return _mapper.Map<BookingResponseFull>(bookVehicle);
+    }
+
+    [HttpPost("cancel")]
+    public async Task<BookingResponseFull> CancelBookingOrReservation([FromBody] BookingRequest bookingRequest)
+    {
+        var cancel = await _bookingService.CancelBookingAsync(_mapper.Map<Booking>(bookingRequest));
+
+        return _mapper.Map<BookingResponseFull>(cancel);
     }
 }

@@ -63,6 +63,7 @@ public class AutomapperProfileBLL : Profile
             .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate))
             .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.TotalPrice))
             .ForMember(dest => dest.BookingCondition, opt => opt.MapFrom(src => src.BookingCondition));
+
         CreateMap<BookingEntity, Booking>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.CustomerId))

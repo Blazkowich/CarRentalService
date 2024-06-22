@@ -11,21 +11,6 @@ public class BookingEntityConfig : IEntityTypeConfiguration<BookingEntity>
     {
         builder.HasKey(b => b.Id);
 
-        builder.Property(b => b.BookingDate).IsRequired();
-        builder.Property(b => b.StartDate).IsRequired();
-        builder.Property(b => b.EndDate).IsRequired();
-        builder.Property(b => b.TotalPrice).IsRequired();
-
-        builder.HasOne(b => b.Customer)
-            .WithMany()
-            .HasForeignKey(b => b.CustomerId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasOne(b => b.Vehicle)
-            .WithMany()
-            .HasForeignKey(b => b.VehicleId)
-            .OnDelete(DeleteBehavior.Restrict);
-
         SeedBookings(builder);
     }
 

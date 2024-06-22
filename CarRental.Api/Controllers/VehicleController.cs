@@ -42,14 +42,14 @@ public class VehicleController(IVehicleService vehicleService, IMapper mapper) :
         return _mapper.Map<List<VehicleResponseFull>>(getByType);
     }
 
-    [HttpGet("availables")]
+    [HttpGet("available")]
     public async Task<List<VehicleResponseFull>> GetAllAvailableVehicles()
     {
         var getAllAvailable = await _vehicleService.GetAllAvailableVehiclesAsync();
         return _mapper.Map<List<VehicleResponseFull>>(getAllAvailable);
     }
 
-    [HttpGet("reservation")]
+    [HttpGet("reservationCondition")]
     public async Task<List<VehicleResponseFull>> GetVehiclesByReservationType([FromQuery] ReservationTypeApi reservationType)
     {
         var getVehiclesByReservation = await _vehicleService
@@ -57,12 +57,6 @@ public class VehicleController(IVehicleService vehicleService, IMapper mapper) :
 
         return _mapper.Map<List<VehicleResponseFull>>(getVehiclesByReservation);
     }
-
-    //get booked vehicles
-
-    //get overdued vehicles
-
-    //get vehicle by user
 
     //add vehicle
 
