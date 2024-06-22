@@ -1,6 +1,7 @@
 ﻿using CarRental.DAL.Common.Repositories;
 using CarRental.DAL.Context;
 using CarRental.DAL.Context.Entities;
+using CarRental.DAL.Context.Entities.Enum;
 using CarRental.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,13 +12,10 @@ internal class BookingRepository(CarRentalDbContext context) :
 {
     private readonly CarRentalDbContext _context = context;
 
-    public async Task<List<BookingEntity>> GetOverduedBookingsAsync()
+    public async Task<List<BookingEntity>> GetBookingsByConditionAsync(BookingTypeDAL type, CancellationToken ct = default)
     {
-        var overdueBookings = await _context.Bookings
-            .Where(b => b.EndDate <= DateTime.UtcNow)
-            .Include(b => b.Vehicle)
-            .ToListAsync();
-
-        return overdueBookings;
+        return await _context.Bookings
+           .Where(v => v.BookingCondition == type)
+           .ToListAsync(ct);
     }
 }

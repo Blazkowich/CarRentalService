@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -37,6 +36,7 @@ namespace CarRental.DAL.Migrations
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Type = table.Column<int>(type: "int", nullable: false),
+                    ReservationType = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -55,7 +55,8 @@ namespace CarRental.DAL.Migrations
                     BookingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TotalPrice = table.Column<double>(type: "float", nullable: false)
+                    TotalPrice = table.Column<double>(type: "float", nullable: false),
+                    BookingCondition = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,27 +86,27 @@ namespace CarRental.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "Vehicles",
-                columns: new[] { "Id", "Description", "ImageUrl", "Name", "Price", "Type" },
+                columns: new[] { "Id", "Description", "ImageUrl", "Name", "Price", "ReservationType", "Type" },
                 values: new object[,]
                 {
-                    { new Guid("029d2a5e-730b-4154-bdf3-7e6d758cbe6d"), "Off-road SUV", "https://media.ed.edmunds-media.com/jeep/wrangler/2024/oem/2024_jeep_wrangler_convertible-suv_rubicon-392-final-edition_fq_oem_1_1600.jpg", "Jeep Wrangler", 85.0, 5 },
-                    { new Guid("2806518a-a956-4936-aefd-1fe6e74aa987"), "Luxury Stretch SUV", "https://images.squarespace-cdn.com/content/v1/59a18fe46b8f5be647f23512/1632108265164-O3P64AQ7IVHDAP5PFN9Q/VIP+Limo+Service+Cadillac+Escalade+SUV+Stretch+Limo+Exterior+09.jpg?format=1500w", "Cadillac Escalade", 150.0, 7 },
-                    { new Guid("30c5dd2c-bafe-48be-98a1-09c5cf349a65"), "Minivan", "https://hips.hearstapps.com/hmg-prod/amv-prod-cad-assets/wp-content/uploads/2016/06/2016-Honda-Odyssey-Touring-Elite-101.jpg", "Honda Odyssey", 70.0, 6 },
-                    { new Guid("5fc7a66f-2b55-4f2e-a439-426d89b081c7"), "SUV", "https://s.auto.drom.ru/i24282/c/photos/fullsize/chevrolet/tahoe/chevrolet_tahoe_1143697.jpg", "Chevrolet Tahoe", 90.0, 4 },
-                    { new Guid("95594807-ed1b-489c-af41-89b0cc1c7b6b"), "Compact hatchback", "https://avatars.mds.yandex.net/get-verba/997355/2a0000017fb5dcbb8166c3139f13d65f667f/cattouchret", "Ford Focus", 55.0, 3 },
-                    { new Guid("a8ce79ff-12eb-4538-a376-421f717a5148"), "Family van", "https://cdn.motor1.com/images/mgl/kX72B/s1/2021-toyota-sienna.webp", "Toyota Sienna", 65.0, 2 },
-                    { new Guid("ab7d682c-0547-4f64-b78f-b51f2e4cb57b"), "Mid-size sedan", "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202201/2022_Toyota_Camry_Hybrid-_Exte.jpg", "Toyota Camry", 50.0, 0 },
-                    { new Guid("eaf81fda-e22b-4cb9-8d49-8bba62a7f83b"), "Sports coupe", "https://cdn.motor1.com/images/mgl/7ZZObp/s3/ford-mustang-2023.jpg", "Ford Mustang", 80.0, 1 }
+                    { new Guid("029d2a5e-730b-4154-bdf3-7e6d758cbe6d"), "Off-road SUV", "https://media.ed.edmunds-media.com/jeep/wrangler/2024/oem/2024_jeep_wrangler_convertible-suv_rubicon-392-final-edition_fq_oem_1_1600.jpg", "Jeep Wrangler", 85.0, 1, 5 },
+                    { new Guid("2806518a-a956-4936-aefd-1fe6e74aa987"), "Luxury Stretch SUV", "https://images.squarespace-cdn.com/content/v1/59a18fe46b8f5be647f23512/1632108265164-O3P64AQ7IVHDAP5PFN9Q/VIP+Limo+Service+Cadillac+Escalade+SUV+Stretch+Limo+Exterior+09.jpg?format=1500w", "Cadillac Escalade", 150.0, 1, 7 },
+                    { new Guid("30c5dd2c-bafe-48be-98a1-09c5cf349a65"), "Minivan", "https://hips.hearstapps.com/hmg-prod/amv-prod-cad-assets/wp-content/uploads/2016/06/2016-Honda-Odyssey-Touring-Elite-101.jpg", "Honda Odyssey", 70.0, 1, 6 },
+                    { new Guid("5fc7a66f-2b55-4f2e-a439-426d89b081c7"), "SUV", "https://s.auto.drom.ru/i24282/c/photos/fullsize/chevrolet/tahoe/chevrolet_tahoe_1143697.jpg", "Chevrolet Tahoe", 90.0, 1, 4 },
+                    { new Guid("95594807-ed1b-489c-af41-89b0cc1c7b6b"), "Compact hatchback", "https://avatars.mds.yandex.net/get-verba/997355/2a0000017fb5dcbb8166c3139f13d65f667f/cattouchret", "Ford Focus", 55.0, 1, 3 },
+                    { new Guid("a8ce79ff-12eb-4538-a376-421f717a5148"), "Family van", "https://cdn.motor1.com/images/mgl/kX72B/s1/2021-toyota-sienna.webp", "Toyota Sienna", 65.0, 1, 2 },
+                    { new Guid("ab7d682c-0547-4f64-b78f-b51f2e4cb57b"), "Mid-size sedan", "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202201/2022_Toyota_Camry_Hybrid-_Exte.jpg", "Toyota Camry", 50.0, 0, 0 },
+                    { new Guid("eaf81fda-e22b-4cb9-8d49-8bba62a7f83b"), "Sports coupe", "https://cdn.motor1.com/images/mgl/7ZZObp/s3/ford-mustang-2023.jpg", "Ford Mustang", 80.0, 0, 1 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Bookings",
-                columns: new[] { "Id", "BookingDate", "CustomerId", "EndDate", "StartDate", "TotalPrice", "VehicleId" },
+                columns: new[] { "Id", "BookingCondition", "BookingDate", "CustomerId", "EndDate", "StartDate", "TotalPrice", "VehicleId" },
                 values: new object[,]
                 {
-                    { new Guid("53d35854-bf8d-4d21-8f3f-d5b70861dffa"), new DateTime(2024, 6, 21, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741), new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"), new DateTime(2024, 6, 28, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741), new DateTime(2024, 6, 22, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741), 0.0, new Guid("ab7d682c-0547-4f64-b78f-b51f2e4cb57b") },
-                    { new Guid("f37be743-b50c-4e91-9475-49fa813003a2"), new DateTime(2024, 6, 21, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741), new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), new DateTime(2024, 7, 1, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741), new DateTime(2024, 6, 24, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741), 0.0, new Guid("eaf81fda-e22b-4cb9-8d49-8bba62a7f83b") },
-                    { new Guid("f9023356-a827-40c2-82dd-1d6d8fa67089"), new DateTime(2024, 6, 21, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741), new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), new DateTime(2024, 6, 11, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741), new DateTime(2024, 6, 6, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741), 0.0, new Guid("a8ce79ff-12eb-4538-a376-421f717a5148") }
+                    { new Guid("157faca2-fb76-49b5-b107-de26f479510a"), 2, new DateTime(2024, 6, 22, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506), new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), new DateTime(2024, 6, 12, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506), new DateTime(2024, 6, 7, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506), 0.0, new Guid("a8ce79ff-12eb-4538-a376-421f717a5148") },
+                    { new Guid("71a0e20b-41b2-4f00-9593-a8cdfa7c8200"), 0, new DateTime(2024, 6, 22, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506), new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"), new DateTime(2024, 6, 29, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506), new DateTime(2024, 6, 23, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506), 0.0, new Guid("ab7d682c-0547-4f64-b78f-b51f2e4cb57b") },
+                    { new Guid("b2eca48d-a66c-43c3-b067-ffefd5bd1bfb"), 0, new DateTime(2024, 6, 22, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506), new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), new DateTime(2024, 7, 2, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506), new DateTime(2024, 6, 25, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506), 0.0, new Guid("eaf81fda-e22b-4cb9-8d49-8bba62a7f83b") }
                 });
 
             migrationBuilder.CreateIndex(

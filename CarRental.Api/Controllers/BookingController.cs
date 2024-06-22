@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using CarRental.Api.ApiModels.Enum;
 using CarRental.Api.ApiModels.Response;
+using CarRental.BLL.Models.Enum;
 using CarRental.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,10 +21,12 @@ public class BookingController(IBookingService bookingService, IMapper mapper) :
         return _mapper.Map<List<BookingResponseFull>>(bookingResponse);
     }
 
-    [HttpGet("overdued")]
-    public async Task<List<BookingResponseFull>> GetOverduedBookings()
+    [HttpGet("condition")]
+    public async Task<List<BookingResponseFull>> GetBookingsByCondition([FromQuery] BookingTypeApi bookingCondition)
     {
-        var overduedBookingResponse = await _bookingService.GetOverduedBookingsAsync();
-        return _mapper.Map<List<BookingResponseFull>>(overduedBookingResponse);
+        var getBookingByCondition = await _bookingService
+            .GetBookingsByConditionAsync(_mapper.Map<BookingTypeBLL>(bookingCondition));
+
+        return _mapper.Map<List<BookingResponseFull>>(getBookingByCondition);
     }
 }

@@ -36,6 +36,7 @@ public class VehicleEntityConfig : IEntityTypeConfiguration<VehicleEntity>
                 Name = "Toyota Camry",
                 Description = "Mid-size sedan",
                 Type = VehicleTypeDAL.Sedan,
+                ReservationType = ReservationTypeDAL.Reserved,
                 Price = 50.00,
                 ImageUrl = "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202201/2022_Toyota_Camry_Hybrid-_Exte.jpg"
             },
@@ -45,6 +46,7 @@ public class VehicleEntityConfig : IEntityTypeConfiguration<VehicleEntity>
                 Name = "Ford Mustang",
                 Description = "Sports coupe",
                 Type = VehicleTypeDAL.Coupe,
+                ReservationType = ReservationTypeDAL.Reserved,
                 Price = 80.00,
                 ImageUrl = "https://cdn.motor1.com/images/mgl/7ZZObp/s3/ford-mustang-2023.jpg"
             },
@@ -54,6 +56,7 @@ public class VehicleEntityConfig : IEntityTypeConfiguration<VehicleEntity>
                 Name = "Toyota Sienna",
                 Description = "Family van",
                 Type = VehicleTypeDAL.Van,
+                ReservationType = ReservationTypeDAL.Free,
                 Price = 65.00,
                 ImageUrl = "https://cdn.motor1.com/images/mgl/kX72B/s1/2021-toyota-sienna.webp"
             },
@@ -63,6 +66,7 @@ public class VehicleEntityConfig : IEntityTypeConfiguration<VehicleEntity>
                 Name = "Ford Focus",
                 Description = "Compact hatchback",
                 Type = VehicleTypeDAL.HatchBack,
+                ReservationType = ReservationTypeDAL.Free,
                 Price = 55.00,
                 ImageUrl = "https://avatars.mds.yandex.net/get-verba/997355/2a0000017fb5dcbb8166c3139f13d65f667f/cattouchret"
             },
@@ -72,6 +76,7 @@ public class VehicleEntityConfig : IEntityTypeConfiguration<VehicleEntity>
                 Name = "Chevrolet Tahoe",
                 Description = "SUV",
                 Type = VehicleTypeDAL.SUV,
+                ReservationType = ReservationTypeDAL.Free,
                 Price = 90.00,
                 ImageUrl = "https://s.auto.drom.ru/i24282/c/photos/fullsize/chevrolet/tahoe/chevrolet_tahoe_1143697.jpg"
             },
@@ -81,6 +86,7 @@ public class VehicleEntityConfig : IEntityTypeConfiguration<VehicleEntity>
                 Name = "Jeep Wrangler",
                 Description = "Off-road SUV",
                 Type = VehicleTypeDAL.Jeep,
+                ReservationType = ReservationTypeDAL.Free,
                 Price = 85.00,
                 ImageUrl = "https://media.ed.edmunds-media.com/jeep/wrangler/2024/oem/2024_jeep_wrangler_convertible-suv_rubicon-392-final-edition_fq_oem_1_1600.jpg"
             },
@@ -90,6 +96,7 @@ public class VehicleEntityConfig : IEntityTypeConfiguration<VehicleEntity>
                 Name = "Honda Odyssey",
                 Description = "Minivan",
                 Type = VehicleTypeDAL.MiniVan,
+                ReservationType = ReservationTypeDAL.Free,
                 Price = 70.00,
                 ImageUrl = "https://hips.hearstapps.com/hmg-prod/amv-prod-cad-assets/wp-content/uploads/2016/06/2016-Honda-Odyssey-Touring-Elite-101.jpg"
             },
@@ -99,6 +106,7 @@ public class VehicleEntityConfig : IEntityTypeConfiguration<VehicleEntity>
                 Name = "Cadillac Escalade",
                 Description = "Luxury Stretch SUV",
                 Type = VehicleTypeDAL.Limousine,
+                ReservationType = ReservationTypeDAL.Free,
                 Price = 150.00,
                 ImageUrl = "https://images.squarespace-cdn.com/content/v1/59a18fe46b8f5be647f23512/1632108265164-O3P64AQ7IVHDAP5PFN9Q/VIP+Limo+Service+Cadillac+Escalade+SUV+Stretch+Limo+Exterior+09.jpg?format=1500w"
             }

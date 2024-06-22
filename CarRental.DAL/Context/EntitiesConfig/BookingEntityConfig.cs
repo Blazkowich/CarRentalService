@@ -1,4 +1,5 @@
 ﻿using CarRental.DAL.Context.Entities;
+using CarRental.DAL.Context.Entities.Enum;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -41,6 +42,7 @@ public class BookingEntityConfig : IEntityTypeConfiguration<BookingEntity>
                 BookingDate = now,
                 StartDate = now.AddDays(1),
                 EndDate = now.AddDays(7),
+                BookingCondition = BookingTypeDAL.Active,
             },
             new BookingEntity
             {
@@ -50,6 +52,7 @@ public class BookingEntityConfig : IEntityTypeConfiguration<BookingEntity>
                 BookingDate = now,
                 StartDate = now.AddDays(3),
                 EndDate = now.AddDays(10),
+                BookingCondition = BookingTypeDAL.Active,
             },
             new BookingEntity
             {
@@ -59,6 +62,7 @@ public class BookingEntityConfig : IEntityTypeConfiguration<BookingEntity>
                 BookingDate = now,
                 StartDate = now.AddDays(-15),
                 EndDate = now.AddDays(-10),
+                BookingCondition = BookingTypeDAL.Finished,
             }
         );
     }

@@ -12,6 +12,8 @@ public class VehicleEntity
 
     public VehicleTypeDAL Type { get; set; }
 
+    public ReservationTypeDAL ReservationType { get; set; }
+
     public double Price { get; set; }
 
     public string ImageUrl { get; set; }

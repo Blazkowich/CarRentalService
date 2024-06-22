@@ -1,4 +1,6 @@
-﻿namespace CarRental.DAL.Context.Entities
+﻿using CarRental.DAL.Context.Entities.Enum;
+
+namespace CarRental.DAL.Context.Entities
 {
     public class BookingEntity
     {
@@ -15,6 +17,8 @@
         public DateTime EndDate { get; set; }
 
         public double TotalPrice { get; set; }
+
+        public BookingTypeDAL BookingCondition { get; set; }
 
 
         public CustomerEntity Customer { get; set; }

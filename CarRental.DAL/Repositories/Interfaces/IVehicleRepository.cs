@@ -9,5 +9,7 @@ public interface IVehicleRepository : IBaseRepository<Guid, VehicleEntity>
     Task<VehicleEntity> GetVehicleByNameAsync(string name, CancellationToken ct);
     Task<List<VehicleEntity>> GetVehiclesByTypeAsync(VehicleTypeDAL type, CancellationToken ct);
 
-    Task<List<VehicleEntity>> GetAllAvailableVehicles();
+    Task<List<VehicleEntity>> GetVehiclesByReservationTypeAsync(ReservationTypeDAL type, CancellationToken ct = default);
+
+    Task<List<VehicleEntity>> GetAllAvailableVehicles(CancellationToken ct = default);
 }

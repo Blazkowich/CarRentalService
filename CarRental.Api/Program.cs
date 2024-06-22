@@ -5,7 +5,9 @@ using CarRental.Api.ApiAutoMapper;
 using CarRental.BLL.AutoMapper;
 using CarRental.BLL.DependencyInjections;
 using CarRental.BLL.Models.Settings;
+using CarRental.BLL.Services;
 using CarRental.DAL.DependencyInjections;
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
@@ -156,6 +158,14 @@ public class Program
         app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
+
+        app.UseHangfireDashboard();
+
+        var recurringJobManager = app.Services.GetRequiredService<IRecurringJobManager>();
+        recurringJobManager.AddOrUpdate<ReservationScheduler>(
+            "update-reservations",
+            scheduler => scheduler.UpdateReservationsAsync(),
+            Cron.Hourly);
 
         app.Run();
 

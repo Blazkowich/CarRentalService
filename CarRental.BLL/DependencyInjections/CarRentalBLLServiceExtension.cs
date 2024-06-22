@@ -20,6 +20,8 @@ public static class CarRentalBLLServiceExtension
         services.AddScoped<IVehicleService, VehicleService>();
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<IBookingService, BookingService>();
+        services.AddScoped<IReservationScheduler, ReservationScheduler>();
+
         return services;
     }
 }

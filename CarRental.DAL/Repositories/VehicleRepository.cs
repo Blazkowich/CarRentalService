@@ -25,16 +25,23 @@ internal class VehicleRepository(CarRentalDbContext context) :
             .ToListAsync(ct);
     }
 
-    public async Task<List<VehicleEntity>> GetAllAvailableVehicles()
+    public async Task<List<VehicleEntity>> GetVehiclesByReservationTypeAsync(ReservationTypeDAL type, CancellationToken ct = default)
+    {
+        return await _context.Vehicles
+            .Where(v => v.ReservationType == type)
+            .ToListAsync(ct);
+    }
+
+    public async Task<List<VehicleEntity>> GetAllAvailableVehicles(CancellationToken ct = default)
     {
         var bookedVehicleIds = await _context.Bookings
-            .Where(b => b.EndDate >= DateTime.UtcNow)
+            .Where(b => b.EndDate >= DateTime.UtcNow && b.BookingCondition != BookingTypeDAL.Active)
             .Select(b => b.VehicleId)
             .Distinct()
-            .ToListAsync();
+            .ToListAsync(ct);
 
         return await _context.Vehicles
-            .Where(v => !bookedVehicleIds.Contains(v.Id))
-            .ToListAsync();
+            .Where(v => !bookedVehicleIds.Contains(v.Id) && v.ReservationType != ReservationTypeDAL.Reserved)
+            .ToListAsync(ct);
     }
 }

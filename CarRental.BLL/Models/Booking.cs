@@ -1,4 +1,6 @@
-﻿namespace CarRental.BLL.Models;
+﻿using CarRental.BLL.Models.Enum;
+
+namespace CarRental.BLL.Models;
 
 public class Booking
 {
@@ -15,4 +17,6 @@ public class Booking
     public DateTime EndDate { get; set; }
 
     public double TotalPrice { get; set; }
+
+    public BookingTypeBLL BookingCondition { get; set; }
 }

@@ -1,4 +1,6 @@
-﻿namespace CarRental.Api.ApiModels.Request;
+﻿using CarRental.Api.ApiModels.Enum;
+
+namespace CarRental.Api.ApiModels.Request;
 
 public class BookingRequest
 {
@@ -15,4 +17,6 @@ public class BookingRequest
     public DateTime EndDate { get; set; }
 
     public double TotalPrice { get; set; }
+
+    public BookingTypeApi BookingCondition { get; set; }
 }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.DAL.Migrations
 {
     [DbContext(typeof(CarRentalDbContext))]
-    [Migration("20240621102635_Initial")]
+    [Migration("20240622121115_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -30,6 +30,9 @@ namespace CarRental.DAL.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("BookingCondition")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("BookingDate")
                         .HasColumnType("datetime2");
@@ -60,31 +63,34 @@ namespace CarRental.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("53d35854-bf8d-4d21-8f3f-d5b70861dffa"),
-                            BookingDate = new DateTime(2024, 6, 21, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741),
+                            Id = new Guid("71a0e20b-41b2-4f00-9593-a8cdfa7c8200"),
+                            BookingCondition = 0,
+                            BookingDate = new DateTime(2024, 6, 22, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506),
                             CustomerId = new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"),
-                            EndDate = new DateTime(2024, 6, 28, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741),
-                            StartDate = new DateTime(2024, 6, 22, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741),
+                            EndDate = new DateTime(2024, 6, 29, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506),
+                            StartDate = new DateTime(2024, 6, 23, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506),
                             TotalPrice = 0.0,
                             VehicleId = new Guid("ab7d682c-0547-4f64-b78f-b51f2e4cb57b")
                         },
                         new
                         {
-                            Id = new Guid("f37be743-b50c-4e91-9475-49fa813003a2"),
-                            BookingDate = new DateTime(2024, 6, 21, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741),
+                            Id = new Guid("b2eca48d-a66c-43c3-b067-ffefd5bd1bfb"),
+                            BookingCondition = 0,
+                            BookingDate = new DateTime(2024, 6, 22, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506),
                             CustomerId = new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"),
-                            EndDate = new DateTime(2024, 7, 1, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741),
-                            StartDate = new DateTime(2024, 6, 24, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741),
+                            EndDate = new DateTime(2024, 7, 2, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506),
+                            StartDate = new DateTime(2024, 6, 25, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506),
                             TotalPrice = 0.0,
                             VehicleId = new Guid("eaf81fda-e22b-4cb9-8d49-8bba62a7f83b")
                         },
                         new
                         {
-                            Id = new Guid("f9023356-a827-40c2-82dd-1d6d8fa67089"),
-                            BookingDate = new DateTime(2024, 6, 21, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741),
+                            Id = new Guid("157faca2-fb76-49b5-b107-de26f479510a"),
+                            BookingCondition = 2,
+                            BookingDate = new DateTime(2024, 6, 22, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506),
                             CustomerId = new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"),
-                            EndDate = new DateTime(2024, 6, 11, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741),
-                            StartDate = new DateTime(2024, 6, 6, 10, 26, 35, 319, DateTimeKind.Utc).AddTicks(6741),
+                            EndDate = new DateTime(2024, 6, 12, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506),
+                            StartDate = new DateTime(2024, 6, 7, 12, 11, 15, 562, DateTimeKind.Utc).AddTicks(5506),
                             TotalPrice = 0.0,
                             VehicleId = new Guid("a8ce79ff-12eb-4538-a376-421f717a5148")
                         });
@@ -165,6 +171,9 @@ namespace CarRental.DAL.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
+                    b.Property<int>("ReservationType")
+                        .HasColumnType("int");
+
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
@@ -180,6 +189,7 @@ namespace CarRental.DAL.Migrations
                             ImageUrl = "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202201/2022_Toyota_Camry_Hybrid-_Exte.jpg",
                             Name = "Toyota Camry",
                             Price = 50.0,
+                            ReservationType = 0,
                             Type = 0
                         },
                         new
@@ -189,6 +199,7 @@ namespace CarRental.DAL.Migrations
                             ImageUrl = "https://cdn.motor1.com/images/mgl/7ZZObp/s3/ford-mustang-2023.jpg",
                             Name = "Ford Mustang",
                             Price = 80.0,
+                            ReservationType = 0,
                             Type = 1
                         },
                         new
@@ -198,6 +209,7 @@ namespace CarRental.DAL.Migrations
                             ImageUrl = "https://cdn.motor1.com/images/mgl/kX72B/s1/2021-toyota-sienna.webp",
                             Name = "Toyota Sienna",
                             Price = 65.0,
+                            ReservationType = 1,
                             Type = 2
                         },
                         new
@@ -207,6 +219,7 @@ namespace CarRental.DAL.Migrations
                             ImageUrl = "https://avatars.mds.yandex.net/get-verba/997355/2a0000017fb5dcbb8166c3139f13d65f667f/cattouchret",
                             Name = "Ford Focus",
                             Price = 55.0,
+                            ReservationType = 1,
                             Type = 3
                         },
                         new
@@ -216,6 +229,7 @@ namespace CarRental.DAL.Migrations
                             ImageUrl = "https://s.auto.drom.ru/i24282/c/photos/fullsize/chevrolet/tahoe/chevrolet_tahoe_1143697.jpg",
                             Name = "Chevrolet Tahoe",
                             Price = 90.0,
+                            ReservationType = 1,
                             Type = 4
                         },
                         new
@@ -225,6 +239,7 @@ namespace CarRental.DAL.Migrations
                             ImageUrl = "https://media.ed.edmunds-media.com/jeep/wrangler/2024/oem/2024_jeep_wrangler_convertible-suv_rubicon-392-final-edition_fq_oem_1_1600.jpg",
                             Name = "Jeep Wrangler",
                             Price = 85.0,
+                            ReservationType = 1,
                             Type = 5
                         },
                         new
@@ -234,6 +249,7 @@ namespace CarRental.DAL.Migrations
                             ImageUrl = "https://hips.hearstapps.com/hmg-prod/amv-prod-cad-assets/wp-content/uploads/2016/06/2016-Honda-Odyssey-Touring-Elite-101.jpg",
                             Name = "Honda Odyssey",
                             Price = 70.0,
+                            ReservationType = 1,
                             Type = 6
                         },
                         new
@@ -243,6 +259,7 @@ namespace CarRental.DAL.Migrations
                             ImageUrl = "https://images.squarespace-cdn.com/content/v1/59a18fe46b8f5be647f23512/1632108265164-O3P64AQ7IVHDAP5PFN9Q/VIP+Limo+Service+Cadillac+Escalade+SUV+Stretch+Limo+Exterior+09.jpg?format=1500w",
                             Name = "Cadillac Escalade",
                             Price = 150.0,
+                            ReservationType = 1,
                             Type = 7
                         });
                 });

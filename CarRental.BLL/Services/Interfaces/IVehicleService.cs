@@ -20,4 +20,6 @@ public interface IVehicleService
     Task DeleteVehicleAsync(Guid vehicleId);
 
     Task<List<Vehicle>> GetAllAvailableVehiclesAsync();
+
+    Task<List<Vehicle>> GetVehiclesByReservationTypeAsync(ReservationTypeBLL reservationType);
 }

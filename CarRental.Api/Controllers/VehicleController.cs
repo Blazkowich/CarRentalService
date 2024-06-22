@@ -49,6 +49,15 @@ public class VehicleController(IVehicleService vehicleService, IMapper mapper) :
         return _mapper.Map<List<VehicleResponseFull>>(getAllAvailable);
     }
 
+    [HttpGet("reservation")]
+    public async Task<List<VehicleResponseFull>> GetVehiclesByReservationType([FromQuery] ReservationTypeApi reservationType)
+    {
+        var getVehiclesByReservation = await _vehicleService
+            .GetVehiclesByReservationTypeAsync(_mapper.Map<ReservationTypeBLL>(reservationType));
+
+        return _mapper.Map<List<VehicleResponseFull>>(getVehiclesByReservation);
+    }
+
     //get booked vehicles
 
     //get overdued vehicles

@@ -2,6 +2,7 @@
 using CarRental.DAL.Repositories;
 using CarRental.DAL.Repositories.Interfaces;
 using CarRental.DAL.Repositories.RentalUnitOfWork;
+using Hangfire;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +27,12 @@ public static class CarRentalDALServiceExtension
         services.AddScoped<IBookingRepository, BookingRepository>();
 
         services.AddScoped<IRentalUnitOfWork, RentalUnitOfWork>();
+
+        services.AddHangfire(config =>
+        {
+            config.UseSqlServerStorage(configuration.GetConnectionString("CarRentalConnectionString"));
+        });
+        services.AddHangfireServer();
 
         return services;
     }

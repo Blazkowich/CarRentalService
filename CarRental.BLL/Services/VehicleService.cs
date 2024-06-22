@@ -21,20 +21,30 @@ public class VehicleService(IRentalUnitOfWork rentalUnitOfWork, IMapper mapper) 
 
     public async Task<Vehicle> GetVehicleByIdAsync(Guid vehicleId)
     {
-        var getVehicleById = await _rentalUnitOfWork.VehiclesRepository.GetByIdAsync(vehicleId, default);
+        var getVehicleById = await _rentalUnitOfWork.VehiclesRepository
+            .GetByIdAsync(vehicleId, default);
         return _mapper.Map<Vehicle>(getVehicleById);
     }
 
     public async Task<Vehicle> GetVehicleByNameAsync(string name)
     {
-        var getVehicleByName = await _rentalUnitOfWork.VehiclesRepository.GetVehicleByNameAsync(name, default);
+        var getVehicleByName = await _rentalUnitOfWork.VehiclesRepository
+            .GetVehicleByNameAsync(name, default);
         return _mapper.Map<Vehicle>(getVehicleByName);
     }
 
     public async Task<List<Vehicle>> GetVehiclesByTypeAsync(VehicleTypeBLL type)
     {
-        var getVehiclesByType = await _rentalUnitOfWork.VehiclesRepository.GetVehiclesByTypeAsync(_mapper.Map<VehicleTypeDAL>(type), default);
+        var getVehiclesByType = await _rentalUnitOfWork.VehiclesRepository
+            .GetVehiclesByTypeAsync(_mapper.Map<VehicleTypeDAL>(type), default);
         return _mapper.Map<List<Vehicle>>(getVehiclesByType);
+    }
+
+    public async Task<List<Vehicle>> GetVehiclesByReservationTypeAsync(ReservationTypeBLL reservationType)
+    {
+        var getByReservationType = await _rentalUnitOfWork.VehiclesRepository
+            .GetVehiclesByReservationTypeAsync(_mapper.Map<ReservationTypeDAL>(reservationType), default);
+        return _mapper.Map<List<Vehicle>>(getByReservationType);
     }
 
     public async Task<Guid> AddVehicleAsync(Vehicle vehicle)
