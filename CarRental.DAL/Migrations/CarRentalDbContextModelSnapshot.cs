@@ -56,90 +56,36 @@ namespace CarRental.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("948ee4ec-195b-4f96-8df2-34f6dcd26741"),
+                            Id = new Guid("460b93d4-4163-4bfe-9767-fc2bd408d884"),
                             BookingCondition = 0,
-                            BookingDate = new DateTime(2024, 6, 22, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575),
+                            BookingDate = new DateTime(2024, 6, 23, 9, 16, 58, 366, DateTimeKind.Utc).AddTicks(2206),
                             CustomerId = new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"),
-                            EndDate = new DateTime(2024, 6, 29, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575),
-                            StartDate = new DateTime(2024, 6, 23, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575),
+                            EndDate = new DateTime(2024, 6, 30, 9, 16, 58, 366, DateTimeKind.Utc).AddTicks(2206),
+                            StartDate = new DateTime(2024, 6, 24, 9, 16, 58, 366, DateTimeKind.Utc).AddTicks(2206),
                             TotalPrice = 0.0,
                             VehicleId = new Guid("ab7d682c-0547-4f64-b78f-b51f2e4cb57b")
                         },
                         new
                         {
-                            Id = new Guid("9ee0a7ed-0106-4fcb-b555-a39019072685"),
+                            Id = new Guid("ce3f086b-2507-4968-8bf5-089f5951164d"),
                             BookingCondition = 0,
-                            BookingDate = new DateTime(2024, 6, 22, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575),
+                            BookingDate = new DateTime(2024, 6, 23, 9, 16, 58, 366, DateTimeKind.Utc).AddTicks(2206),
                             CustomerId = new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"),
-                            EndDate = new DateTime(2024, 7, 2, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575),
-                            StartDate = new DateTime(2024, 6, 25, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575),
+                            EndDate = new DateTime(2024, 7, 3, 9, 16, 58, 366, DateTimeKind.Utc).AddTicks(2206),
+                            StartDate = new DateTime(2024, 6, 26, 9, 16, 58, 366, DateTimeKind.Utc).AddTicks(2206),
                             TotalPrice = 0.0,
                             VehicleId = new Guid("eaf81fda-e22b-4cb9-8d49-8bba62a7f83b")
                         },
                         new
                         {
-                            Id = new Guid("ad0f0756-b575-4609-8093-aecc763f3975"),
+                            Id = new Guid("3f21b3df-e0e7-456d-aa4d-21d7e2bf47fc"),
                             BookingCondition = 3,
-                            BookingDate = new DateTime(2024, 6, 22, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575),
+                            BookingDate = new DateTime(2024, 6, 23, 9, 16, 58, 366, DateTimeKind.Utc).AddTicks(2206),
                             CustomerId = new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"),
-                            EndDate = new DateTime(2024, 6, 12, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575),
-                            StartDate = new DateTime(2024, 6, 7, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575),
+                            EndDate = new DateTime(2024, 6, 13, 9, 16, 58, 366, DateTimeKind.Utc).AddTicks(2206),
+                            StartDate = new DateTime(2024, 6, 8, 9, 16, 58, 366, DateTimeKind.Utc).AddTicks(2206),
                             TotalPrice = 0.0,
                             VehicleId = new Guid("a8ce79ff-12eb-4538-a376-421f717a5148")
-                        });
-                });
-
-            modelBuilder.Entity("CarRental.DAL.Context.Entities.CustomerEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Address")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Customers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"),
-                            Address = "123 Admin Street",
-                            Email = "admin@example.com",
-                            FirstName = "Admin",
-                            LastName = "User",
-                            PhoneNumber = "1234567890"
-                        },
-                        new
-                        {
-                            Id = new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"),
-                            Address = "456 User Lane",
-                            Email = "user@example.com",
-                            FirstName = "Regular",
-                            LastName = "User",
-                            PhoneNumber = "0987654321"
                         });
                 });
 

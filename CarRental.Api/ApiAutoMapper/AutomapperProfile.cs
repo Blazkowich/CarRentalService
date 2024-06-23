@@ -37,24 +37,6 @@ public class AutomapperProfile : Profile
         CreateMap<ReservationTypeBLL, ReservationTypeApi>();
         #endregion
 
-        #region Customer
-        CreateMap<CustomerRequest, Customer>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
-            .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
-            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
-            .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address));
-
-        CreateMap<Customer, CustomerResponseFull>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
-            .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
-            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
-            .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address));
-        #endregion
-
         #region Booking
         CreateMap<BookingRequest, Booking>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))

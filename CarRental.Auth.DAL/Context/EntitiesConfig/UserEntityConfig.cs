@@ -34,6 +34,11 @@ internal class UserEntityConfig : IEntityTypeConfiguration<UserEntity>
             {
                 Id = Guid.Parse("ac100f97-6db1-42ba-b3ad-a0881b167e50"),
                 Name = "admin",
+                FirstName = "Admin",
+                LastName = "Adminov",
+                Email = "admin@admin.com",
+                PhoneNumber = "1234567890",
+                Address = "123 Admin Street",
                 PasswordHash = adminPasswordHash,
                 PasswordSalt = adminPasswordSalt,
                 TokenExpires = DateTime.UtcNow.AddDays(1),
@@ -42,6 +47,11 @@ internal class UserEntityConfig : IEntityTypeConfiguration<UserEntity>
             {
                 Id = Guid.Parse("3877311a-f26e-4913-b28c-79fb64dc92d9"),
                 Name = "user",
+                FirstName = "Regular",
+                LastName = "User",
+                Email = "a7x.otto@gmail.com",
+                PhoneNumber = "0987654321",
+                Address = "456 User Lane",
                 PasswordHash = userPasswordHash,
                 PasswordSalt = userPasswordSalt,
                 TokenExpires = DateTime.UtcNow.AddDays(1),

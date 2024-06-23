@@ -10,6 +10,8 @@ using CarRental.BLL.AutoMapper;
 using CarRental.BLL.DependencyInjections;
 using CarRental.BLL.Services;
 using CarRental.DAL.DependencyInjections;
+using CarRental.Support.Chat.DependencyInjection;
+using CarRental.Support.Chat.Services;
 using CarRental.Support.Email.DependencyInjection;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -45,6 +47,9 @@ public class Program
         });
 
         builder.Services.AddControllers();
+
+        builder.Services.AddSignalR();
+
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddHttpContextAccessor();
 
@@ -85,6 +90,8 @@ public class Program
         builder.Services.AddAuthBLLServices();
 
         builder.Services.AddEmailBLLServices();
+
+        builder.Services.AddSupportChatBLLServices();
 
         builder.Services.AddControllers().AddJsonOptions(options =>
         {
@@ -167,6 +174,8 @@ public class Program
 
         app.UseHttpsRedirection();
         app.UseRouting();
+
+        app.MapHub<ChatService>("/chat");
 
         app.UseAuthentication();
         app.UseAuthorization();

@@ -11,13 +11,10 @@ public class CarRentalDbContext : DbContext
 
     public DbSet<VehicleEntity> Vehicles { get; set; }
 
-    public DbSet<CustomerEntity> Customers { get; set; }
-
     public DbSet<BookingEntity> Bookings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CarRentalDbContext).Assembly);
     }
-
 }

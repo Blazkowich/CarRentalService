@@ -8,6 +8,8 @@ using CarRental.DAL.Common.Paging;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
+#nullable enable
+
 namespace CarRental.Auth.BLL.Services;
 
 internal class AuthService(
@@ -85,7 +87,7 @@ internal class AuthService(
         };
 
         var userResult = await _unitOfWork.UserRepository.SearchWithPagingAsync(userSearchContext);
-        var userEntity = userResult.Items.FirstOrDefault() ?? throw new NotFoundException("User Not Found");
+        var userEntity = userResult?.Items.FirstOrDefault() ?? throw new NotFoundException("User Not Found");
 
         return userEntity;
     }
@@ -122,7 +124,7 @@ internal class AuthService(
 
         var userRole = await _unitOfWork.RolesRepository.SearchWithPagingAsync(searchUserRoleContext);
 
-        return userRole.Items.FirstOrDefault();
+        return userRole?.Items.FirstOrDefault();
     }
 
     private async Task AssignRoleToUserAsync(UserEntity userEntity, RolesEntity userRole)
@@ -167,7 +169,7 @@ internal class AuthService(
             Expires = newRefreshToken.Expires,
         };
 
-        _httpContextAccessor.HttpContext.Response.Cookies.Append("Bearer", newRefreshToken.Token, cookieOptions);
+        _httpContextAccessor.HttpContext?.Response.Cookies.Append("Bearer", newRefreshToken.Token, cookieOptions);
 
         user.RefreshToken = newRefreshToken.Token;
         user.TokenCreated = newRefreshToken.Created;

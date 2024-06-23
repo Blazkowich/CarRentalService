@@ -31,22 +31,6 @@ namespace CarRental.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customers",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Vehicles",
                 columns: table => new
                 {
@@ -68,18 +52,9 @@ namespace CarRental.DAL.Migrations
                 columns: new[] { "Id", "BookingCondition", "BookingDate", "CustomerId", "EndDate", "StartDate", "TotalPrice", "VehicleId" },
                 values: new object[,]
                 {
-                    { new Guid("948ee4ec-195b-4f96-8df2-34f6dcd26741"), 0, new DateTime(2024, 6, 22, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575), new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"), new DateTime(2024, 6, 29, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575), new DateTime(2024, 6, 23, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575), 0.0, new Guid("ab7d682c-0547-4f64-b78f-b51f2e4cb57b") },
-                    { new Guid("9ee0a7ed-0106-4fcb-b555-a39019072685"), 0, new DateTime(2024, 6, 22, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575), new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), new DateTime(2024, 7, 2, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575), new DateTime(2024, 6, 25, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575), 0.0, new Guid("eaf81fda-e22b-4cb9-8d49-8bba62a7f83b") },
-                    { new Guid("ad0f0756-b575-4609-8093-aecc763f3975"), 3, new DateTime(2024, 6, 22, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575), new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), new DateTime(2024, 6, 12, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575), new DateTime(2024, 6, 7, 13, 44, 28, 514, DateTimeKind.Utc).AddTicks(1575), 0.0, new Guid("a8ce79ff-12eb-4538-a376-421f717a5148") }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Customers",
-                columns: new[] { "Id", "Address", "Email", "FirstName", "LastName", "PhoneNumber" },
-                values: new object[,]
-                {
-                    { new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), "456 User Lane", "user@example.com", "Regular", "User", "0987654321" },
-                    { new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"), "123 Admin Street", "admin@example.com", "Admin", "User", "1234567890" }
+                    { new Guid("3f21b3df-e0e7-456d-aa4d-21d7e2bf47fc"), 3, new DateTime(2024, 6, 23, 9, 16, 58, 366, DateTimeKind.Utc).AddTicks(2206), new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), new DateTime(2024, 6, 13, 9, 16, 58, 366, DateTimeKind.Utc).AddTicks(2206), new DateTime(2024, 6, 8, 9, 16, 58, 366, DateTimeKind.Utc).AddTicks(2206), 0.0, new Guid("a8ce79ff-12eb-4538-a376-421f717a5148") },
+                    { new Guid("460b93d4-4163-4bfe-9767-fc2bd408d884"), 0, new DateTime(2024, 6, 23, 9, 16, 58, 366, DateTimeKind.Utc).AddTicks(2206), new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"), new DateTime(2024, 6, 30, 9, 16, 58, 366, DateTimeKind.Utc).AddTicks(2206), new DateTime(2024, 6, 24, 9, 16, 58, 366, DateTimeKind.Utc).AddTicks(2206), 0.0, new Guid("ab7d682c-0547-4f64-b78f-b51f2e4cb57b") },
+                    { new Guid("ce3f086b-2507-4968-8bf5-089f5951164d"), 0, new DateTime(2024, 6, 23, 9, 16, 58, 366, DateTimeKind.Utc).AddTicks(2206), new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), new DateTime(2024, 7, 3, 9, 16, 58, 366, DateTimeKind.Utc).AddTicks(2206), new DateTime(2024, 6, 26, 9, 16, 58, 366, DateTimeKind.Utc).AddTicks(2206), 0.0, new Guid("eaf81fda-e22b-4cb9-8d49-8bba62a7f83b") }
                 });
 
             migrationBuilder.InsertData(
@@ -103,9 +78,6 @@ namespace CarRental.DAL.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Bookings");
-
-            migrationBuilder.DropTable(
-                name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "Vehicles");

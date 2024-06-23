@@ -1,6 +1,8 @@
-﻿namespace CarRental.Support.Email.Services.Interface;
+﻿using System.Security.Claims;
+
+namespace CarRental.Support.Email.Services.Interface;
 
 public interface IEmailService
 {
-    Task SendEmailAsync(string subject, string message);
+    Task SendEmailAsync(string subject, string message, ClaimsPrincipal user);
 }

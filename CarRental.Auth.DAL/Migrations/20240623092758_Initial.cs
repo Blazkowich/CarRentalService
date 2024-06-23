@@ -41,6 +41,11 @@ namespace CarRental.Auth.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -148,11 +153,11 @@ namespace CarRental.Auth.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Name", "PasswordHash", "PasswordSalt", "RefreshToken", "TokenCreated", "TokenExpires" },
+                columns: new[] { "Id", "Address", "Email", "FirstName", "LastName", "Name", "PasswordHash", "PasswordSalt", "PhoneNumber", "RefreshToken", "TokenCreated", "TokenExpires" },
                 values: new object[,]
                 {
-                    { new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), "user", new byte[] { 11, 91, 53, 170, 250, 35, 125, 132, 65, 17, 196, 128, 96, 115, 12, 106, 9, 102, 16, 203, 43, 214, 92, 186, 183, 50, 56, 82, 127, 72, 179, 200 }, new byte[] { 154, 110, 32, 11, 239, 76, 122, 39, 249, 96, 21, 35, 98, 195, 203, 29, 89, 240, 213, 114, 233, 46, 41, 189, 66, 54, 81, 72, 233, 18, 184, 146, 253, 94, 150, 3, 166, 218, 64, 100, 209, 21, 216, 3, 13, 148, 195, 234, 79, 109, 66, 174, 3, 69, 255, 153, 217, 28, 158, 229, 65, 101, 138, 218 }, "", new DateTime(2024, 6, 21, 8, 52, 27, 698, DateTimeKind.Utc).AddTicks(1241), new DateTime(2024, 6, 22, 8, 52, 27, 698, DateTimeKind.Utc).AddTicks(1243) },
-                    { new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"), "admin", new byte[] { 181, 84, 124, 37, 29, 213, 104, 49, 23, 119, 81, 223, 212, 186, 99, 229, 82, 121, 173, 94, 50, 22, 36, 133, 97, 212, 90, 66, 218, 141, 26, 38 }, new byte[] { 57, 30, 177, 188, 87, 211, 11, 164, 251, 176, 81, 15, 148, 114, 195, 20, 168, 124, 158, 140, 37, 230, 116, 209, 134, 177, 144, 51, 140, 1, 248, 214, 75, 12, 254, 49, 231, 228, 72, 9, 114, 252, 166, 89, 75, 75, 154, 157, 128, 185, 157, 206, 198, 81, 134, 15, 167, 243, 45, 16, 182, 68, 49, 82 }, "", new DateTime(2024, 6, 21, 8, 52, 27, 698, DateTimeKind.Utc).AddTicks(1229), new DateTime(2024, 6, 22, 8, 52, 27, 698, DateTimeKind.Utc).AddTicks(1235) }
+                    { new Guid("3877311a-f26e-4913-b28c-79fb64dc92d9"), "456 User Lane", "a7x.otto@gmail.com", "Regular", "User", "user", new byte[] { 139, 155, 144, 13, 123, 180, 160, 98, 71, 169, 235, 146, 178, 157, 35, 65, 84, 220, 59, 244, 154, 207, 76, 23, 166, 205, 196, 159, 7, 41, 28, 81 }, new byte[] { 19, 25, 122, 208, 169, 250, 199, 184, 179, 59, 220, 78, 161, 31, 115, 91, 121, 6, 137, 150, 93, 141, 163, 194, 18, 196, 169, 117, 249, 66, 4, 220, 27, 20, 68, 75, 184, 188, 44, 61, 119, 198, 66, 29, 48, 9, 160, 234, 33, 224, 165, 72, 71, 37, 91, 149, 23, 87, 126, 175, 213, 142, 81, 97 }, "0987654321", "", new DateTime(2024, 6, 23, 9, 27, 57, 893, DateTimeKind.Utc).AddTicks(3571), new DateTime(2024, 6, 24, 9, 27, 57, 893, DateTimeKind.Utc).AddTicks(3574) },
+                    { new Guid("ac100f97-6db1-42ba-b3ad-a0881b167e50"), "123 Admin Street", "admin@admin.com", "Admin", "Adminov", "admin", new byte[] { 183, 37, 153, 86, 122, 13, 165, 152, 199, 114, 118, 112, 168, 181, 113, 252, 0, 43, 136, 49, 42, 85, 145, 58, 158, 175, 139, 251, 112, 229, 20, 28 }, new byte[] { 2, 236, 93, 133, 227, 180, 250, 105, 10, 126, 192, 88, 38, 197, 17, 207, 33, 86, 87, 148, 40, 18, 88, 124, 67, 236, 44, 55, 57, 176, 246, 215, 192, 82, 33, 195, 104, 26, 207, 196, 88, 196, 59, 94, 52, 18, 88, 119, 29, 184, 91, 54, 18, 244, 209, 215, 161, 185, 173, 109, 90, 65, 147, 120 }, "1234567890", "", new DateTime(2024, 6, 23, 9, 27, 57, 893, DateTimeKind.Utc).AddTicks(3556), new DateTime(2024, 6, 24, 9, 27, 57, 893, DateTimeKind.Utc).AddTicks(3566) }
                 });
 
             migrationBuilder.InsertData(

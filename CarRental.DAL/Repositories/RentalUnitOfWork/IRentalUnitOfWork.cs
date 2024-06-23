@@ -7,7 +7,5 @@ public interface IRentalUnitOfWork : IBaseUnitOfWork
 {
     IVehicleRepository VehiclesRepository { get; }
 
-    ICustomerRepository CustomersRepository { get; }
-
     IBookingRepository BookingsRepository { get; }
 }

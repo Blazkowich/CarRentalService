@@ -19,13 +19,32 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Auth.DAL", "CarRe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Bootstrapping", "Api.Bootstrapping\Api.Bootstrapping.csproj", "{E67F2FA0-8558-413A-A5DB-D55FF207C846}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "CarRental.UI", "CarRental.UI\CarRental.UI.esproj", "{E9A60000-07C4-4690-9785-43A1A91569AD}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support", "Support", "{2FE66A79-FFDE-4DCB-8382-DC36024BAD76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Support.Email", "CarRental.Support.Email\CarRental.Support.Email.csproj", "{058D6497-666E-43A3-9800-8A04989C9C45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Support.Email", "CarRental.Support.Email\CarRental.Support.Email.csproj", "{058D6497-666E-43A3-9800-8A04989C9C45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Support.Chat", "CarRental.Support.Chat\CarRental.Support.Chat.csproj", "{CA717F73-45D5-4C10-963E-8C43B9E3EFD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Support.Chat", "CarRental.Support.Chat\CarRental.Support.Chat.csproj", "{CA717F73-45D5-4C10-963E-8C43B9E3EFD1}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CarRental.UI", "CarRental.UI\", "{48EF1D48-6135-4F1D-9375-99B87433B3E9}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_53359"
+		Debug.AspNetCompiler.PhysicalPath = "CarRental.UI\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53359\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_53359"
+		Release.AspNetCompiler.PhysicalPath = "CarRental.UI\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53359\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "53359"
+		SlnRelativePath = "CarRental.UI\"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,12 +80,6 @@ Global
 		{E67F2FA0-8558-413A-A5DB-D55FF207C846}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E67F2FA0-8558-413A-A5DB-D55FF207C846}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E67F2FA0-8558-413A-A5DB-D55FF207C846}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E9A60000-07C4-4690-9785-43A1A91569AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E9A60000-07C4-4690-9785-43A1A91569AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E9A60000-07C4-4690-9785-43A1A91569AD}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{E9A60000-07C4-4690-9785-43A1A91569AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E9A60000-07C4-4690-9785-43A1A91569AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E9A60000-07C4-4690-9785-43A1A91569AD}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{058D6497-666E-43A3-9800-8A04989C9C45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{058D6497-666E-43A3-9800-8A04989C9C45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{058D6497-666E-43A3-9800-8A04989C9C45}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -75,6 +88,10 @@ Global
 		{CA717F73-45D5-4C10-963E-8C43B9E3EFD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA717F73-45D5-4C10-963E-8C43B9E3EFD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA717F73-45D5-4C10-963E-8C43B9E3EFD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48EF1D48-6135-4F1D-9375-99B87433B3E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48EF1D48-6135-4F1D-9375-99B87433B3E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48EF1D48-6135-4F1D-9375-99B87433B3E9}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{48EF1D48-6135-4F1D-9375-99B87433B3E9}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -23,7 +23,6 @@ public static class CarRentalDALServiceExtension
 
         // DI using Generic repository
         services.AddScoped<IVehicleRepository, VehicleRepository>();
-        services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IBookingRepository, BookingRepository>();
 
         services.AddScoped<IRentalUnitOfWork, RentalUnitOfWork>();

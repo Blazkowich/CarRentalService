@@ -1,16 +1,26 @@
-﻿using CarRental.Support.Email.Services.Interface;
+﻿using Api.Bootstrapping.CustomExceptions;
+using CarRental.Auth.BLL.Services.Interfaces;
+using CarRental.Support.Email.Services.Interface;
 using System.Net;
 using System.Net.Mail;
+using System.Security.Claims;
 
 namespace CarRental.Support.Email.Services;
-public class EmailService : IEmailService
+public class EmailService(IUserService userService) : IEmailService
 {
-    public async Task SendEmailAsync(string subject, string body)
+    private readonly IUserService _userService = userService;
+
+    public async Task SendEmailAsync(string subject, string body, ClaimsPrincipal user)
     {
+        var customerName = user.FindFirst(ClaimTypes.Name)?.Value ??
+            throw new BadRequestException("Customer Id not found in claims.");
+
+        var customer = await _userService.GetUserByUserNameAsync(customerName);
+
         try
         {
-            var senderEmail = "a7x.otto@gmail.com";
-            var senderPassword = "baki ekgw xvio faci";
+            var senderEmail = customer.Email;
+            var senderPassword = "yguy kttr wvhz wqqj";
 
             using var client = new SmtpClient("smtp.gmail.com", 587)
             {
@@ -31,7 +41,7 @@ public class EmailService : IEmailService
 
             await client.SendMailAsync(mailMessage);
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             throw new Exception(ex.Message);
         }

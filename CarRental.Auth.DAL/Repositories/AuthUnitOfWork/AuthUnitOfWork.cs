@@ -12,7 +12,7 @@ internal class AuthUnitOfWork(
     IUserRoleRepository userRoleRepository) :
     BaseUnitOfWork(authDbContext), IAuthUnitOfWork
 {
-    private readonly CarRentalAuthDbContext _authDbContext;
+    private readonly CarRentalAuthDbContext _authDbContext = authDbContext;
 
     public IUserRepository UserRepository { get; private set; } = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
 
