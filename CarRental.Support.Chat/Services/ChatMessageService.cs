@@ -1,5 +1,4 @@
-﻿using CarRental.Auth.BLL.Models;
-using CarRental.Support.Chat.Context;
+﻿using CarRental.Support.Chat.Context;
 using CarRental.Support.Chat.Model;
 using CarRental.Support.Chat.Services.Interface;
 using MongoDB.Driver;

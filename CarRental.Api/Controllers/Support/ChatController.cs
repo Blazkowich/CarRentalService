@@ -32,4 +32,7 @@ public class ChatController(
         var allMessages = await _chatService.GetAllMessagesAsync();
         return Ok(allMessages);
     }
+
+    // იუზერის შეზღუდვა სხვა მესიჯების ნახვაზე როლების დახმარებით
+    // დამატებითი მეთოდების დამატება
 }

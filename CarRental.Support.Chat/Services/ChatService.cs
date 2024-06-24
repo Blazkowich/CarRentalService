@@ -3,10 +3,8 @@ using CarRental.Auth.BLL.Services.Interfaces;
 using CarRental.Support.Chat.Model;
 using CarRental.Support.Chat.Services.Interface;
 using Microsoft.AspNetCore.SignalR;
-using System;
 using System.Collections.Concurrent;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace CarRental.Support.Chat.Services
 {
@@ -51,11 +49,6 @@ namespace CarRental.Support.Chat.Services
 
             string chatId = $"{userConnection.Id}_{userConnection.Name}";
             _userChats.AddOrUpdate(chatId, userConnection.Name, (key, oldValue) => userConnection.Name);
-        }
-
-        public async Task<IEnumerable<string>> GetUserChats()
-        {
-            return await Task.FromResult(_userChats.Values);
         }
 
         public async Task<IEnumerable<string>> GetChatMessagesAsync(string userId)

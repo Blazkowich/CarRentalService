@@ -37,7 +37,6 @@ public class Program
         builder.Services.ConfigureLogger();
         builder.Host.UseSerilog();
 
-
         builder.Services.ConfigureExceptionHandlingMiddleware(new Dictionary<Type, HttpStatusCode>
         {
             [typeof(BadRequestException)] = HttpStatusCode.BadRequest,
@@ -65,6 +64,7 @@ public class Program
 
             options.OperationFilter<SecurityRequirementsOperationFilter>();
         });
+
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -77,6 +77,18 @@ public class Program
                     ValidateAudience = false,
                 };
             });
+
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(builder =>
+            {
+                builder.WithOrigins("http://localhost:4200")
+                       .AllowAnyHeader()
+                       .AllowAnyMethod()
+                       .AllowCredentials();
+            });
+        });
+
 
         builder.Services.AddAutoMapper(typeof(AutomapperProfile));
         builder.Services.AddAutoMapper(typeof(AutomapperProfileBLL));
@@ -169,7 +181,7 @@ public class Program
             });
         }
 
-
+        app.UseCors();
         app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
         app.UseHttpsRedirection();

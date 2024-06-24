@@ -1,1 +1,37 @@
-/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "../node_modules/font-awesome/css/font-awesome.min.css";
+
+div.card-header {
+  font-size: large;
+}
+
+div.card {
+  margin-top: 10px;
+}
+
+div.table {
+  margin-top: 10px;
+}
+
+a {
+  text-decoration: none;
+}
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+div.table-responsive-vehicles {
+  margin-left: -10px;
+}
+
+div.body {
+  background-color: mediumaquamarine;
+  color: white;
+  font-style:inherit;
+}
+
+thead.thead-dark{
+  background-color: navy;
+  color: white;
+}
