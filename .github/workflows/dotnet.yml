@@ -17,9 +17,12 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+        
+    - name: Modify Solution File to Exclude CarRental.UI
+      run: sed -i '/CarRental\.UI/d' CarRental.sln
     - name: Restore dependencies
-      run: dotnet restore  --ignore-project CarRental.UI/CarRental.UI.csproj
-    - name: Build
-      run: dotnet build --no-restore --configuration Release --ignore-project CarRental.UI/CarRental.UI.csproj
-    - name: Test
+      run: dotnet restore
+    - name: Build .NET project
+      run: dotnet build --no-restore --configuration Release
+    - name: Test .NET project
       run: dotnet test --no-build --verbosity normal
