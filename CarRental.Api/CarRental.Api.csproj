@@ -28,10 +28,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Api.Bootstrapping\Api.Bootstrapping.csproj" />
-    <ProjectReference Include="..\CarRental.Auth.BLL\CarRental.Auth.BLL.csproj" />
+    <ProjectReference Include="..\Auth\CarRental.Auth.BLL\CarRental.Auth.BLL.csproj" />
+    <ProjectReference Include="..\Auth\CarRental.Auth.DAL\CarRental.Auth.DAL.csproj" />
     <ProjectReference Include="..\CarRental.BLL\CarRental.BLL.csproj" />
-    <ProjectReference Include="..\CarRental.Support.Chat\CarRental.Support.Chat.csproj" />
-    <ProjectReference Include="..\CarRental.Support.Email\CarRental.Support.Email.csproj" />
+    <ProjectReference Include="..\Support\CarRental.Support.Chat\CarRental.Support.Chat.csproj" />
+    <ProjectReference Include="..\Support\CarRental.Support.Email\CarRental.Support.Email.csproj" />
   </ItemGroup>
 
 </Project>
