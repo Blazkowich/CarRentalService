@@ -4,14 +4,20 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
-  private tokenKey = '';
-  private userKey = '';
+  private tokenKey = 'authToken';
+  private userKey = 'firstName';
+  private IdKey = 'userId';
 
   constructor() { }
 
-  setTokenAndName(token: string, firstName: string): void {
+  setTokenAndName(
+    token: string,
+    firstName: string,
+    userId: string
+    ): void {
     localStorage.setItem(this.tokenKey, token);
     localStorage.setItem(this.userKey, firstName);
+    localStorage.setItem(this.IdKey, userId);
   }
 
   getToken(): string | null {
@@ -20,6 +26,10 @@ export class AuthService {
 
   getName(): string | null {
     return localStorage.getItem(this.userKey);
+  }
+
+  getUserId(): string | null {
+    return localStorage.getItem(this.IdKey);
   }
 
   clearToken(): void {
@@ -33,6 +43,7 @@ export class AuthService {
   logOut(): void {
     this.clearToken();
     this.clearUserName();
+    this.clearUserId();
   }
 
   getUserName(): string | null {
@@ -45,5 +56,9 @@ export class AuthService {
 
   clearUserName(): void {
     localStorage.removeItem(this.userKey);
+  }
+
+  clearUserId(): void {
+    localStorage.removeItem(this.IdKey);
   }
 }

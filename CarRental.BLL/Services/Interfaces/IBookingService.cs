@@ -17,4 +17,8 @@ public interface IBookingService
     Task<Booking> CancelBookingAsync(Booking booking);
 
     Task<DateTime> VehicleAvailableFromAsync(Guid vehicleId);
+
+    Task<List<Booking>> GetBookingHistoryByUser(Guid userId);
+
+    Task<List<Booking>> GetActiveBookingsByUser(Guid userId);
 }

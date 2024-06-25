@@ -37,7 +37,6 @@ export class ChatComponent {
   }
 
   loadMessages(): void {
-    // Assuming you have a way to get the current user ID
     const userId = 'currentUserId'; // Replace with actual user ID retrieval logic
     this.chatSub = this.chatService.getChatMessages(userId).subscribe(
       (messages) => {

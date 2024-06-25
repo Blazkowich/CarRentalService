@@ -24,7 +24,7 @@ export class LoginComponent {
     if (this.UserName && this.Password) {
       this.logSub = this.userService.logIn(this.UserName, this.Password).subscribe(
         (user) => {
-          console.log('Logged in successfully');
+          console.log('Logged in successfully', user.Id);
           this.router.navigate(['/main-page']);
         },
         (error) => {

@@ -66,4 +66,20 @@ public class BookingController(IBookingService bookingService, IMapper mapper) :
 
         return availableFrom.ToString("dd-MMM-yyyy");
     }
+
+    [HttpGet("bookingHistoryByUser/{userId}")]
+    public async Task<List<BookingResponseFull>> GetBookingHistoryByUser(Guid userId)
+    {
+        var bookingHistory = await _bookingService.GetBookingHistoryByUser(userId);
+
+        return _mapper.Map<List<BookingResponseFull>>(bookingHistory);
+    }
+
+    [HttpGet("activeBookingByUser/{userId}")]
+    public async Task<List<BookingResponseFull>> GetActiveBookingsByUser(Guid userId)
+    {
+        var activeBooking = await _bookingService.GetActiveBookingsByUser(userId);
+
+        return _mapper.Map<List<BookingResponseFull>>(activeBooking);
+    }
 }

@@ -5,7 +5,7 @@
   <div class="auth">
     <button *ngIf="!isLoggedIn()" class="btn btn-primary" [routerLink]="['/login']">SignIn</button>
     <button *ngIf="!isLoggedIn()" class="btn btn-success ml-2" [routerLink]="['/register']">SignUp</button>
-    <button *ngIf="isLoggedIn()" class="btn btn-success" >{{ fetchName() }}</button>
+    <button *ngIf="isLoggedIn()" class="btn btn-success" [routerLink]="['/user-page']">{{ fetchName() }}</button>
     <button *ngIf="isLoggedIn()" class="btn btn-danger" (click)="logout()">LogOut</button>
   </div>
 </div>

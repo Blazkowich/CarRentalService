@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http
 import { Injectable } from "@angular/core";
 import { Observable, catchError, throwError } from "rxjs";
 import { IEmail } from "../models/email.model";
+import { ErrorHandleService } from "../shared/error.handle";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { IEmail } from "../models/email.model";
 export class EmailService {
   private apiUrl = 'https://localhost:7060/email';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private errorHanlde: ErrorHandleService) { }
 
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('authToken');
@@ -26,20 +27,7 @@ export class EmailService {
     };
 
     return this.http.post<IEmail>(url, requestBody, { headers: this.getAuthHeaders() }).pipe(
-      catchError(this.handleError)
+      catchError(this.errorHanlde.handleError)
     );
-  }
-
-  private handleError(err: HttpErrorResponse) {
-    let errorMessage = '';
-
-    if (err.error instanceof ErrorEvent) {
-      errorMessage = `An error occurred: ${err.status}`;
-    } else {
-      errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
-    }
-
-    console.log(errorMessage);
-    return throwError(() => errorMessage);
   }
 }

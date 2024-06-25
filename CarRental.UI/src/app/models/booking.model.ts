@@ -1,3 +1,5 @@
+import { IVehicle } from "./vehicle.model";
+
 export interface IBooking {
   Id: string;
   CustomerId: string;
@@ -7,4 +9,5 @@ export interface IBooking {
   EndDate: Date;
   TotalPrice: number;
   BookingCondition: string;
+  vehicle: IVehicle;
 }

@@ -1,12 +1,61 @@
-<div class="container">
-  <h1>{{ title }}</h1>
-  <div *ngFor="let vehicle of availableVehicles" class="vehicle-item">
-    <div class="vehicle-details">
-      <p>Vehicle: {{ vehicle.Name }}</p>
-      <p>Price: {{ vehicle.Price }}</p>
-    </div>
-    <div class="vehicle-actions">
-      <button *ngIf="isLoggedIn()" class="btn btn-primary">Book</button>
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <!-- Left column for Booking History -->
+      <div class="col-md-6">
+        <div *ngIf="bookingHistory.length > 0">
+          <h2>Booking History</h2>
+          <div *ngFor="let booking of bookingHistory" class="booking-item">
+            <div class="booking-details">
+              <div class="booking-info">
+                <div class="booking-image">
+                  <img
+                    *ngIf="getVehicleImageUrl(booking.VehicleId)"
+                    [src]="getVehicleImageUrl(booking.VehicleId)"
+                    [alt]="getVehicleName(booking.VehicleId)"
+                    [style.width.px]="imageWidth"
+                    [style.margin.px]="imageMargin"
+                    class="img-fluid">
+                  <span *ngIf="!getVehicleImageUrl(booking.VehicleId)">Image Not Available</span>
+                </div>
+                <div class="booking-text">
+                  <p><strong>Vehicle:</strong> {{ getVehicleName(booking.VehicleId) }}</p>
+                  <p><strong>Booking Date:</strong> {{ booking.StartDate | date: 'dd-MMM-yyyy hh:mm' }}</p>
+                  <p><strong>Total Price:</strong> {{ booking.TotalPrice }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column for Active Bookings -->
+      <div class="col-md-6">
+        <div *ngIf="activeBookings.length > 0">
+          <h2>Active Bookings</h2>
+          <div *ngFor="let booking of activeBookings" class="booking-item">
+            <div class="booking-details">
+              <div class="booking-info">
+                <div class="booking-image">
+                  <img
+                    *ngIf="getVehicleImageUrl(booking.VehicleId)"
+                    [src]="getVehicleImageUrl(booking.VehicleId)"
+                    [alt]="getVehicleName(booking.VehicleId)"
+                    [style.width.px]="imageWidth"
+                    [style.margin.px]="imageMargin"
+                    class="img-fluid">
+                  <span *ngIf="!getVehicleImageUrl(booking.VehicleId)">Image Not Available</span>
+                </div>
+                <div class="booking-text">
+                  <p><strong>Vehicle:</strong> {{ getVehicleName(booking.VehicleId) }}</p>
+                  <p><strong>Booking Date:</strong> {{ booking.StartDate | date: 'dd-MMM-yyyy hh:mm' }}</p>
+                  <p><strong>End Date:</strong> {{ booking.EndDate | date: 'dd-MMM-yyyy hh:mm' }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

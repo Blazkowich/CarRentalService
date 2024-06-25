@@ -6,6 +6,7 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { VehicleDetailComponent } from './main-page/page-details/page-details.component';
 import { EmailComponent } from './support-pages/support-email/support-email.component';
 import { ChatComponent } from './support-pages/support-chat/support-chat.component';
+import { UserPageComponent } from './user/user-page/user-page.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -20,6 +21,9 @@ export const routes: Routes = [
   },
   {
     path: 'chat', component: ChatComponent
+  },
+  {
+    path: 'user-page', component: UserPageComponent
   },
   { path: '', redirectTo: '/main-page', pathMatch: 'full' }
 ];

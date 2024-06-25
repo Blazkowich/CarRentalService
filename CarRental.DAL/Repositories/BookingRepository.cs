@@ -25,4 +25,11 @@ internal class BookingRepository(CarRentalDbContext context) :
             .Where(b => b.VehicleId == vehicleId)
             .ToListAsync(ct);
     }
+
+    public async Task<List<BookingEntity>> GetBookingsByUserIdAsync(Guid userId, CancellationToken ct = default)
+    {
+        return await _context.Bookings
+            .Where(b => b.CustomerId == userId)
+            .ToListAsync(ct);
+    }
 }

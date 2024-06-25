@@ -153,6 +153,20 @@ internal class BookingService(
         return earliestAvailableDate;
     }
 
+    public async Task<List<Booking>> GetBookingHistoryByUser(Guid userId)
+    {
+        var bookings = await _rentalUnitOfWork.BookingsRepository.GetBookingsByUserIdAsync(userId);
+        var bookingHistory = bookings.Where(b => b.BookingCondition == BookingTypeDAL.Finished || b.BookingCondition == BookingTypeDAL.Cancelled);
+        return await MapAndCalculateTotalPricesAsync(_mapper.Map<List<Booking>>(bookingHistory));
+    }
+
+    public async Task<List<Booking>> GetActiveBookingsByUser(Guid userId)
+    {
+        var bookings = await _rentalUnitOfWork.BookingsRepository.GetBookingsByUserIdAsync(userId);
+        var activeBookings = bookings.Where(b => b.BookingCondition == BookingTypeDAL.Active);
+        return await MapAndCalculateTotalPricesAsync(_mapper.Map<List<Booking>>(activeBookings));
+    }
+
     #region Private Methods
     private async Task<bool> CheckIfVehicleReserved(Guid vehicleId, DateTime startDate, DateTime endDate)
     {
