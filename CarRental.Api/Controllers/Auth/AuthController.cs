@@ -25,7 +25,7 @@ public class AuthController(IAuthService authService, IMapper mapper) : Controll
 
         var result = await _authService.Login(_mapper.Map<User>(user));
 
-        return Ok(new { Token = result });
+        return Ok(new { result.Token, result.FirstName });
     }
 
     [HttpPost("register")]

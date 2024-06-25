@@ -2,7 +2,7 @@ import { FormsModule } from '@angular/forms';
 import { UserService } from './../../services/user.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,13 +18,14 @@ export class LoginComponent {
   Password: string = '';
   logSub!: Subscription;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   logIn(): void {
     if (this.UserName && this.Password) {
       this.logSub = this.userService.logIn(this.UserName, this.Password).subscribe(
         (user) => {
-          console.log('Logged in successfully:', user);
+          console.log('Logged in successfully');
+          this.router.navigate(['/main-page']);
         },
         (error) => {
           console.error('Login error:', error);

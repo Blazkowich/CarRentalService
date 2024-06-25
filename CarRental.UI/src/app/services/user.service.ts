@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, catchError, map, tap, throwError } from 'rxjs';
+import { Observable, catchError, tap, throwError } from 'rxjs';
 import { IUser } from '../models/user.model';
 import { AuthService } from './auth.service';
 
@@ -25,7 +25,7 @@ export class UserService {
       catchError(this.handleError),
       tap((response) => {
         if (response && response.Token) {
-          this.authService.setToken(response.Token);
+          this.authService.setTokenAndName(response.Token, response.FirstName);
         }
       })
     );

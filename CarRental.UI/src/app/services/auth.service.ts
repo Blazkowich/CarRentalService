@@ -5,15 +5,21 @@ import { Injectable } from '@angular/core';
 })
 export class AuthService {
   private tokenKey = '';
+  private userKey = '';
 
   constructor() { }
 
-  setToken(token: string): void {
+  setTokenAndName(token: string, firstName: string): void {
     localStorage.setItem(this.tokenKey, token);
+    localStorage.setItem(this.userKey, firstName);
   }
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
+  }
+
+  getName(): string | null {
+    return localStorage.getItem(this.userKey);
   }
 
   clearToken(): void {
@@ -26,5 +32,18 @@ export class AuthService {
 
   logOut(): void {
     this.clearToken();
+    this.clearUserName();
+  }
+
+  getUserName(): string | null {
+    return localStorage.getItem(this.userKey);
+  }
+
+  setUserName(userName: string): void {
+    localStorage.setItem(this.userKey, userName);
+  }
+
+  clearUserName(): void {
+    localStorage.removeItem(this.userKey);
   }
 }

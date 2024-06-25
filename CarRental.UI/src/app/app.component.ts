@@ -16,8 +16,13 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent {
   title = 'CarRental Rental Service';
+  userName: string | null = null;
 
   constructor(private authService: AuthService) { }
+
+  fetchName(): string | null {
+    return this.authService.getName();
+  }
 
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
