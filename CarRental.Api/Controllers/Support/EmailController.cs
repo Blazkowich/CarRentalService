@@ -1,4 +1,5 @@
-﻿using CarRental.Support.Email.Services.Interface;
+﻿using CarRental.Api.ApiModels.Request;
+using CarRental.Support.Email.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,9 +13,9 @@ public class EmailController(IEmailService emailService) : ControllerBase
     private readonly IEmailService _emailService = emailService;
 
     [HttpPost("send")]
-    public async Task<IActionResult> SendEmailToSupport(string subject, string message)
+    public async Task<IActionResult> SendEmailToSupport([FromBody] EmailRequest email)
     {
-        await _emailService.SendEmailAsync(subject, message, HttpContext.User);
+        await _emailService.SendEmailAsync(email.Subject, email.Message, HttpContext.User);
 
         return Ok();
     }

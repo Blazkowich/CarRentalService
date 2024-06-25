@@ -1,0 +1,8 @@
+<div class="email-container">
+  <h2>{{ title }}</h2>
+  <div class="email-input-container">
+    <input type="text" placeholder="Subject" [(ngModel)]="subject" name="subject">
+    <textarea placeholder="Message" [(ngModel)]="message" name="message"></textarea>
+    <button (click)="sendEmail()">Send Email</button>
+  </div>
+</div>

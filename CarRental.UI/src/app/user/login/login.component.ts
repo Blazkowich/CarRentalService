@@ -13,7 +13,7 @@ import { RouterModule } from '@angular/router';
 })
 
 export class LoginComponent {
-  title = 'Car Rental Service Login';
+  title = 'Login';
   UserName: string = '';
   Password: string = '';
   logSub!: Subscription;

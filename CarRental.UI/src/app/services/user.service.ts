@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { IUser } from '../models/user.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,19 +10,24 @@ import { IUser } from '../models/user.model';
 export class UserService {
   private apiUrl = 'https://localhost:7060/auth';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   logIn(login: string, password: string): Observable<IUser> {
     const url = `${this.apiUrl}/login`;
     const requestBody = {
       Model: {
         Login: login,
-        Password: password
-      }
+        Password: password,
+      },
     };
 
     return this.http.post<IUser>(url, requestBody).pipe(
-      catchError(this.handleError)
+      catchError(this.handleError),
+      tap((response) => {
+        if (response && response.Token) {
+          this.authService.setToken(response.Token);
+        }
+      })
     );
   }
 
@@ -47,6 +53,10 @@ export class UserService {
     return this.http.post<IUser>(url, requestBody).pipe(
       catchError(this.handleError)
     );
+  }
+
+  logout(): void {
+    this.authService.logOut();
   }
 
   private handleError(err: HttpErrorResponse) {

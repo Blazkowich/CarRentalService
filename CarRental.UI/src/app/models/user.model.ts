@@ -7,4 +7,5 @@ export interface IUser {
   PhoneNumber: number;
   Address: string;
   Password: string;
+  Token: string;
 }

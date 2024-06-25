@@ -1,0 +1,58 @@
+/* support-email.component.css */
+.email-container {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+.email-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.email-input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.email-input-container input,
+.email-input-container textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.email-input-container textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.email-input-container button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.email-input-container button:hover {
+  background-color: #0056b3;
+}
+
+.email-input-container input:focus,
+.email-input-container textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
