@@ -16,6 +16,11 @@ export class VehicleService {
       catchError(this.handleError));
   }
 
+  getAvailableVehicles(): Observable<IVehicle[]> {
+    return this.http.get<IVehicle[]>(`${this.apiUrl}/available`).pipe(
+      catchError(this.handleError));
+  }
+
   getVehicle(id: string): Observable<IVehicle | undefined> {
     return this.getVehicles()
       .pipe(

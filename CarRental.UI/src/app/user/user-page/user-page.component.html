@@ -1,0 +1,12 @@
+<div class="container">
+  <h1>{{ title }}</h1>
+  <div *ngFor="let vehicle of availableVehicles" class="vehicle-item">
+    <div class="vehicle-details">
+      <p>Vehicle: {{ vehicle.Name }}</p>
+      <p>Price: {{ vehicle.Price }}</p>
+    </div>
+    <div class="vehicle-actions">
+      <button *ngIf="isLoggedIn()" class="btn btn-primary">Book</button>
+    </div>
+  </div>
+</div>

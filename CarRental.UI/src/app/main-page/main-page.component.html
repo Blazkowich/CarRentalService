@@ -21,6 +21,7 @@
             <th>Type</th>
             <th>Reservation Type</th>
             <th>Price</th>
+            <th *ngIf="isLoggedIn()">Actions</th>
           </tr>
         </thead>
 
@@ -41,6 +42,9 @@
             <td class="align-middle">{{ vehicle.Type }}</td>
             <td class="align-middle">{{ vehicle.ReservationType }}</td>
             <td class="align-middle">{{ vehicle.Price | currency:'USD':'symbol':'1.2-2' }}</td>
+            <td class="align-middle" *ngIf="isLoggedIn()">
+              <button class="btn btn-primary">Book</button>
+            </td>
           </tr>
         </tbody>
 

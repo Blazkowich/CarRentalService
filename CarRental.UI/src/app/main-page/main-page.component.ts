@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-main-page',
@@ -19,6 +20,7 @@ import { RouterModule } from '@angular/router';
 export class MainPageComponent implements OnInit, OnDestroy {
   title = 'CarRental Rental Service';
   vehicles: IVehicle[] = [];
+  availableVehicles: IVehicle[] = [];
   filteredVehicles: IVehicle[] = [];
   imageWidth = 200;
   imageMargin = 0;
@@ -37,7 +39,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     this.filteredVehicles = this.performFilter(this._listFilter);
   }
 
-  constructor(private vehicleService: VehicleService) { }
+  constructor(private vehicleService: VehicleService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.sub = this.vehicleService.getVehicles().subscribe({
@@ -47,6 +49,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
       },
       error: err => this.errorMessage = err
     });
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 
   ngOnDestroy() {
