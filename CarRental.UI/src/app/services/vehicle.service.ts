@@ -13,9 +13,7 @@ export class VehicleService {
 
   getVehicles(): Observable<IVehicle[]> {
     return this.http.get<IVehicle[]>(this.apiUrl).pipe(
-      tap(data => console.log('All', JSON.stringify(data))),
-      catchError(this.handleError)
-    );
+      catchError(this.handleError));
   }
 
   getVehicle(id: string): Observable<IVehicle | undefined> {

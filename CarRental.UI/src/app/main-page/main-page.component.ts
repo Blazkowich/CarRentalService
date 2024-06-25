@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { VehicleService } from '../services/vehicle.service';
 import { IVehicle } from '../models/vehicle.model';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';  // Import FormsModule
+import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { RouterModule } from '@angular/router';
 
@@ -11,7 +11,10 @@ import { RouterModule } from '@angular/router';
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule]
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule]
 })
 export class MainPageComponent implements OnInit, OnDestroy {
   title = 'CarRental Rental Service';

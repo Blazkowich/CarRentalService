@@ -27,10 +27,16 @@
         <tbody>
           <tr *ngFor="let vehicle of filteredVehicles" class="align-items-center">
             <td class="align-middle">
-              <img *ngIf="showImage" [src]="vehicle.ImageUrl" [alt]="vehicle.Name" [style.width.px]="imageWidth" [style.margin.px]="imageMargin" class="img-fluid">
+              <img
+              *ngIf="showImage"
+              [src]="vehicle.ImageUrl"
+              [alt]="vehicle.Name"
+              [style.width.px]="imageWidth"
+              [style.margin.px]="imageMargin"
+              class="img-fluid">
             </td>
             <td class="align-middle">
-              <a [routerLink]="['/vehicle', vehicle.Id]">{{ vehicle.Name }}</a>
+              <a [routerLink]="['/page-details', vehicle.Id]">{{ vehicle.Name }}</a>
             </td>
             <td class="align-middle">{{ vehicle.Type }}</td>
             <td class="align-middle">{{ vehicle.ReservationType }}</td>

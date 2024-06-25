@@ -1,0 +1,45 @@
+<div class="card align-items-center">
+  <div class="card-body row justify-content-center" *ngIf="vehicle">
+    <h5 class="card-title">{{vehicle.Name }}</h5>
+  </div>
+
+  <div class="card-body row justify-content-center" *ngIf="vehicle">
+    <div class="row justify-content-center">
+      <div class="col-md-4 d-flex justify-content-center align-items-center">
+        <img class="img-fluid"
+             [style.max-width.px]="600"
+             [style.margin.px]="2"
+             [src]="vehicle.ImageUrl"
+             [alt]="vehicle.Name">
+      </div>
+
+      <div class="card">
+        <div class="row align-items-center">
+          <div class="card-body">
+
+            <div class="col-md-12 text-center">Name:
+              {{ vehicle.Name }}</div>
+
+          <div class="col-md-12 text-center">
+            Description: {{ vehicle.Description }}</div>
+
+          <div class="col-md-12 text-center">Free From:
+            {{ 'vehicle.booking?.EndDate' }}</div>
+
+            <div class="col-md-12 text-center">Price:
+              {{ vehicle.Price | currency:'USD':'symbol' }}</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <button class="btn btn-outline-secondary"
+            style="width: 100px"
+            (click)="onBack()">
+      <i class="fa fa-chevron-left"></i> Back
+    </button>
+  </div>
+</div>

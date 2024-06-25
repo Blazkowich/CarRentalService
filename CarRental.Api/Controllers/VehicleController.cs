@@ -25,6 +25,7 @@ public class VehicleController(IVehicleService vehicleService, IMapper mapper) :
     }
 
     [HttpGet("byId/{vehicleId}")]
+    [AllowAnonymous]
     public async Task<VehicleResponseFull> GetVehicleById(Guid vehicleId)
     {
         var getById = await _vehicleService.GetVehicleByIdAsync(vehicleId);
