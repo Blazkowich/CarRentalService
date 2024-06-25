@@ -1,6 +1,10 @@
 <div class="body">
-  <h1 class="main-text">
+  <h1 class="titleText">
     <a [routerLink]="['/main-page']" style="text-decoration: none; color: inherit;">{{ title }}</a>
   </h1>
-  <router-outlet></router-outlet>
+  <div class="auth">
+    <button class="btn btn-primary" [routerLink]="['/login']">SignIn</button>
+    <button class="btn btn-success ml-2" [routerLink]="['/register']">SignUp</button>
+  </div>
 </div>
+<router-outlet></router-outlet>
