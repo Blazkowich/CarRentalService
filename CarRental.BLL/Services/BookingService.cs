@@ -124,6 +124,35 @@ internal class BookingService(
         return _mapper.Map<Booking>(bookingEntity);
     }
 
+    public async Task<DateTime> VehicleAvailableFromAsync(Guid vehicleId)
+    {
+        var bookings = await _rentalUnitOfWork.BookingsRepository.GetBookingsByVehicleIdAsync(vehicleId);
+
+        DateTime earliestAvailableDate = DateTime.MaxValue;
+
+        foreach (var booking in bookings)
+        {
+            if (booking.BookingCondition == BookingTypeDAL.Reserved || booking.BookingCondition == BookingTypeDAL.Active)
+            {
+                if (booking.EndDate < earliestAvailableDate)
+                {
+                    earliestAvailableDate = booking.EndDate;
+                }
+            }
+        }
+
+        if (earliestAvailableDate == DateTime.MaxValue)
+        {
+            earliestAvailableDate = DateTime.UtcNow.Date;
+        }
+        else
+        {
+            earliestAvailableDate = earliestAvailableDate.AddDays(1);
+        }
+
+        return earliestAvailableDate;
+    }
+
     #region Private Methods
     private async Task<bool> CheckIfVehicleReserved(Guid vehicleId, DateTime startDate, DateTime endDate)
     {

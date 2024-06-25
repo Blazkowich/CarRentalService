@@ -57,4 +57,13 @@ public class BookingController(IBookingService bookingService, IMapper mapper) :
 
         return _mapper.Map<BookingResponseFull>(cancel);
     }
+
+    [HttpGet("availableFrom/{vehicleId}")]
+    [AllowAnonymous]
+    public async Task<string> VehicleAvailableFrom(Guid vehicleId)
+    {
+        var availableFrom = await _bookingService.VehicleAvailableFromAsync(vehicleId);
+
+        return availableFrom.ToString("dd-MMM-yyyy");
+    }
 }

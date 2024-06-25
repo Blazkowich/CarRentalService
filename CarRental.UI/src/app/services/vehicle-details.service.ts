@@ -8,13 +8,21 @@ import { IVehicle } from '../models/vehicle.model';
   providedIn: 'root'
 })
 export class VehicleDetailsService {
-  private apiUrl = 'https://localhost:7060/vehicles/byId';
+  private getVehicleByIdapiUrl = 'https://localhost:7060/vehicles/byId';
+  private getAvailabilityDateapiUrl = 'https://localhost:7060/booking/availableFrom';
 
   constructor(private http: HttpClient) { }
 
   getVehicle(id: string): Observable<IVehicle | undefined> {
-    const url = `${this.apiUrl}/${id}`;
+    const url = `${this.getVehicleByIdapiUrl}/${id}`;
     return this.http.get<IVehicle>(url).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getAvailableDate(id: string): Observable<string> {
+    const url = `${this.getAvailabilityDateapiUrl}/${id}`;
+    return this.http.get<string>(url, { responseType: 'text' as 'json' }).pipe(
       catchError(this.handleError)
     );
   }

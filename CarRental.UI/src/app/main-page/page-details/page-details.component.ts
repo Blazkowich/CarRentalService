@@ -15,7 +15,9 @@ export class VehicleDetailComponent implements OnInit, OnDestroy {
   pageTitle: string = "Vehicle Detail";
   errorMessage = '';
   vehicle: IVehicle | undefined;
-  sub!: Subscription;
+  vehSub!: Subscription;
+  avSub!: Subscription;
+  availableFrom = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -25,9 +27,16 @@ export class VehicleDetailComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
       const id = this.route.snapshot.paramMap.get('id');
       if (id) {
-        this.sub = this.vehicleDetailsService.getVehicle(id).subscribe({
+        this.vehSub = this.vehicleDetailsService.getVehicle(id).subscribe({
           next: vehicle => {
             this.vehicle = vehicle;
+          },
+          error: err => this.errorMessage = err
+        });
+
+        this.avSub = this.vehicleDetailsService.getAvailableDate(id).subscribe({
+          next: available => {
+            this.availableFrom = available;
           },
           error: err => this.errorMessage = err
         });
@@ -37,12 +46,20 @@ export class VehicleDetailComponent implements OnInit, OnDestroy {
     }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.vehSub.unsubscribe();
+    this.avSub.unsubscribe();
   }
 
   getVehicle(id: string): void {
     this.vehicleDetailsService.getVehicle(id).subscribe({
       next: vehicle => this.vehicle = vehicle,
+      error: err => this.errorMessage = err
+    });
+  }
+
+  getAvailableFrom(id: string): void {
+    this.vehicleDetailsService.getAvailableDate(id).subscribe({
+      next: available => this.availableFrom = available,
       error: err => this.errorMessage = err
     });
   }

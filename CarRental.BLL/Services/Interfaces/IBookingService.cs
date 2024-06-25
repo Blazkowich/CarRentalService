@@ -15,4 +15,6 @@ public interface IBookingService
     Task<Booking> BookVehicleAsync(Guid vehicleId, int durationInDays, ClaimsPrincipal user);
 
     Task<Booking> CancelBookingAsync(Booking booking);
+
+    Task<DateTime> VehicleAvailableFromAsync(Guid vehicleId);
 }
