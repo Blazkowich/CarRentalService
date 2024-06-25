@@ -22,6 +22,10 @@ export class VehicleService {
       catchError(this.errorHanlde.handleError));
   }
 
+  getVehicleById(id: string): Observable<IVehicle | undefined> {
+    return this.http.get<IVehicle>(`${this.apiUrl}/byId/${id}`).pipe(
+      catchError(this.errorHanlde.handleError));
+  }
   getVehicle(id: string): Observable<IVehicle | undefined> {
     return this.getVehicles()
       .pipe(

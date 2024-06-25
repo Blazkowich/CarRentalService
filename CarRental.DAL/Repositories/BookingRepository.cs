@@ -32,4 +32,12 @@ internal class BookingRepository(CarRentalDbContext context) :
             .Where(b => b.CustomerId == userId)
             .ToListAsync(ct);
     }
+
+    public async Task<List<BookingEntity>> GetBookingHistoryByUserId(Guid userId, CancellationToken ct = default)
+    {
+        return await _context.Bookings
+            .Where(b => (b.BookingCondition == BookingTypeDAL.Finished ||
+                b.BookingCondition == BookingTypeDAL.Cancelled) && b.CustomerId == userId)
+            .ToListAsync(ct);
+    }
 }

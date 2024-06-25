@@ -1,30 +1,62 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.vehicle-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  max-width: 600px;
-  padding: 10px;
-  margin-bottom: 10px;
+/* Styles for card and card-body */
+.card {
+  margin: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.vehicle-details {
+.card-body {
+  padding: 20px;
+}
+
+/* Flex layout for row */
+.row {
+  display: flex;
+}
+
+/* Column styles */
+.col-md-6 {
+  width: 50%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Booking item styles */
+.booking-item {
+  margin-bottom: 20px;
+}
+
+.booking-details {
+  border: 1px solid #eee;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.booking-info {
+  display: flex;
+  align-items: center;
+}
+
+.booking-image {
+  margin-right: 10px;
+}
+
+.booking-text {
   flex: 1;
 }
 
-.vehicle-actions {
-  display: flex;
-  align-items: center;
+/* Image and text styles */
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
 }
 
-.vehicle-actions .btn {
-  margin-left: 20px;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .col-md-6 {
+    width: 100%;
+  }
 }

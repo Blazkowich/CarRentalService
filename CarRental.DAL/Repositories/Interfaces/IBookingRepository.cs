@@ -11,4 +11,6 @@ public interface IBookingRepository : IBaseRepository<Guid, BookingEntity>
     Task<List<BookingEntity>> GetBookingsByVehicleIdAsync(Guid vehicleId, CancellationToken ct = default);
 
     Task<List<BookingEntity>> GetBookingsByUserIdAsync(Guid userId, CancellationToken ct = default);
+
+    Task<List<BookingEntity>> GetBookingHistoryByUserId(Guid userId, CancellationToken ct = default);
 }

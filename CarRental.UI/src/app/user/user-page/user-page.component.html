@@ -1,7 +1,6 @@
 <div class="card">
   <div class="card-body">
     <div class="row">
-      <!-- Left column for Booking History -->
       <div class="col-md-6">
         <div *ngIf="bookingHistory.length > 0">
           <h2>Booking History</h2>
@@ -50,6 +49,7 @@
                   <p><strong>Vehicle:</strong> {{ getVehicleName(booking.VehicleId) }}</p>
                   <p><strong>Booking Date:</strong> {{ booking.StartDate | date: 'dd-MMM-yyyy hh:mm' }}</p>
                   <p><strong>End Date:</strong> {{ booking.EndDate | date: 'dd-MMM-yyyy hh:mm' }}</p>
+                  <p><strong>Price: </strong>{{ booking.TotalPrice }}</p>
                 </div>
               </div>
             </div>

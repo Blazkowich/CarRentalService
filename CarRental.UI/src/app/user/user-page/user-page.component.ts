@@ -44,7 +44,7 @@ export class UserPageComponent implements OnInit {
     this.userPageService.getBookingHistory(userId).subscribe(
       (bookings: IBooking[]) => {
         this.bookingHistory = bookings;
-        this.fetchVehicleDetailsForActiveBookings();
+        this.fetchVehicleDetailsForBookingHistory();
       },
       (error: any) => {
         console.error('Error fetching booking history:', error);
@@ -64,14 +64,33 @@ export class UserPageComponent implements OnInit {
     );
   }
 
+  fetchVehicleDetailsForBookingHistory(): void {
+    this.vehicles = [];
+
+    for (const booking of this.bookingHistory) {
+      this.vehicleService.getVehicleById(booking.VehicleId).subscribe(
+        (vehicle: IVehicle | undefined) => {
+          if (vehicle) {
+            this.vehicles.push(vehicle);
+          } else {
+            console.error(`Vehicle details not found for booking ${booking.Id}`);
+          }
+        },
+        (error: any) => {
+          console.error(`Error fetching vehicle details for booking ${booking.Id}:`, error);
+        }
+      );
+    }
+  }
+
   fetchVehicleDetailsForActiveBookings(): void {
     this.vehicles = [];
 
     for (const booking of this.activeBookings) {
-      this.vehicleService.getVehicle(booking.VehicleId).subscribe(
+      this.vehicleService.getVehicleById(booking.VehicleId).subscribe(
         (vehicle: IVehicle | undefined) => {
           if (vehicle) {
-            this.vehicles.push(vehicle); // Push fetched vehicle into vehicles array
+            this.vehicles.push(vehicle);
           } else {
             console.error(`Vehicle details not found for booking ${booking.Id}`);
           }
