@@ -23,6 +23,8 @@ namespace CarRental.Support.Chat.Services
             var customer = await _userService.GetUserByUserNameAsync(customerName)
                 ?? throw new InvalidOperationException($"User with name '{customerName}' not found.");
 
+            var reciverId = await _userService.GetUserByUserNameAsync("Admin");
+
             var userConnection = new User
             {
                 Id = customer.Id,
@@ -32,8 +34,9 @@ namespace CarRental.Support.Chat.Services
             var chatMessage = new ChatMessage
             {
                 Sender = userConnection.Name,
-                SenderId = Guid.Parse(userConnection.Id),
+                SenderId = userConnection.Id,
                 Receiver = "Admin",
+                ReceiverId = reciverId.Id,
                 Message = message,
                 Timestamp = DateTime.UtcNow
             };
@@ -51,9 +54,59 @@ namespace CarRental.Support.Chat.Services
             _userChats.AddOrUpdate(chatId, userConnection.Name, (key, oldValue) => userConnection.Name);
         }
 
+        public async Task SendMessageToUser(ClaimsPrincipal currentUser, string userId, string message)
+        {
+            var user = await _userService.GetUserByIdAsync(Guid.Parse(userId))
+                ?? throw new InvalidOperationException($"User with ID '{userId}' not found.");
+            
+            var adminName = currentUser.FindFirst(ClaimTypes.Name)?.Value
+               ?? throw new InvalidOperationException("Customer Id not found in claims.");
+
+            var admin = await _userService.GetUserByUserNameAsync(adminName)
+                ?? throw new InvalidOperationException($"User with name '{adminName}' not found.");
+            
+            var userConnection = new User
+            {
+                Id = user.Id,
+                Name = user.Name,
+            };
+
+            var chatMessage = new ChatMessage
+            {
+                Sender = "Admin",
+                SenderId = admin.Id,
+                Receiver = userConnection.Name,
+                ReceiverId = userId,
+                Message = message,
+                Timestamp = DateTime.UtcNow
+            };
+
+            await _chatMessageService.SaveMessage(chatMessage);
+
+            await _hubContext.Clients.User(userConnection.Id.ToString()).SendAsync("ReceiveMessage", new
+            {
+                from = "Admin",
+                text = message,
+                isIncoming = false
+            });
+
+            string chatId = $"{userConnection.Id}_{userConnection.Name}";
+            _userChats.AddOrUpdate(chatId, userConnection.Name, (key, oldValue) => userConnection.Name);
+        }
+
+
         public async Task<IEnumerable<string>> GetChatMessagesAsync(string userId)
         {
-            var messages = await _chatMessageService.GetMessages(Guid.Parse(userId));
+            var messages = await _chatMessageService.GetMessages(userId);
+
+            var messageStrings = messages.Select(m => $"{m.Sender} - {m.Message} - {m.Timestamp}");
+
+            return messageStrings;
+        }
+
+        public async Task<IEnumerable<string>> GetChatMessagesForAdminAsync(string userId)
+        {
+            var messages = await _chatMessageService.GetMessages(userId);
 
             var messageStrings = messages.Select(m => $"{m.Sender} - {m.Message} - {m.Timestamp}");
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, tap, throwError } from 'rxjs';
 import { IUser } from '../models/user.model';
 import { AuthService } from './auth.service';
@@ -10,11 +10,19 @@ import { ErrorHandleService } from '../shared/error.handle';
 })
 export class UserService {
   private apiUrl = 'https://localhost:7060/auth';
+  private userApiUrl = 'https://localhost:7060/users';
 
   constructor(
     private http: HttpClient,
     private authService: AuthService,
     private errorHanlde: ErrorHandleService) { }
+
+    private getAuthHeaders(): HttpHeaders {
+      const token = localStorage.getItem('authToken');
+      return new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+    }
 
     logIn(login: string, password: string): Observable<IUser> {
       const url = `${this.apiUrl}/login`;
@@ -57,6 +65,11 @@ export class UserService {
     return this.http.post<IUser>(url, requestBody).pipe(
       catchError(this.errorHanlde.handleError)
     );
+  }
+
+  getUserIdByName(userName: string): Observable<string> {
+    const url = `${this.userApiUrl}/byName/${userName}`;
+    return this.http.get<string>(url, { headers: this.getAuthHeaders() });
   }
 
   logout(): void {

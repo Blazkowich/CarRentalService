@@ -35,6 +35,14 @@
       <i class="fa fa-chevron-left"></i> Back
     </button>
   </div>
-  <button class="btn btn-primary mx-2" [routerLink]="['/chat']">Chat</button>
-  <button class="btn btn-secondary mx-2" [routerLink]="['/email']">Email</button>
+  <ng-container
+   *ngIf="!isAdmin()">
+    <button class="btn btn-primary mx-2" [routerLink]="['/user-chat']">Chat</button>
+    <button class="btn btn-secondary mx-2" [routerLink]="['/email']">Email</button>
+  </ng-container>
+  <ng-container
+    *ngIf="isAdmin()">
+     <button class="btn btn-primary mx-2" [routerLink]="['/user-chat']">Chat</button>
+     <button class="btn btn-secondary mx-2" [routerLink]="['/email']">Email</button>
+   </ng-container>
 </footer>

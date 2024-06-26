@@ -96,6 +96,10 @@ export class ActiveRentingPageComponent implements OnInit {
     return vehicle ? vehicle.Name : 'Vehicle Name Not Available';
   }
 
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
   onBack(): void {
     this.router.navigate(['/main-page']);
   }

@@ -18,6 +18,9 @@
           <button
           *ngIf="isAdmin()"
           class="btn btn-success ml-2" [routerLink]="['/admin-chat']">Chat</button>
+          <button
+          *ngIf="isAdmin()"
+          class="btn btn-secondary ml-2" [routerLink]="['/admin-page']">Inbox</button>
         </div>
       </div>
       <button class="btn btn-danger ml-2" (click)="logout()">LogOut</button>

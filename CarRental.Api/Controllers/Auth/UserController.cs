@@ -33,6 +33,14 @@ public class UserController(IUserService userService, IMapper mapper) : Controll
         return _mapper.Map<UserResponse>(response);
     }
 
+    [HttpGet("byName/{name}")]
+    public async Task<Guid> GetUserIdByName(string name)
+    {
+        var response = await _userService.GetUserByUserNameAsync(name);
+
+        return Guid.Parse(response.Id);
+    }
+
     [HttpPost]
     public async Task<IActionResult> AddUser(CreateUserRequest user)
     {

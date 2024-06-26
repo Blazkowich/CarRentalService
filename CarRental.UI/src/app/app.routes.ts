@@ -5,7 +5,7 @@ import { RegisterComponent } from './user/register/register.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { VehicleDetailComponent } from './main-page/page-details/page-details.component';
 import { EmailComponent } from './support-pages/support-email/support-email.component';
-import { ChatComponent } from './support-pages/support-chat/support-chat.component';
+import { UserChatComponent } from './support-pages/support-chat/userChat/user-support-chat.component';
 import { UserPageComponent } from './user/user-page/user-page.component';
 import { AuthGuard } from './authGuard/auth.guard';
 import { HistoryRentingPageComponent } from './user/user-page/history-page/history-page.component';
@@ -14,6 +14,7 @@ import { AdminPageComponent } from './user/admin-page/admin-page.component';
 import { AdminGuard } from './authGuard/admin.guard';
 import { MainGuard } from './authGuard/main.guard';
 import { LoginRegisterGuard } from './authGuard/login-register.guard';
+import { AdminChatComponent } from './support-pages/support-chat/adminChat/admin-support-chat.component';
 
 export const routes: Routes = [
   {
@@ -41,9 +42,14 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'chat',
-    component: ChatComponent,
+    path: 'user-chat',
+    component: UserChatComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin-chat',
+    component: AdminChatComponent,
+    canActivate: [AdminGuard]
   },
   {
     path: 'user-page',
@@ -64,11 +70,6 @@ export const routes: Routes = [
     path: 'active',
     component: ActiveRentingPageComponent,
     canActivate: [MainGuard]
-  },
-  {
-    path: 'admin-chat',
-    component: AdminPageComponent,
-    canActivate: [AdminGuard]
   },
   { path: '', redirectTo: '/main-page', pathMatch: 'full' }
 ];

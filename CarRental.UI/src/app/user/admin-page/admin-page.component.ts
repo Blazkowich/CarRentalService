@@ -6,6 +6,7 @@ import { CommonModule, formatDate } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AdminPageService } from '../../services/admin-page.service';
 import { IUser } from '../../models/user.model';
+import { IChat } from '../../models/chat.model';
 
 @Component({
   selector: 'app-admin-page',
@@ -30,6 +31,20 @@ export class AdminPageComponent implements OnInit {
   ngOnInit(): void {
     this.getUsersByMessages();
   }
+
+  getChatByUserId(userId: string): void {
+    this.adminService.getChatByUserId(userId).subscribe(
+      (chats: IChat[]) => {
+        console.log(userId, chats);
+        const encodedChats = encodeURIComponent(JSON.stringify(chats));
+        this.router.navigate([`/admin-chat`, { chats: encodedChats }]);
+      },
+      (error: any) => {
+        console.error('Error fetching chat:', error);
+      }
+    );
+  }
+
 
   getUsersByMessages(): void {
     this.adminService.getUsersByMessages().subscribe(

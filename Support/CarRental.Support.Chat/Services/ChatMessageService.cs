@@ -17,9 +17,12 @@ public class ChatMessageService(ChatContext context, IUserService userService) :
         await _chatMessages.InsertOneAsync(message);
     }
 
-    public async Task<List<ChatMessage>> GetMessages(Guid userId)
+    public async Task<List<ChatMessage>> GetMessages(string userId)
     {
-        return await _chatMessages.Find(m => m.Receiver == "Admin" && m.SenderId == userId).ToListAsync();
+        var result = await _chatMessages
+            .Find(m => (m.Sender == "Admin" && m.ReceiverId == userId) ||
+            (m.SenderId == userId && m.Receiver == "Admin")).ToListAsync();
+        return result;    
     }
 
     public async Task<List<User>> GetUsersWhoMessagedAdminAsync()

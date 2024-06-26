@@ -11,9 +11,11 @@ public class ChatMessage
 
     public string Sender { get; set; }
 
-    public Guid SenderId { get; set; }
+    public string SenderId { get; set; }
 
     public string Receiver { get; set; }
+
+    public string ReceiverId { get; set; }
 
     public string Message { get; set; }
 

@@ -1,0 +1,54 @@
+.chat-container {
+  max-width: 600px; /* Adjust max-width as per your design */
+  margin: auto; /* Center align the container */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.chat-messages-container {
+  max-height: 300px; /* Limit height to show a fixed number of messages */
+  overflow-y: auto; /* Enable vertical scrolling if messages exceed container height */
+}
+
+.message-item {
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+.message-list {
+  display: flex;
+  flex-direction: column-reverse; /* Reverse order for vertical stacking */
+}
+
+.chat-input-container {
+  margin-top: 10px;
+}
+
+.chat-input-container textarea {
+  width: calc(100% - 80px); /* Adjust width to fit button */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical; /* Allow vertical resizing of textarea */
+}
+
+.chat-input-container button {
+  width: 80px;
+  margin-left: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.card-body {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}

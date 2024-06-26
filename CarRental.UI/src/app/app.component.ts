@@ -18,6 +18,7 @@ export class AppComponent implements OnInit{
   title = 'CarRental Rental Service';
   userName: string | null = null;
   showUserOptions = false;
+  isLightMode = true;
   @ViewChild('userOptionsContainer') userOptionsContainer!: ElementRef;
 
   constructor(private authService: AuthService) { }

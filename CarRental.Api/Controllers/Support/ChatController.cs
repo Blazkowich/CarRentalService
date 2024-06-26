@@ -1,4 +1,5 @@
-﻿using CarRental.Support.Chat.Services.Interface;
+﻿using CarRental.Api.ApiModels.Request;
+using CarRental.Support.Chat.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,9 +14,17 @@ public class ChatController(
     private readonly IChatService _chatService = chatService;
 
     [HttpPost("send")]
-    public async Task<IActionResult> SendMessage([FromBody] string message)
+    public async Task<IActionResult> SendMessage([FromBody] ChatRequest chat)
     {
-        await _chatService.SendToSupportMessage(HttpContext.User, message);
+        await _chatService.SendToSupportMessage(HttpContext.User, chat.Message);
+        return Ok();
+    }
+
+    [HttpPost("sendtouser")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> SendToUserMessage([FromBody] ChatRequest chat)
+    {
+        await _chatService.SendMessageToUser(HttpContext.User, chat.UserId, chat.Message);
         return Ok();
     }
 
@@ -23,6 +32,13 @@ public class ChatController(
     public async Task<IActionResult> GetChatMessages(string userId)
     {
         var messages = await _chatService.GetChatMessagesAsync(userId);
+        return Ok(messages);
+    }
+
+    [HttpGet("messages/foradmin/{userId}")]
+    public async Task<IActionResult> GetChatMessagesForAdmin(string userId)
+    {
+        var messages = await _chatService.GetChatMessagesForAdminAsync(userId);
         return Ok(messages);
     }
 

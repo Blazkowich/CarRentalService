@@ -3,6 +3,7 @@ import { Injectable, OnInit } from "@angular/core";
 import { ErrorHandleService } from "../shared/error.handle";
 import { Observable, catchError, tap } from "rxjs";
 import { IUser } from "../models/user.model";
+import { IChat } from "../models/chat.model";
 
 
 @Injectable({
@@ -18,6 +19,13 @@ private chatApiUrl = 'https://localhost:7060/chat';
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
+  }
+
+  getChatByUserId(userId: string): Observable<IChat[]> {
+    const url = `${this.chatApiUrl}/messages/${userId}`;
+    return this.http.get<IChat[]>(url, { headers: this.getAuthHeaders() }).pipe(
+      catchError(this.errorHandler.handleError)
+    );
   }
 
   getUsersByMessages(): Observable<IUser[]> {

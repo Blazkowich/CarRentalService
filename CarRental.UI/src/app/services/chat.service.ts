@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, catchError, throwError } from "rxjs";
+import { BehaviorSubject, Observable, catchError, concatMap, interval, map, switchMap, throwError } from "rxjs";
 import { IChat } from "../models/chat.model";
 import { ErrorHandleService } from "../shared/error.handle";
 
@@ -9,9 +9,16 @@ import { ErrorHandleService } from "../shared/error.handle";
 })
 export class ChatService {
   private apiUrl = 'https://localhost:7060/chat';
+  private newMessageSubject = new BehaviorSubject<IChat[]>([]);
+  userId: string | null = null;
 
   constructor(
-    private http: HttpClient, private errorHandle: ErrorHandleService) { }
+    private http: HttpClient, private errorHandle: ErrorHandleService) {
+      this.userId = localStorage.getItem('userId');
+    if (this.userId) {
+      this.startPolling(this.userId);
+    }
+     }
 
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('authToken');
@@ -23,10 +30,36 @@ export class ChatService {
     });
   }
 
-  sendMessage(message: string): Observable<void> {
+  private startPolling(userId: string): void {
+    interval(5000)
+      .pipe(
+        concatMap(() => this.getChatMessages(userId))
+      )
+      .subscribe({
+        next: (messages: IChat[]) => {
+          this.newMessageSubject.next(messages);
+        },
+        error: (error) => {
+          console.error('Polling error:', error);
+        }
+      });
+  }
+
+  sendMessageToSupport(message: string): Observable<void> {
     const url = `${this.apiUrl}/send`;
     const headers = this.getAuthHeaders();
     return this.http.post<void>(url, { message }, { headers }).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error(`Error sending message: ${error.message}`, error);
+        return this.errorHandle.handleError(error);
+      })
+    );
+  }
+
+  sendMessageToUser(userId: string, message: string): Observable<void> {
+    const url = `${this.apiUrl}/sendtouser`;
+    const headers = this.getAuthHeaders();
+    return this.http.post<void>(url, { userId, message }, { headers }).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error(`Error sending message: ${error.message}`, error);
         return this.errorHandle.handleError(error);
@@ -45,6 +78,17 @@ export class ChatService {
     );
   }
 
+  getChatMessagesForAdmin(userId: string): Observable<IChat[]> {
+    const url = `${this.apiUrl}/messages/foradmin/${userId}`;
+    const headers = this.getAuthHeaders();
+    return this.http.get<IChat[]>(url, { headers }).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error(`Error fetching chat messages for user ${userId}: ${error.message}`, error);
+        return this.errorHandle.handleError(error);
+      })
+    );
+  }
+
   getAllChatMessages(): Observable<IChat[]> {
     const url = `${this.apiUrl}/messages`;
     const headers = this.getAuthHeaders();
@@ -54,5 +98,13 @@ export class ChatService {
         return this.errorHandle.handleError(error);
       })
     );
+  }
+
+  notifyNewMessage(messages: IChat[]): void {
+    this.newMessageSubject.next(messages);
+  }
+
+  newMessage(): Observable<IChat[]> {
+    return this.newMessageSubject.asObservable();
   }
 }
