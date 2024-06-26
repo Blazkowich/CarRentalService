@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
 
@@ -18,11 +18,23 @@ export class AppComponent implements OnInit{
   title = 'CarRental Rental Service';
   userName: string | null = null;
   showUserOptions = false;
+  @ViewChild('userOptionsContainer') userOptionsContainer!: ElementRef;
 
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
     this.authService.startLogoutTimer();
+    this.addClickOutsideListener();
+  }
+
+  addClickOutsideListener(): void {
+    document.addEventListener('click', this.onClickOutside.bind(this));
+  }
+
+  onClickOutside(event: MouseEvent): void {
+    if (this.showUserOptions && !this.userOptionsContainer.nativeElement.contains(event.target)) {
+      this.showUserOptions = false;
+    }
   }
 
   @HostListener('window:mousemove')

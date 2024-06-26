@@ -16,7 +16,7 @@
 }
 
 h1.titleText {
-  margin-left: 20px; /* Adjust as needed */
+  margin-left: 460px;
 }
 
 .user-options-container {
@@ -45,5 +45,5 @@ h1.titleText {
 }
 
 .user-options button:first-child {
-  margin-top: 0; /* Remove top margin for the first button */
+  margin-top: 0;
 }
