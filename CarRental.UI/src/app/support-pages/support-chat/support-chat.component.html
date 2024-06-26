@@ -12,8 +12,13 @@
     </button>
   </div>
   <div class="chat-messages-container">
-    <div *ngFor="let msg of messages">
-      <p>{{ msg.message }}</p>
+    <div *ngIf="messages.length > 0; else noMessages">
+      <div *ngFor="let msg of messages" class="message-item">
+        <p>{{ msg }}</p>
+      </div>
     </div>
+    <ng-template #noMessages>
+      <p>No messages available.</p>
+    </ng-template>
   </div>
 </div>

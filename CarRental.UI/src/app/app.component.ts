@@ -17,6 +17,7 @@ import { AuthService } from './services/auth.service';
 export class AppComponent implements OnInit{
   title = 'CarRental Rental Service';
   userName: string | null = null;
+  showUserOptions = false;
 
   constructor(private authService: AuthService) { }
 
@@ -45,5 +46,9 @@ export class AppComponent implements OnInit{
 
   logout(): void {
     this.authService.logOut();
+  }
+
+  toggleUserOptions(): void {
+    this.showUserOptions = !this.showUserOptions;
   }
 }

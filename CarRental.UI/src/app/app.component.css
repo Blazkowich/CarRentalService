@@ -1,21 +1,49 @@
-div.body{
+.body {
   background-color: mediumaquamarine;
   color: white;
-  font-style:inherit;
+  font-style: inherit;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  padding: 10px;
 }
 
-div.auth{
+.auth {
   display: flex;
   align-items: flex-start;
-  padding-top: 9px;
-  margin-right: 10px;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 5px;
 }
 
-h1.titleText{
-  margin-left: 470px;
+h1.titleText {
+  margin-left: 20px; /* Adjust as needed */
+}
+
+.user-options-container {
+  position: relative;
+}
+
+.user-options {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0);
+  border: 1px solid rgba(211, 211, 211, 0);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  z-index: 1000;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.user-options button {
+  width: calc(100% - 10px);
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.user-options button:first-child {
+  margin-top: 0; /* Remove top margin for the first button */
 }

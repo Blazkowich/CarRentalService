@@ -30,7 +30,6 @@ export class UserService {
         tap((response) => {
           if (response && response.Token) {
             this.authService.setTokenAndName(response.Token, response.FirstName, response.Id);
-            console.log(response.FirstName, response.Id);
           }
         })
       );

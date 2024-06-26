@@ -3,10 +3,22 @@
     <a [routerLink]="['/main-page']" style="text-decoration: none; color: inherit;">{{ title }}</a>
   </h1>
   <div class="auth">
-    <button *ngIf="!isLoggedIn()" class="btn btn-primary" [routerLink]="['/login']">SignIn</button>
-    <button *ngIf="!isLoggedIn()" class="btn btn-success ml-2" [routerLink]="['/register']">SignUp</button>
-    <button *ngIf="isLoggedIn()" class="btn btn-success" [routerLink]="['/user-page']">{{ fetchName() }}</button>
-    <button *ngIf="isLoggedIn()" class="btn btn-danger" (click)="logout()">LogOut</button>
+    <ng-container *ngIf="!isLoggedIn()">
+      <button class="btn btn-primary" [routerLink]="['/login']">SignIn</button>
+      <button class="btn btn-success ml-2" [routerLink]="['/register']">SignUp</button>
+    </ng-container>
+    <ng-container *ngIf="isLoggedIn()">
+      <div class="user-options-container">
+        <button class="btn btn-success" (click)="toggleUserOptions()">
+          {{ fetchName() }} <i class="fa" [ngClass]="{'fa-caret-down': !showUserOptions, 'fa-caret-up': showUserOptions}"></i>
+        </button>
+        <div *ngIf="showUserOptions" class="user-options">
+          <button class="btn btn-info" [routerLink]="['/history']">History</button>
+          <button class="btn btn-warning ml-2" [routerLink]="['/active']">Active</button>
+        </div>
+      </div>
+      <button class="btn btn-danger ml-2" (click)="logout()">LogOut</button>
+    </ng-container>
   </div>
 </div>
 <router-outlet></router-outlet>
