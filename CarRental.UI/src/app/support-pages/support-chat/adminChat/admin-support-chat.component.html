@@ -1,9 +1,13 @@
 <div class="chat-container">
   <h2>{{ title }}</h2>
-  <div class="chat-messages-container">
+  <div class="chat-messages-container" #messageContainer>
     <div *ngIf="messages.length > 0; else noMessages" class="message-list">
-      <div *ngFor="let msg of messages.slice().reverse(); let i = index" class="message-item">
-        <p>{{ msg }}</p>
+      <div *ngFor="let msg of messages.slice().reverse(); let i = index"
+           [ngClass]="{'message-item-sent': msg.SenderId === userId, 'message-item-received': msg.SenderId !== userId}">
+        <div class="message-header">
+          <strong>{{ msg.Sender }}</strong>
+        </div>
+        <p>{{ msg.Message }}</p>
       </div>
     </div>
     <ng-template #noMessages>
@@ -15,7 +19,7 @@
     <button (click)="sendMessage()">Send</button>
   </div>
   <div class="card-body">
-    <button class="btn btn-outline-secondary" style="width: 100px" [routerLink]="['/main-page']">
+    <button class="btn btn-outline-secondary" style="width: 100px" (click)="onBack()">
       <i class="fa fa-chevron-left"></i> Back
     </button>
   </div>

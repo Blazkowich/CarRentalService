@@ -95,22 +95,18 @@ namespace CarRental.Support.Chat.Services
         }
 
 
-        public async Task<IEnumerable<string>> GetChatMessagesAsync(string userId)
+        public async Task<IEnumerable<ChatMessage>> GetChatMessagesAsync(string userId)
         {
             var messages = await _chatMessageService.GetMessages(userId);
 
-            var messageStrings = messages.Select(m => $"{m.Sender} - {m.Message} - {m.Timestamp}");
-
-            return messageStrings;
+            return messages;
         }
 
-        public async Task<IEnumerable<string>> GetChatMessagesForAdminAsync(string userId)
+        public async Task<IEnumerable<ChatMessage>> GetChatMessagesForAdminAsync(string userId)
         {
             var messages = await _chatMessageService.GetMessages(userId);
 
-            var messageStrings = messages.Select(m => $"{m.Sender} - {m.Message} - {m.Timestamp}");
-
-            return messageStrings;
+            return messages;
         }
 
         public async Task<IEnumerable<ChatMessage>> GetAllMessagesAsync()
@@ -120,10 +116,32 @@ namespace CarRental.Support.Chat.Services
             return messages;
         }
 
+        public async Task MarkMessageAsReadAsync(ClaimsPrincipal currentUser, string messageId)
+        {
+            var customerName = currentUser.FindFirst(ClaimTypes.Name)?.Value
+                ?? throw new InvalidOperationException("Customer Id not found in claims.");
+
+            var customer = await _userService.GetUserByUserNameAsync(customerName)
+                ?? throw new InvalidOperationException($"User with name '{customerName}' not found.");
+
+            var message = await _chatMessageService.GetMessageByIdAsync(messageId) ?? 
+                throw new InvalidOperationException($"Message with ID '{messageId}' not found.");
+            if (customer.Id != message.SenderId)
+            {
+                message.Read = true;
+                await _chatMessageService.UpdateMessageAsync(message);
+            }
+        }
+
         public async Task<List<User>> GetUsersWhoMessagedAdminAsync()
         {
             var users = await _chatMessageService.GetUsersWhoMessagedAdminAsync();
             return users;
+        }
+
+        public async Task<int> GetUnreadMessageCountAsync(string userId)
+        {
+            return await _chatMessageService.CountUnreadMessagesById(userId);
         }
     }
 }

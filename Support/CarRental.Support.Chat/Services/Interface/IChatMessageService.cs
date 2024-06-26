@@ -11,4 +11,10 @@ public interface IChatMessageService
     Task<List<ChatMessage>> GetAllMessages();
 
     Task<List<User>> GetUsersWhoMessagedAdminAsync();
+
+    Task<ChatMessage?> GetMessageByIdAsync(string messageId);
+
+    Task UpdateMessageAsync(ChatMessage message);
+
+    Task<int> CountUnreadMessagesById(string userId, CancellationToken ct = default);
 }

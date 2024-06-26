@@ -1,3 +1,5 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <div class="body">
   <h1 class="titleText">
     <a [routerLink]="['/main-page']" style="text-decoration: none; color: inherit;">{{ title }}</a>
@@ -8,6 +10,10 @@
       <button class="btn btn-success ml-2" [routerLink]="['/register']">SignUp</button>
     </ng-container>
     <ng-container *ngIf="isLoggedIn()">
+      <button type="button" class="icon-button">
+        <span class="material-icons">notifications</span>
+        <span class="icon-button__badge">{{ notificationCount }}</span>
+      </button>
       <div class="user-options-container" #userOptionsContainer>
         <button class="btn btn-success" (click)="toggleUserOptions()">
           {{ fetchName() }} <i class="fa" [ngClass]="{'fa-caret-down': !showUserOptions, 'fa-caret-up': showUserOptions}"></i>
@@ -15,12 +21,16 @@
         <div *ngIf="showUserOptions" class="user-options">
           <button class="btn btn-info" [routerLink]="['/history']">History</button>
           <button class="btn btn-warning ml-2" [routerLink]="['/active']">Active</button>
-          <button
-          *ngIf="isAdmin()"
-          class="btn btn-success ml-2" [routerLink]="['/admin-chat']">Chat</button>
-          <button
-          *ngIf="isAdmin()"
-          class="btn btn-secondary ml-2" [routerLink]="['/admin-page']">Inbox</button>
+          <ng-container *ngIf="isAdmin()">
+            <button
+            class="btn btn-secondary ml-2" [routerLink]="['/admin-page']">Inbox</button>
+          </ng-container>
+          <ng-container *ngIf="!isAdmin()">
+            <button
+            class="btn btn-success ml-2" [routerLink]="['/user-chat']">Chat</button>
+            <button
+            class="btn btn-secondary ml-2" [routerLink]="['/email']">Email</button>
+          </ng-container>
         </div>
       </div>
       <button class="btn btn-danger ml-2" (click)="logout()">LogOut</button>

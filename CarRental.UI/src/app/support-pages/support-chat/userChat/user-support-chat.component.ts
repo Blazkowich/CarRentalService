@@ -1,12 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ChatService } from '../../../services/chat.service';
 import { FormsModule } from '@angular/forms';
 import { IChat } from '../../../models/chat.model';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../../services/auth.service';
-import { UserService } from '../../../services/user.service';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-support-chat',
@@ -15,30 +13,44 @@ import { UserService } from '../../../services/user.service';
   standalone: true,
   imports: [FormsModule, CommonModule, RouterModule]
 })
-export class UserChatComponent implements OnInit, OnDestroy {
+export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   title = 'Chat With Support';
   message: string = '';
   messages: IChat[] = [];
   chatSub: Subscription[] = [];
   userId: string | null = null;
+  notificationCount = 0;
+  lastMessageCount = 0;
+
+  @ViewChild('messageContainer') private messageContainer!: ElementRef;
 
   constructor(
     private chatService: ChatService,
     private router: Router,
-    private authService: AuthService,
-    private route: ActivatedRoute,
-    private userService: UserService
-  ) {}
+  ) {
+    this.userId = localStorage.getItem('userId');
+  }
 
   ngOnInit(): void {
-    const chatsData = this.route.snapshot.paramMap.get('chats');
-    if (chatsData) {
-      this.messages = JSON.parse(chatsData);
-    }
     this.loadMessages();
     this.chatService.newMessage().subscribe((messages: IChat[]) => {
       this.messages = messages;
+      if (this.userId) {
+        this.scrollToBottom();
+      } else {
+        console.warn('User ID is not set when new messages arrive.');
+      }
     });
+  }
+
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
+    } catch(err) { }
   }
 
   sendMessage(): void {
@@ -60,11 +72,16 @@ export class UserChatComponent implements OnInit, OnDestroy {
   }
 
   loadMessages(): void {
-    this.userId = this.authService.getUserId();
     if (this.userId) {
       this.chatService.getChatMessages(this.userId).subscribe(
         (messages: IChat[]) => {
           this.messages = messages;
+          messages.forEach(message => {
+            if (!message.Read && message.ReceiverId == this.userId) {
+              this.markMessageAsRead(message.Id);
+            }
+          });
+          this.scrollToBottom();
         },
         (error) => {
           console.error('Load messages error:', error);
@@ -73,6 +90,17 @@ export class UserChatComponent implements OnInit, OnDestroy {
     } else {
       console.error('User ID not found.');
     }
+  }
+
+  markMessageAsRead(messageId: string): void {
+    this.chatService.markMessageAsRead(messageId).subscribe(
+      () => {
+        console.log(`Message ${messageId} marked as read.`);
+      },
+      (error) => {
+        console.error(`Error marking message ${messageId} as read:`, error);
+      }
+    );
   }
 
   ngOnDestroy(): void {

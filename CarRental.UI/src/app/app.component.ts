@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
+import { IChat } from './models/chat.model';
+import { ChatService } from './services/chat.service';
+import { Subscription, interval } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -14,18 +17,47 @@ import { AuthService } from './services/auth.service';
     RouterModule,
   ]
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit, OnDestroy{
   title = 'CarRental Rental Service';
   userName: string | null = null;
+  userId: string | null = null;
   showUserOptions = false;
   isLightMode = true;
+  notificationCount = 0;
   @ViewChild('userOptionsContainer') userOptionsContainer!: ElementRef;
+  private intervalSubscription: Subscription | undefined;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private chatService: ChatService) {
+    this.userId = localStorage.getItem('userId')
+    console.log(this.userId);
+    if (this.isLoggedIn()) {
+      this.startNotificationInterval();
+    }
+    console.log(this.notificationCount);
+  }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.authService.startLogoutTimer();
     this.addClickOutsideListener();
+    this.subscribeToNewMessages();
+  }
+
+  ngOnDestroy(): void {
+    this.stopNotificationInterval();
+  }
+
+  updateNotificationCount(): void {
+    if (this.isLoggedIn()) {
+      this.chatService.getNotificationCount(this.userId!).subscribe(
+        (count: number) => {
+          this.notificationCount = count;
+          console.log('Notification Count:', this.notificationCount);
+        },
+        (error) => {
+          console.error('Error fetching notification count:', error);
+        }
+      );
+    }
   }
 
   addClickOutsideListener(): void {
@@ -50,6 +82,21 @@ export class AppComponent implements OnInit{
     this.authService.resetLogoutTimer();
   }
 
+  startNotificationInterval(): void {
+    if (!this.intervalSubscription) {
+      this.intervalSubscription = interval(5000).subscribe(() => {
+        this.updateNotificationCount();
+      });
+    }
+  }
+
+  stopNotificationInterval(): void {
+    if (this.intervalSubscription) {
+      this.intervalSubscription.unsubscribe();
+      this.intervalSubscription = undefined;
+    }
+  }
+
   fetchName(): string | null {
     return this.authService.getName();
   }
@@ -64,9 +111,18 @@ export class AppComponent implements OnInit{
 
   logout(): void {
     this.authService.logOut();
+    this.stopNotificationInterval();
+
   }
 
   toggleUserOptions(): void {
     this.showUserOptions = !this.showUserOptions;
+  }
+
+  private subscribeToNewMessages(): void {
+    this.chatService.newMessage().subscribe((messages: IChat[]) => {
+      const unreadMessages = messages.filter(msg => !msg.Read && msg.SenderId !== this.userId);
+      this.notificationCount = unreadMessages.length;
+    });
   }
 }

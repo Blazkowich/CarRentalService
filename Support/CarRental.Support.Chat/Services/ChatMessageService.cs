@@ -20,8 +20,8 @@ public class ChatMessageService(ChatContext context, IUserService userService) :
     public async Task<List<ChatMessage>> GetMessages(string userId)
     {
         var result = await _chatMessages
-            .Find(m => (m.Sender == "Admin" && m.ReceiverId == userId) ||
-            (m.SenderId == userId && m.Receiver == "Admin")).ToListAsync();
+            .Find(m =>m.ReceiverId == userId ||
+            m.SenderId == userId).ToListAsync();
         return result;    
     }
 
@@ -43,8 +43,27 @@ public class ChatMessageService(ChatContext context, IUserService userService) :
         return users;
     }
 
+    public async Task<ChatMessage?> GetMessageByIdAsync(string messageId)
+    {
+        var filter = Builders<ChatMessage>.Filter.Eq(m => m.Id, messageId);
+        return await _chatMessages.Find(filter).FirstOrDefaultAsync();
+    }
+
+    public async Task UpdateMessageAsync(ChatMessage message)
+    {
+        var filter = Builders<ChatMessage>.Filter.Eq(m => m.Id, message.Id);
+        await _chatMessages.ReplaceOneAsync(filter, message);
+    }
+
     public async Task<List<ChatMessage>> GetAllMessages()
     {
         return await _chatMessages.Find(m => m.Receiver == "Admin").ToListAsync();
+    }
+
+    public async Task<int> CountUnreadMessagesById(string userId, CancellationToken ct = default)
+    {
+        var filter = Builders<ChatMessage>.Filter.Where(m => m.ReceiverId == userId && !m.Read);
+        var unreadMessagesCount = await _chatMessages.CountDocumentsAsync(filter, cancellationToken: ct);
+        return (int)unreadMessagesCount;
     }
 }

@@ -2,6 +2,7 @@
 using CarRental.Support.Chat.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CarRental.Api.Controllers.Support;
 
@@ -56,6 +57,29 @@ public class ChatController(
         var users = await _chatService.GetUsersWhoMessagedAdminAsync();
         return Ok(users);
     }
+
+    [HttpGet("unread/count/{userId}")]
+    public async Task<IActionResult> CountUnreadMessages(string userId)
+    {
+        var count = await _chatService.GetUnreadMessageCountAsync(userId);
+        return Ok(count);
+    }
+
+
+    [HttpPatch("messages/{messageId}/read")]
+    public async Task<IActionResult> MarkMessageAsRead(string messageId)
+    {
+        try
+        {
+            await _chatService.MarkMessageAsReadAsync(HttpContext.User, messageId);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+
 
     // იუზერის შეზღუდვა სხვა მესიჯების ნახვაზე როლების დახმარებით
     // დამატებითი მეთოდების დამატება

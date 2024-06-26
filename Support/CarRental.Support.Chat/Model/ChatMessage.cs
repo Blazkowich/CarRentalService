@@ -19,5 +19,7 @@ public class ChatMessage
 
     public string Message { get; set; }
 
+    public bool Read { get; set; }
+
     public DateTime Timestamp { get; set; }
 }

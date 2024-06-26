@@ -1,4 +1,10 @@
 export interface IChat {
-  message: string;
-  id: string;
+  Id: string;
+  Sender: string;
+  SenderId: string;
+  Receiver: string;
+  ReceiverId: string;
+  Message: string;
+  Read: boolean;
+  TimeStamp: Date;
 }

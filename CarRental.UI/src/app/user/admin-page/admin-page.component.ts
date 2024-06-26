@@ -35,7 +35,6 @@ export class AdminPageComponent implements OnInit {
   getChatByUserId(userId: string): void {
     this.adminService.getChatByUserId(userId).subscribe(
       (chats: IChat[]) => {
-        console.log(userId, chats);
         const encodedChats = encodeURIComponent(JSON.stringify(chats));
         this.router.navigate([`/admin-chat`, { chats: encodedChats }]);
       },

@@ -23,7 +23,7 @@ export class ChatService {
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('authToken');
     if (!token) {
-      throw new Error('No auth token found');
+      console.log();
     }
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -39,10 +39,18 @@ export class ChatService {
         next: (messages: IChat[]) => {
           this.newMessageSubject.next(messages);
         },
-        error: (error) => {
-          console.error('Polling error:', error);
-        }
+        error: () => {console.log();}
       });
+  }
+
+  getNotificationCount(userId: string): Observable<number> {
+    const url = `${this.apiUrl}/unread/count/${userId}`;
+    const headers = this.getAuthHeaders();
+    return this.http.get<number>(url, { headers }).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return this.errorHandle.handleError(error);
+      })
+    );
   }
 
   sendMessageToSupport(message: string): Observable<void> {
@@ -99,6 +107,18 @@ export class ChatService {
       })
     );
   }
+
+  markMessageAsRead(messageId: string): Observable<void> {
+    const url = `${this.apiUrl}/messages/${messageId}/read`;
+    const headers = this.getAuthHeaders();
+    return this.http.patch<void>(url, {}, { headers }).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error(`Error marking message as read: ${error.message}`, error);
+        return this.errorHandle.handleError(error);
+      })
+    );
+  }
+
 
   notifyNewMessage(messages: IChat[]): void {
     this.newMessageSubject.next(messages);
