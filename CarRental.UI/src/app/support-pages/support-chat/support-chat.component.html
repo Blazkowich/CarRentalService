@@ -4,6 +4,13 @@
     <textarea placeholder="Type your message here" [(ngModel)]="message" name="message"></textarea>
     <button (click)="sendMessage()">Send</button>
   </div>
+  <div class="card-body">
+    <button class="btn btn-outline-secondary"
+            style="width: 100px"
+            (click)="onBack()">
+      <i class="fa fa-chevron-left"></i> Back
+    </button>
+  </div>
   <div class="chat-messages-container">
     <div *ngFor="let msg of messages">
       <p>{{ msg.message }}</p>

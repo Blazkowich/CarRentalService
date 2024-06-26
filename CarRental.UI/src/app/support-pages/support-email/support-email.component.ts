@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { EmailService } from '../../services/email.service';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-support-email',
@@ -16,7 +17,7 @@ export class EmailComponent {
   message: string = '';
   emSub!: Subscription;
 
-  constructor(private emailService: EmailService) {}
+  constructor(private emailService: EmailService, private router: Router) {}
 
   sendEmail(): void {
     if (this.subject && this.message) {
@@ -31,5 +32,9 @@ export class EmailComponent {
     } else {
       console.error('Subject and message are required.');
     }
+  }
+
+  onBack(): void {
+    this.router.navigate(['/user-page']);
   }
 }

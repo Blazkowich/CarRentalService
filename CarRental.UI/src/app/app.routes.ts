@@ -7,6 +7,7 @@ import { VehicleDetailComponent } from './main-page/page-details/page-details.co
 import { EmailComponent } from './support-pages/support-email/support-email.component';
 import { ChatComponent } from './support-pages/support-chat/support-chat.component';
 import { UserPageComponent } from './user/user-page/user-page.component';
+import { AuthGuard } from './authGuard/auth.guard';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -17,13 +18,13 @@ export const routes: Routes = [
     component: VehicleDetailComponent,
   },
   {
-    path: 'email', component: EmailComponent
+    path: 'email', component: EmailComponent, canActivate: [AuthGuard]
   },
   {
-    path: 'chat', component: ChatComponent
+    path: 'chat', component: ChatComponent, canActivate: [AuthGuard]
   },
   {
-    path: 'user-page', component: UserPageComponent
+    path: 'user-page', component: UserPageComponent, canActivate: [AuthGuard]
   },
   { path: '', redirectTo: '/main-page', pathMatch: 'full' }
 ];

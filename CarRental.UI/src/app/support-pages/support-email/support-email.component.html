@@ -5,4 +5,12 @@
     <textarea placeholder="Message" [(ngModel)]="message" name="message"></textarea>
     <button (click)="sendEmail()">Send Email</button>
   </div>
+  <br/>
+  <div class="card-body">
+    <button class="btn btn-outline-secondary"
+            style="width: 100px"
+            (click)="onBack()">
+      <i class="fa fa-chevron-left"></i> Back
+    </button>
+  </div>
 </div>

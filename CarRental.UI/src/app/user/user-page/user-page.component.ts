@@ -5,13 +5,14 @@ import { VehicleService } from '../../services/vehicle.service';
 import { AuthService } from '../../services/auth.service';
 import { UserPageService } from '../../services/user-page.service';
 import { CommonModule, formatDate } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-user-page',
   templateUrl: './user-page.component.html',
   styleUrls: ['./user-page.component.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, RouterModule]
 })
 export class UserPageComponent implements OnInit {
   title = 'Cabinet';

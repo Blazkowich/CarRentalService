@@ -4,6 +4,7 @@ import { ChatService } from '../../services/chat.service';
 import { FormsModule } from '@angular/forms';
 import { IChat } from '../../models/chat.model';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-support-chat',
@@ -18,7 +19,7 @@ export class ChatComponent {
   messages: IChat[] = [];
   chatSub!: Subscription;
 
-  constructor(private chatService: ChatService) {}
+  constructor(private chatService: ChatService, private router: Router) {}
 
   sendMessage(): void {
     if (this.message) {
@@ -52,5 +53,9 @@ export class ChatComponent {
     if (this.chatSub) {
       this.chatSub.unsubscribe();
     }
+  }
+
+  onBack(): void {
+    this.router.navigate(['/user-page']);
   }
 }
