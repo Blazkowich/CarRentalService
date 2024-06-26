@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
 
@@ -14,11 +14,26 @@ import { AuthService } from './services/auth.service';
     RouterModule,
   ]
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'CarRental Rental Service';
   userName: string | null = null;
 
   constructor(private authService: AuthService) { }
+
+  ngOnInit() {
+    this.authService.startLogoutTimer();
+  }
+
+  @HostListener('window:mousemove')
+  @HostListener('window:keypress')
+  @HostListener('window:click')
+  @HostListener('window:scroll')
+  @HostListener('window:touchstart')
+  @HostListener('window:touchmove')
+  @HostListener('window:keydown')
+  onUserActivity() {
+    this.authService.resetLogoutTimer();
+  }
 
   fetchName(): string | null {
     return this.authService.getName();
