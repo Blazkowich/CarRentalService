@@ -55,7 +55,6 @@ export class ChatComponent implements OnInit {
         const loadSub = this.chatService.getChatMessages(this.userId).subscribe(
           (messages) => {
             this.messages = messages;
-            console.log(this.messages);
           },
           (error) => {
             console.error('Load messages error:', error);

@@ -8,4 +8,5 @@ export interface IUser {
   Address: string;
   Password: string;
   Token: string;
+  Role: string;
 }

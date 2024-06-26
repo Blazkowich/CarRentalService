@@ -8,6 +8,7 @@ export class AuthService {
   private tokenKey = 'authToken';
   private userKey = 'firstName';
   private IdKey = 'userId';
+  private roleKey = 'role';
   private logoutTimeout: any;
 
   constructor(private router: Router) { }
@@ -15,11 +16,13 @@ export class AuthService {
   setTokenAndName(
     token: string,
     firstName: string,
-    userId: string
+    userId: string,
+    role: string
     ): void {
     localStorage.setItem(this.tokenKey, token);
     localStorage.setItem(this.userKey, firstName);
     localStorage.setItem(this.IdKey, userId);
+    localStorage.setItem(this.roleKey, role);
     this.startLogoutTimer();
   }
 
@@ -35,6 +38,10 @@ export class AuthService {
     return localStorage.getItem(this.IdKey);
   }
 
+  getRole(): string | null {
+    return localStorage.getItem(this.roleKey);
+  }
+
   clearToken(): void {
     localStorage.removeItem(this.tokenKey);
   }
@@ -47,6 +54,7 @@ export class AuthService {
     this.clearToken();
     this.clearUserName();
     this.clearUserId();
+    this.clearRole();
     this.router.navigate(['/login']);
   }
 
@@ -66,6 +74,10 @@ export class AuthService {
     localStorage.removeItem(this.IdKey);
   }
 
+  clearRole(): void {
+    localStorage.removeItem(this.roleKey);
+  }
+
   startLogoutTimer(): void {
     this.clearLogoutTimer();
     this.logoutTimeout = setTimeout(() => {
@@ -81,5 +93,20 @@ export class AuthService {
 
   resetLogoutTimer(): void {
     this.startLogoutTimer();
+  }
+
+  isAdmin(): boolean {
+    const userRole = this.getCurrentUserRole();
+    return userRole && userRole === "Admin";
+  }
+
+  isUser(): boolean {
+    const userRole = this.getCurrentUserRole();
+    return userRole && userRole === "User";
+  }
+
+  getCurrentUserRole(): any {
+    const userRole = localStorage.getItem(this.roleKey);
+    return userRole;
   }
 }

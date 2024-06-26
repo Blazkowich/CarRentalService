@@ -10,29 +10,65 @@ import { UserPageComponent } from './user/user-page/user-page.component';
 import { AuthGuard } from './authGuard/auth.guard';
 import { HistoryRentingPageComponent } from './user/user-page/history-page/history-page.component';
 import { ActiveRentingPageComponent } from './user/user-page/active-page/active-page.component';
+import { AdminPageComponent } from './user/admin-page/admin-page.component';
+import { AdminGuard } from './authGuard/admin.guard';
+import { MainGuard } from './authGuard/main.guard';
+import { LoginRegisterGuard } from './authGuard/login-register.guard';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'main-page', component: MainPageComponent },
+  {
+    path: 'main-page',
+    component: MainPageComponent
+  },
   {
     path: 'page-details/:id',
     component: VehicleDetailComponent,
   },
   {
-    path: 'email', component: EmailComponent, canActivate: [AuthGuard]
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [LoginRegisterGuard]
   },
   {
-    path: 'chat', component: ChatComponent, canActivate: [AuthGuard]
+    path: 'register',
+    component: RegisterComponent,
+    canActivate: [LoginRegisterGuard]
+  },
+
+  {
+    path: 'email',
+    component: EmailComponent,
+    canActivate: [AuthGuard]
   },
   {
-    path: 'user-paage', component: UserPageComponent, canActivate: [AuthGuard]
+    path: 'chat',
+    component: ChatComponent,
+    canActivate: [AuthGuard]
   },
   {
-    path: 'history', component: HistoryRentingPageComponent, canActivate: [AuthGuard]
+    path: 'user-page',
+    component: UserPageComponent,
+    canActivate: [AuthGuard]
   },
   {
-    path: 'active', component: ActiveRentingPageComponent, canActivate: [AuthGuard]
+    path: 'admin-page',
+    component: AdminPageComponent,
+    canActivate: [AdminGuard]
+  },
+  {
+    path: 'history',
+    component: HistoryRentingPageComponent,
+    canActivate: [MainGuard]
+  },
+  {
+    path: 'active',
+    component: ActiveRentingPageComponent,
+    canActivate: [MainGuard]
+  },
+  {
+    path: 'admin-chat',
+    component: AdminPageComponent,
+    canActivate: [AdminGuard]
   },
   { path: '', redirectTo: '/main-page', pathMatch: 'full' }
 ];

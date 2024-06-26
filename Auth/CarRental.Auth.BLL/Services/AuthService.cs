@@ -25,7 +25,7 @@ internal class AuthService(
     private readonly ITokenService _tokenService = tokenService;
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
     private readonly IMapper _mapper = mapper;
-    public async Task<(string Token, string FirstName, string Id)> Login(User user)
+    public async Task<(string Token, string FirstName, string Id, string Role)> Login(User user)
     {
         var userEntity = await GetUserByNameAsync(user.Name);
         ValidateUserPassword(user, userEntity);
@@ -38,9 +38,11 @@ internal class AuthService(
 
         var refreshedToken = SetRefreshToken(userEntity, refreshToken);
 
+        var userRole = await _unitOfWork.RolesRepository.GetRolesByUserIdAsync(userEntity.Id);
+
         await _unitOfWork.SaveAsync();
 
-        return (refreshedToken, userEntity.FirstName + " " + userEntity.LastName, userEntity.Id.ToString() );
+        return (refreshedToken, userEntity.FirstName + " " + userEntity.LastName, userEntity.Id.ToString(), userRole.FirstOrDefault()!.Name);
     }
 
     public async Task<(User UserEntity, string Token)> Register(User user)

@@ -66,5 +66,11 @@ namespace CarRental.Support.Chat.Services
 
             return messages;
         }
+
+        public async Task<List<User>> GetUsersWhoMessagedAdminAsync()
+        {
+            var users = await _chatMessageService.GetUsersWhoMessagedAdminAsync();
+            return users;
+        }
     }
 }

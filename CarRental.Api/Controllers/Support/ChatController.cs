@@ -33,6 +33,14 @@ public class ChatController(
         return Ok(allMessages);
     }
 
+    [Authorize(Roles = "Admin")]
+    [HttpGet("getUsersByMessages")]
+    public async Task<IActionResult> GetUsersWhoMessagedAdmin()
+    {
+        var users = await _chatService.GetUsersWhoMessagedAdminAsync();
+        return Ok(users);
+    }
+
     // იუზერის შეზღუდვა სხვა მესიჯების ნახვაზე როლების დახმარებით
     // დამატებითი მეთოდების დამატება
 }

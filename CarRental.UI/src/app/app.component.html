@@ -15,6 +15,9 @@
         <div *ngIf="showUserOptions" class="user-options">
           <button class="btn btn-info" [routerLink]="['/history']">History</button>
           <button class="btn btn-warning ml-2" [routerLink]="['/active']">Active</button>
+          <button
+          *ngIf="isAdmin()"
+          class="btn btn-success ml-2" [routerLink]="['/admin-chat']">Chat</button>
         </div>
       </div>
       <button class="btn btn-danger ml-2" (click)="logout()">LogOut</button>

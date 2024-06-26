@@ -32,7 +32,8 @@ export class AppComponent implements OnInit{
   }
 
   onClickOutside(event: MouseEvent): void {
-    if (this.showUserOptions && !this.userOptionsContainer.nativeElement.contains(event.target)) {
+    if (this.showUserOptions &&
+      !this.userOptionsContainer.nativeElement.contains(event.target)) {
       this.showUserOptions = false;
     }
   }
@@ -54,6 +55,10 @@ export class AppComponent implements OnInit{
 
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
+  }
+
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
   }
 
   logout(): void {

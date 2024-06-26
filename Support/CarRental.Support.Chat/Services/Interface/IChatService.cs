@@ -1,4 +1,5 @@
-﻿using CarRental.Support.Chat.Model;
+﻿using CarRental.Auth.BLL.Models;
+using CarRental.Support.Chat.Model;
 using System.Security.Claims;
 
 namespace CarRental.Support.Chat.Services.Interface;
@@ -11,4 +12,6 @@ public interface IChatService
     Task<IEnumerable<string>> GetChatMessagesAsync(string userId);
 
     Task<IEnumerable<ChatMessage>> GetAllMessagesAsync();
+
+    Task<List<User>> GetUsersWhoMessagedAdminAsync();
 }

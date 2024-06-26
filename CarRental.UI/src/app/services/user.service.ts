@@ -29,7 +29,7 @@ export class UserService {
         catchError(this.errorHanlde.handleError),
         tap((response) => {
           if (response && response.Token) {
-            this.authService.setTokenAndName(response.Token, response.FirstName, response.Id);
+            this.authService.setTokenAndName(response.Token, response.FirstName, response.Id, response.Role);
           }
         })
       );
