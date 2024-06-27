@@ -29,7 +29,6 @@ export class AppComponent implements OnInit, OnDestroy{
 
   constructor(private authService: AuthService, private chatService: ChatService) {
     this.userId = localStorage.getItem('userId')
-    console.log(this.userId);
     if (this.isLoggedIn()) {
       this.startNotificationInterval();
     }
@@ -51,7 +50,6 @@ export class AppComponent implements OnInit, OnDestroy{
       this.chatService.getNotificationCount(this.userId!).subscribe(
         (count: number) => {
           this.notificationCount = count;
-          console.log('Notification Count:', this.notificationCount);
         },
         (error) => {
           console.error('Error fetching notification count:', error);

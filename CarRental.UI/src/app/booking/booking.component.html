@@ -1,0 +1,18 @@
+<div class='card'>
+  <div class='card-body'>
+    <div>
+      <label for="startDate">Start Date:</label>
+      <input type="date" id="startDate" [(ngModel)]="startDate">
+    </div>
+    <div>
+      <label for="duration">Duration (days):</label>
+      <input type="number" id="duration" [(ngModel)]="duration">
+    </div>
+    <div>
+      <button type="button" class="btn btn-primary" (click)="reserveVehicle()">Reserve Vehicle</button>
+      <button type="button" class="btn btn-primary" (click)="bookVehicle()">Book Vehicle</button>
+      <button type="button" class="btn btn-danger" (click)="cancelBooking()">Cancel Booking</button>
+    </div>
+
+  </div>
+</div>

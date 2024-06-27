@@ -7,6 +7,8 @@ import { Router, RouterModule } from '@angular/router';
 import { AdminPageService } from '../../services/admin-page.service';
 import { IUser } from '../../models/user.model';
 import { IChat } from '../../models/chat.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from './confirmation/confirmation.component';
 
 @Component({
   selector: 'app-admin-page',
@@ -25,11 +27,69 @@ export class AdminPageComponent implements OnInit {
     private vehicleService: VehicleService,
     private authService: AuthService,
     private adminService: AdminPageService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
+    this.getVehicles();
     this.getUsersByMessages();
+  }
+
+  getVehicles(): void {
+    this.vehicleService.getVehicles().subscribe(
+      (vehicles: IVehicle[]) => {
+        this.vehicles = vehicles;
+      },
+      (error: any) => {
+        console.error('Error fetching vehicles:', error);
+      }
+    );
+  }
+
+  editVehicle(vehicle: IVehicle): void {
+    this.vehicleService.updateVehicle(vehicle).subscribe(
+      (updatedVehicle: IVehicle) => {
+        const index = this.vehicles.findIndex(v => v.Id === updatedVehicle.Id);
+        if (index !== -1) {
+          this.vehicles[index] = updatedVehicle;
+        }
+        console.log('Edited vehicle', updatedVehicle);
+      },
+      (error: any) => {
+        console.error('Error editing vehicle:', error);
+      }
+    );
+  }
+
+  addVehicle(vehicle: IVehicle): void {
+    this.vehicleService.addVehicle(vehicle).subscribe(
+      (newVehicle: IVehicle) => {
+        this.vehicles.push(newVehicle);
+        console.log('Added new vehicle', newVehicle);
+      },
+      (error: any) => {
+        console.error('Error adding vehicle:', error);
+      }
+    );
+  }
+
+  deleteVehicle(vehicleId: string): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.vehicleService.deleteVehicle(vehicleId).subscribe(
+          () => {
+            this.vehicles = this.vehicles.filter(v => v.Id !== vehicleId);
+            console.log('Deleted vehicle with ID', vehicleId);
+          },
+          (error: any) => {
+            console.error('Error deleting vehicle:', error);
+          }
+        );
+      }
+    });
   }
 
   getChatByUserId(userId: string): void {

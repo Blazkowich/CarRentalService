@@ -1,22 +1,65 @@
 <div class="card">
   <div class="card-body">
     <h1>{{ title }}</h1>
-    <div *ngFor="let user of users">
-    <div class="user-info">
-      <span>{{ user.FirstName }} {{ user.LastName }}</span>
-      <br/>
-      <br/>
-      <button class="btn btn-primary" (click)="getChatByUserId(user.Id)">View Chat</button>
+    <div class="card-body">
+      <div *ngFor="let user of users">
+        <div class="user-info">
+          <span>{{ user.FirstName }} {{ user.LastName }}</span>
+          <br />
+          <br />
+          <button class="btn btn-primary" (click)="getChatByUserId(user.Id)">View Chat</button>
+        </div>
+      </div>
     </div>
   </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <h1>Vehicle Manager</h1>
+    <button class="btn btn-primary" [routerLink]="['/add-vehicle']">Add Vehicle</button>
+    <table class="table" *ngIf="vehicles.length">
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Vehicle</th>
+          <th>Type</th>
+          <th>Reservation Type</th>
+          <th>Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vehicle of vehicles" class="align-items-center">
+          <td class="align-middle">
+            <img
+              [src]="vehicle.ImageUrl"
+              [alt]="vehicle.Name"
+              [style.width.px]="200"
+              [style.margin.px]="0"
+              class="img-fluid"
+            />
+          </td>
+          <td class="align-middle">
+            <a [routerLink]="['/page-details', vehicle.Id]">{{ vehicle.Name }}</a>
+          </td>
+          <td class="align-middle">{{ vehicle.Type }}</td>
+          <td class="align-middle">{{ vehicle.ReservationType }}</td>
+          <td class="align-middle">{{ vehicle.Price | currency: 'USD':'symbol':'1.2-2' }}</td>
+          <td class="align-middle">
+            <button class="btn btn-primary" [routerLink]="['/edit-vehicle', vehicle.Id]">Edit</button>
+            <button class="btn btn-danger" (click)="deleteVehicle(vehicle.Id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
 <footer class="card-footer text-center mt-3">
   <div class="card-body">
-    <button class="btn btn-outline-secondary"
-            style="width: 100px"
-            (click)="onBack()">
+    <button class="btn btn-outline-secondary" style="width: 100px" (click)="onBack()">
       <i class="fa fa-chevron-left"></i> Back
     </button>
   </div>
+</footer>

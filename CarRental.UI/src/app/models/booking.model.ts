@@ -10,4 +10,5 @@ export interface IBooking {
   TotalPrice: number;
   BookingCondition: string;
   vehicle: IVehicle;
+  duration: number;
 }

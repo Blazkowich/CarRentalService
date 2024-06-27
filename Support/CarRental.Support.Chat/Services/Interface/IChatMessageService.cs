@@ -1,6 +1,8 @@
 ﻿using CarRental.Auth.BLL.Models;
 using CarRental.Support.Chat.Model;
 
+#nullable enable
+
 namespace CarRental.Support.Chat.Services.Interface;
 
 public interface IChatMessageService

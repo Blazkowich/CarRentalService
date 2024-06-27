@@ -23,7 +23,7 @@
           <button class="btn btn-warning ml-2" [routerLink]="['/active']">Active</button>
           <ng-container *ngIf="isAdmin()">
             <button
-            class="btn btn-secondary ml-2" [routerLink]="['/admin-page']">Inbox</button>
+            class="btn btn-secondary ml-2" [routerLink]="['/admin-page']">Cabinet</button>
           </ng-container>
           <ng-container *ngIf="!isAdmin()">
             <button

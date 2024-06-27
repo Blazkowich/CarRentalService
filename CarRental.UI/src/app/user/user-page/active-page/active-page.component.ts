@@ -6,6 +6,9 @@ import { IBooking } from '../../../models/booking.model';
 import { VehicleService } from '../../../services/vehicle.service';
 import { AuthService } from '../../../services/auth.service';
 import { UserPageService } from '../../../services/user-page.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CancelConfirmationDialogComponent } from './confirmation-cancel/cancel-confirmation.component';
+import { BookingService } from '../../../services/booking.service';
 
 @Component({
   selector: 'app-active-renting-page',
@@ -27,7 +30,9 @@ export class ActiveRentingPageComponent implements OnInit {
     private vehicleService: VehicleService,
     private authService: AuthService,
     private userPageService: UserPageService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog,
+    private bookingService: BookingService
   ) {}
 
   ngOnInit(): void {
@@ -80,6 +85,25 @@ export class ActiveRentingPageComponent implements OnInit {
         console.error('Error fetching available vehicles:', error);
       }
     );
+  }
+
+  cancelVehicle(booking: IBooking): void {
+    const dialogRef = this.dialog.open(CancelConfirmationDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.bookingService.cancelBooking(booking).subscribe(
+          () => {
+            this.activeBookings = this.activeBookings.filter(b => b.Id !== booking.Id);
+            this.vehicles = this.vehicles.filter(v => v.Id !== booking.VehicleId);
+            console.log('Cancelled booking for vehicle ID', booking.VehicleId);
+          },
+          (error: any) => {
+            console.error('Error cancelling booking:', error);
+          }
+        );
+      }
+    });
   }
 
   isLoggedIn(): boolean {

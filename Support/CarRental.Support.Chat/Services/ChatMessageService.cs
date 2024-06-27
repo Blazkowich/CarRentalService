@@ -5,6 +5,8 @@ using CarRental.Support.Chat.Model;
 using CarRental.Support.Chat.Services.Interface;
 using MongoDB.Driver;
 
+#nullable enable
+
 namespace CarRental.Support.Chat.Services;
 
 public class ChatMessageService(ChatContext context, IUserService userService) : IChatMessageService

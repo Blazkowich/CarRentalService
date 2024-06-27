@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using CarRental.Api.ApiModels.Enum;
+using CarRental.Api.ApiModels.Request;
 using CarRental.Api.ApiModels.Response;
+using CarRental.BLL.Models;
 using CarRental.BLL.Models.Enum;
 using CarRental.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -64,6 +66,25 @@ public class VehicleController(IVehicleService vehicleService, IMapper mapper) :
         return _mapper.Map<List<VehicleResponseFull>>(getVehiclesByReservation);
     }
 
+    [HttpPost]
+    public async Task<VehicleResponseFull> AddVehicle([FromBody] VehicleRequest vehicle)
+    {
+        var newVehicle = await _vehicleService.AddVehicleAsync(_mapper.Map<Vehicle>(vehicle));
+        return _mapper.Map<VehicleResponseFull>(newVehicle);
+    }
+
+    [HttpPut]
+    public async Task<VehicleResponseFull> UpdateVehicle([FromBody] VehicleRequest vehicle)
+    {
+        var updatedVehicle = await _vehicleService.UpdateVehicleAsync(_mapper.Map<Vehicle>(vehicle));
+        return _mapper.Map<VehicleResponseFull>(updatedVehicle);
+    }
+
+    [HttpDelete]
+    public async Task DeleteVehicle([FromBody] VehicleRequest vehicle)
+    {
+        await _vehicleService.DeleteVehicleAsync(vehicle.Id);
+    }
     //add vehicle
 
     //update vehicle

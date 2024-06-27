@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationBookingDialogComponent } from '../booking/confirmation-booking/confirmation-booking.component';
 
 @Component({
   selector: 'app-main-page',
@@ -33,13 +35,31 @@ export class MainPageComponent implements OnInit, OnDestroy {
     return this._listFilter;
   }
 
+  openBookingDialog(vehicleId: string, vehicleName: string): void {
+    const dialogRef = this.dialog.open(ConfirmationBookingDialogComponent, {
+      width: '600px',
+      data: { vehicleId: vehicleId, vehicleName: vehicleName }
+    });
+
+    console.log(vehicleId, vehicleName);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+      }
+    });
+  }
+
   set listFilter(value: string) {
     this._listFilter = value.trim().toLocaleLowerCase();
     console.log('In setter', this._listFilter);
     this.filteredVehicles = this.performFilter(this._listFilter);
   }
 
-  constructor(private vehicleService: VehicleService, private authService: AuthService) { }
+  constructor(
+    private vehicleService: VehicleService,
+    private authService: AuthService,
+    public dialog: MatDialog
+    ) { }
 
   ngOnInit(): void {
     this.sub = this.vehicleService.getVehicles().subscribe({

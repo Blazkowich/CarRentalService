@@ -1,0 +1,25 @@
+<div class="card">
+  <h2 class="dialog-title">Booking Confirmation</h2>
+
+  <div class="dialog-content">
+    <div class="form-group">
+      <label for="vehicleName">Vehicle Name:</label>
+      <input type="text" id="vehicleName" class="form-control" disabled [value]="vehicleName">
+    </div>
+
+    <div class="form-group">
+      <label for="startDate">Start Date:</label>
+      <input type="datetime-local" id="startDate" class="form-control" [value]="formatDate(startDate)">
+    </div>
+
+    <div class="form-group">
+      <label for="duration">Duration (Days):</label>
+      <input type="number" id="duration" class="form-control" [(ngModel)]="duration">
+    </div>
+  </div>
+
+  <div class="dialog-actions">
+    <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="onConfirm()">Confirm</button>
+  </div>
+</div>

@@ -5,6 +5,7 @@ import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { IMAGE_CONFIG, NgOptimizedImage } from '@angular/common';
 import { AuthInterceptor } from './shared/auth.Interceptor';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,6 +17,6 @@ export const appConfig: ApplicationConfig = {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    }, provideAnimationsAsync(),
 ]
 };

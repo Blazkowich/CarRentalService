@@ -15,6 +15,9 @@ import { AdminGuard } from './authGuard/admin.guard';
 import { MainGuard } from './authGuard/main.guard';
 import { LoginRegisterGuard } from './authGuard/login-register.guard';
 import { AdminChatComponent } from './support-pages/support-chat/adminChat/admin-support-chat.component';
+import { AddVehiclePageComponent } from './user/admin-page/add-page/add-vehicle.component';
+import { EditVehiclePageComponent } from './user/admin-page/edit-page/edit-vehicle.component';
+import { BookingComponent } from './booking/booking.component';
 
 export const routes: Routes = [
   {
@@ -70,6 +73,21 @@ export const routes: Routes = [
     path: 'active',
     component: ActiveRentingPageComponent,
     canActivate: [MainGuard]
+  },
+  {
+    path: 'add-vehicle',
+    component: AddVehiclePageComponent,
+    canActivate: [AdminGuard]
+  },
+  {
+    path: 'edit-vehicle/:id',
+    component: EditVehiclePageComponent,
+    canActivate: [AdminGuard]
+  },
+  {
+    path: 'booking/:id',
+    component: BookingComponent,
+    canActivate: [AuthGuard]
   },
   { path: '', redirectTo: '/main-page', pathMatch: 'full' }
 ];
