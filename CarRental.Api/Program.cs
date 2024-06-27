@@ -185,7 +185,6 @@ public class Program
         app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
         app.UseHttpsRedirection();
-        app.UseStaticFiles();
         app.UseRouting();
 
         app.MapHub<ChatService>("/chat");
@@ -203,15 +202,6 @@ public class Program
             scheduler => scheduler.UpdateReservationsAsync(),
             Cron.Hourly);
 
-        app.UseSpa(spa =>
-        {
-            spa.Options.SourcePath = "CarRental.UI";
-
-            if (app.Environment.IsDevelopment())
-            {
-                spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
-            }
-        });
         app.Run();
 
     }
