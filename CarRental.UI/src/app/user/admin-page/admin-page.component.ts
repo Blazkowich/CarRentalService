@@ -7,7 +7,7 @@ import { AdminPageService } from '../../services/admin-page.service';
 import { IUser } from '../../models/user.model';
 import { IChat } from '../../models/chat.model';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from '../../confirmation-popup-window/removing-vehicle/confirmation.component';
+import { ConfirmationDialogComponent } from '../../confirmation-popup-window/removing-cancel-confirmation/confirmation.component';
 
 @Component({
   selector: 'app-admin-page',
@@ -73,7 +73,9 @@ export class AdminPageComponent implements OnInit {
   }
 
   deleteVehicle(vehicleId: string): void {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { message: "Do you really want to delete vehicle?" }
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -89,6 +91,7 @@ export class AdminPageComponent implements OnInit {
       }
     });
   }
+
 
   getChatByUserId(userId: string): void {
     this.adminService.getChatByUserId(userId).subscribe(

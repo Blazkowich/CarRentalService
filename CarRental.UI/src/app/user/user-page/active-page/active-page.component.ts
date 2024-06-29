@@ -6,8 +6,8 @@ import { IBooking } from '../../../models/booking.model';
 import { VehicleService } from '../../../services/vehicle.service';
 import { AuthService } from '../../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
-import { CancelConfirmationDialogComponent } from '../../../confirmation-popup-window/booking-cancel/cancel-confirmation.component';
 import { BookingService } from '../../../services/booking.service';
+import { ConfirmationDialogComponent } from '../../../confirmation-popup-window/removing-cancel-confirmation/confirmation.component';
 
 @Component({
   selector: 'app-active-renting-page',
@@ -86,7 +86,9 @@ export class ActiveRentingPageComponent implements OnInit {
   }
 
   cancelBookingOfVehicle(booking: IBooking): void {
-    const dialogRef = this.dialog.open(CancelConfirmationDialogComponent);
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { booking: booking, message: "Do you really want to cancel booking?" }
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
