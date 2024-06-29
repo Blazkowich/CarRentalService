@@ -58,13 +58,13 @@ namespace CarRental.Support.Chat.Services
         {
             var user = await _userService.GetUserByIdAsync(Guid.Parse(userId))
                 ?? throw new InvalidOperationException($"User with ID '{userId}' not found.");
-            
+
             var adminName = currentUser.FindFirst(ClaimTypes.Name)?.Value
                ?? throw new InvalidOperationException("Customer Id not found in claims.");
 
             var admin = await _userService.GetUserByUserNameAsync(adminName)
                 ?? throw new InvalidOperationException($"User with name '{adminName}' not found.");
-            
+
             var userConnection = new User
             {
                 Id = user.Id,
@@ -124,7 +124,7 @@ namespace CarRental.Support.Chat.Services
             var customer = await _userService.GetUserByUserNameAsync(customerName)
                 ?? throw new InvalidOperationException($"User with name '{customerName}' not found.");
 
-            var message = await _chatMessageService.GetMessageByIdAsync(messageId) ?? 
+            var message = await _chatMessageService.GetMessageByIdAsync(messageId) ??
                 throw new InvalidOperationException($"Message with ID '{messageId}' not found.");
             if (customer.Id != message.SenderId)
             {

@@ -1,86 +1,71 @@
-﻿using CarRental.Shared.CustomExceptions;
-using AutoMapper;
-using CarRental.Api.ApiModels.Auth.Request;
-using CarRental.Api.ApiModels.Auth.Response;
-using CarRental.Auth.BLL.Models;
-using CarRental.Auth.BLL.Services.Interfaces;
+﻿using CarRental.Service.Mapper.DTO.Auth.Request;
+using CarRental.Service.Mapper.DTO.Auth.Response;
+using CarRental.Service.Mapper.Services.Interfaces;
+using CarRental.Shared.CustomExceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CarRental.Api.Controllers.UserRole;
-
-[ApiController]
-[Route("users")]
-[Authorize(Roles = "Admin")]
-public class UserController(IUserService userService, IMapper mapper) : ControllerBase
+namespace CarRental.Api.Controllers.UserRole
 {
-    private readonly IUserService _userService = userService;
-    private readonly IMapper _mapper = mapper;
-
-    [HttpGet]
-    public async Task<List<UserResponse>> GetAllUsers()
+    [ApiController]
+    [Route("users")]
+    [Authorize(Roles = "Admin")]
+    public class UserController(IUserMapped userMapped) : ControllerBase
     {
-        var response = await _userService.GetAllUsersAsync();
+        private readonly IUserMapped _userMapped = userMapped;
 
-        return _mapper.Map<List<UserResponse>>(response);
-    }
-
-    [HttpGet("{id}")]
-    public async Task<UserResponse> GetUserById(Guid id)
-    {
-        var response = await _userService.GetUserByIdAsync(id);
-
-        return _mapper.Map<UserResponse>(response);
-    }
-
-    [HttpGet("byName/{name}")]
-    public async Task<Guid> GetUserIdByName(string name)
-    {
-        var response = await _userService.GetUserByUserNameAsync(name);
-
-        return Guid.Parse(response.Id);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> AddUser(CreateUserRequest user)
-    {
-        if (!ModelState.IsValid)
+        [HttpGet]
+        public async Task<List<UserResponse>> GetAllUsers()
         {
-            throw new BadRequestException("The provided model is not valid.");
+            return await _userMapped.GetAllUsersAsync();
         }
 
-        var result = await _userService.AddUserAsync(_mapper.Map<User>(user));
-
-        return Ok(result);
-    }
-
-    [HttpDelete]
-    public async Task<IActionResult> DeleteUser(Guid userId)
-    {
-        await _userService.DeleteUserAsync(userId);
-
-        return Ok();
-    }
-
-    [HttpPut]
-    public async Task<UserResponse> UpdateUser(UpdateUserRequest user)
-    {
-        if (!ModelState.IsValid)
+        [HttpGet("{id}")]
+        public async Task<UserResponse> GetUserById(Guid id)
         {
-            throw new BadRequestException("The provided model is not valid.");
+            return await _userMapped.GetUserByIdAsync(id);
         }
 
-        var result = await _userService.UpdateUserAsync(_mapper.Map<User>(user));
+        [HttpGet("byName/{name}")]
+        public async Task<Guid> GetUserIdByName(string name)
+        {
+            return await _userMapped.GetUserIdByNameAsync(name);
+        }
 
-        return _mapper.Map<UserResponse>(result);
-    }
+        [HttpPost]
+        public async Task<IActionResult> AddUser(CreateUserRequest user)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new BadRequestException("The provided model is not valid.");
+            }
 
-    [HttpGet("{id}/roles")]
-    public async Task<List<RolesResponse>> GetRolesByUserId(Guid id)
-    {
-        var result = await _userService.GetRolesByUserIdAsync(id);
+            var result = await _userMapped.AddUserAsync(user);
+            return Ok(result);
+        }
 
-        return _mapper.Map<List<RolesResponse>>(result);
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUser(Guid userId)
+        {
+            await _userMapped.DeleteUserAsync(userId);
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<UserResponse> UpdateUser(UpdateUserRequest user)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new BadRequestException("The provided model is not valid.");
+            }
+
+            return await _userMapped.UpdateUserAsync(user);
+        }
+
+        [HttpGet("{id}/roles")]
+        public async Task<List<RolesResponse>> GetRolesByUserId(Guid id)
+        {
+            return await _userMapped.GetRolesByUserIdAsync(id);
+        }
     }
 }
-

@@ -1,5 +1,5 @@
-﻿using CarRental.Shared.CustomExceptions;
-using CarRental.Auth.BLL.Services.Interfaces;
+﻿using CarRental.Auth.BLL.Services.Interfaces;
+using CarRental.Shared.CustomExceptions;
 using CarRental.Support.Email.Services.Interface;
 using System.Net;
 using System.Net.Mail;

@@ -1,5 +1,4 @@
-﻿using CarRental.Shared.CustomExceptions;
-using AutoMapper;
+﻿using AutoMapper;
 using CarRental.Auth.BLL.Services.Interfaces;
 using CarRental.BLL.Models;
 using CarRental.BLL.Models.Enum;
@@ -7,6 +6,7 @@ using CarRental.BLL.Services.Interfaces;
 using CarRental.DAL.Context.Entities;
 using CarRental.DAL.Context.Entities.Enum;
 using CarRental.DAL.Repositories.RentalUnitOfWork;
+using CarRental.Shared.CustomExceptions;
 using System.Security.Claims;
 
 namespace CarRental.BLL.Services;
@@ -164,7 +164,7 @@ internal class BookingService(
     {
         var bookings = await _rentalUnitOfWork.BookingsRepository.GetBookingsByUserIdAsync(userId);
         var activeBookings = bookings
-            .Where(b => 
+            .Where(b =>
                 b.BookingCondition == BookingTypeDAL.Active &&
                 b.CustomerId == userId
             );

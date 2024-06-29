@@ -1,8 +1,5 @@
-﻿using AutoMapper;
-using CarRental.Api.ApiModels.Auth.Request;
-using CarRental.Api.ApiModels.Auth.Response;
-using CarRental.Auth.BLL.Models;
-using CarRental.Auth.BLL.Services.Interfaces;
+﻿using CarRental.Service.Mapper.DTO.Auth.Request;
+using CarRental.Service.Mapper.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +7,9 @@ namespace CarRental.Api.Controllers.Auth;
 
 [ApiController]
 [Route("auth")]
-public class AuthController(IAuthService authService, IMapper mapper) : ControllerBase
+public class AuthController(IAuthMapped authService) : ControllerBase
 {
-    private readonly IAuthService _authService = authService;
-    private readonly IMapper _mapper = mapper;
+    private readonly IAuthMapped _authService = authService;
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginUserRequest user)
@@ -23,9 +19,9 @@ public class AuthController(IAuthService authService, IMapper mapper) : Controll
             return BadRequest();
         }
 
-        var (Token, FirstName, Id, Role) = await _authService.Login(_mapper.Map<User>(user));
+        var (Token, FirstName, Id, Role) = await _authService.LoginUserAsync(user);
 
-        return Ok(new { Token, FirstName, Id , Role});
+        return Ok(new { Token, FirstName, Id, Role });
     }
 
     [HttpPost("register")]
@@ -36,17 +32,16 @@ public class AuthController(IAuthService authService, IMapper mapper) : Controll
             return BadRequest(ModelState);
         }
 
-        var user = _mapper.Map<User>(userRequest);
-        var (userEntity, token) = await _authService.Register(user);
+        var (userEntity, token) = await _authService.RegisterUserAsync(userRequest);
 
-        return Ok(new { User = _mapper.Map<UserResponse>(userEntity), Token = token });
+        return Ok(new { User = userEntity, Token = token });
     }
 
     [Authorize]
     [HttpPost("logout")]
     public async Task<IActionResult> LogOut()
     {
-        await _authService.LogOut(HttpContext.User);
+        await _authService.LogOutUserAsync(HttpContext.User);
 
         return Ok(new { message = "Successfully logged out." });
     }

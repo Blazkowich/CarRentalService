@@ -22,9 +22,9 @@ public class ChatMessageService(ChatContext context, IUserService userService) :
     public async Task<List<ChatMessage>> GetMessages(string userId)
     {
         var result = await _chatMessages
-            .Find(m =>m.ReceiverId == userId ||
+            .Find(m => m.ReceiverId == userId ||
             m.SenderId == userId).ToListAsync();
-        return result;    
+        return result;
     }
 
     public async Task<List<User>> GetUsersWhoMessagedAdminAsync()

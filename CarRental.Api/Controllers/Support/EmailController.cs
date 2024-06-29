@@ -1,5 +1,5 @@
-﻿using CarRental.Api.ApiModels.Request;
-using CarRental.Support.Email.Services.Interface;
+﻿using CarRental.Service.Mapper.DTO.Request;
+using CarRental.Service.Mapper.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,15 +8,14 @@ namespace CarRental.Api.Controllers.Support;
 [ApiController]
 [Route("email")]
 [Authorize]
-public class EmailController(IEmailService emailService) : ControllerBase
+public class EmailController(IEmailMapped emailMapped) : ControllerBase
 {
-    private readonly IEmailService _emailService = emailService;
+    private readonly IEmailMapped _emailMapped = emailMapped;
 
     [HttpPost("send")]
     public async Task<IActionResult> SendEmailToSupport([FromBody] EmailRequest email)
     {
-        await _emailService.SendEmailAsync(email.Subject, email.Message, HttpContext.User);
-
+        await _emailMapped.SendEmailAsync(email.Subject, email.Message, HttpContext.User);
         return Ok();
     }
 }

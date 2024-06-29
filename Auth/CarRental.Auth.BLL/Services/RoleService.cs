@@ -1,10 +1,10 @@
-﻿using CarRental.Shared.CustomExceptions;
-using AutoMapper;
+﻿using AutoMapper;
 using CarRental.Auth.BLL.Models;
 using CarRental.Auth.BLL.Services.Interfaces;
 using CarRental.Auth.DAL.Context.Entities;
 using CarRental.Auth.DAL.Repositories.AuthUnitOfWork;
 using CarRental.DAL.Common.Paging;
+using CarRental.Shared.CustomExceptions;
 
 namespace CarRental.Auth.BLL.Services;
 

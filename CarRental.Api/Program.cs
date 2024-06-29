@@ -1,18 +1,9 @@
+using CarRental.BLL.Services;
+using CarRental.Service.Mapper.DependencyInjections;
 using CarRental.Shared.CustomExceptions;
 using CarRental.Shared.Extensions;
 using CarRental.Shared.Middleware;
-using CarRental.Api.ApiAutoMapper;
-using CarRental.Api.ApiAutoMapper.Auth;
-using CarRental.Auth.BLL.AutoMapper;
-using CarRental.Auth.BLL.DependencyInjections;
-using CarRental.Auth.DAL.DependencyInjections;
-using CarRental.BLL.AutoMapper;
-using CarRental.BLL.DependencyInjections;
-using CarRental.BLL.Services;
-using CarRental.DAL.DependencyInjections;
-using CarRental.Support.Chat.DependencyInjection;
 using CarRental.Support.Chat.Services;
-using CarRental.Support.Email.DependencyInjection;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
@@ -24,8 +15,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Reflection;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace CarRental.Api;
 
@@ -83,7 +74,7 @@ public class Program
         {
             options.AddDefaultPolicy(opt =>
             {
-                opt.WithOrigins(builder.Configuration.GetSection("ApiUrl").Get<string>()) 
+                opt.WithOrigins(builder.Configuration.GetSection("ApiUrl").Get<string>())
                        .AllowAnyHeader()
                        .AllowAnyMethod()
                        .AllowCredentials();
@@ -91,20 +82,7 @@ public class Program
         });
 
 
-        builder.Services.AddAutoMapper(typeof(AutomapperProfile));
-        builder.Services.AddAutoMapper(typeof(AutomapperProfileBLL));
-        builder.Services.AddAutoMapper(typeof(AuthMapperBLL));
-        builder.Services.AddAutoMapper(typeof(AuthApiAutoMapper));
-
-        builder.Services.AddDALRepositories(builder.Configuration);
-        builder.Services.AddAuthDALRepositories(builder.Configuration);
-
-        builder.Services.AddBLLServices();
-        builder.Services.AddAuthBLLServices();
-
-        builder.Services.AddEmailBLLServices();
-
-        builder.Services.AddSupportChatBLLServices();
+        builder.Services.AddProjectServices(builder.Configuration);
 
         builder.Services.AddControllers().AddJsonOptions(options =>
         {
