@@ -8,7 +8,7 @@ using CarRental.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CarRental.Api.Controllers;
+namespace CarRental.Api.Controllers.Renting;
 
 [ApiController]
 [Route("vehicles")]

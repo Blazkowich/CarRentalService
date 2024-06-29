@@ -7,7 +7,7 @@ using CarRental.Auth.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CarRental.Api.Controllers.Auth;
+namespace CarRental.Api.Controllers.UserRole;
 
 [ApiController]
 [Route("roles")]
