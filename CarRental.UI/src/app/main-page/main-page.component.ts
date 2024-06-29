@@ -41,8 +41,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
       data: { vehicleId: vehicleId, vehicleName: vehicleName }
     });
 
-    console.log(vehicleId, vehicleName);
-
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
       }
@@ -51,7 +49,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
   set listFilter(value: string) {
     this._listFilter = value.trim().toLocaleLowerCase();
-    console.log('In setter', this._listFilter);
     this.filteredVehicles = this.performFilter(this._listFilter);
   }
 

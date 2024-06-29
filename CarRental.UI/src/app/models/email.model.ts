@@ -1,4 +1,4 @@
 export interface IEmail{
-  Subject: string;
-  Message: string;
+  subject: string;
+  message: string;
 }

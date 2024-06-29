@@ -1,18 +1,25 @@
 import { Component, Inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import { DatePickerFormComponent } from '../../date-picker-form/date-picker-form.component';
 
 @Component({
   selector: 'app-confirmation-dialog',
   templateUrl: './confirmation-booking.component.html',
   styleUrls: ['./confirmation-booking.component.css'],
   standalone: true,
-  imports: [MatDialogContent, MatDialogActions, FormsModule]
+  imports: [
+    MatDialogContent,
+    MatDialogActions,
+    FormsModule,
+    ReactiveFormsModule,
+    DatePickerFormComponent
+  ]
 })
 export class ConfirmationBookingDialogComponent {
-  startDate: Date = new Date();
-  duration: number = 1;
   vehicleName: string | null = null;
+  duration: number = 1;
+  startDate: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmationBookingDialogComponent>,
@@ -29,12 +36,7 @@ export class ConfirmationBookingDialogComponent {
     this.dialogRef.close({ startDate: this.startDate, duration: this.duration });
   }
 
-  formatDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const day = ('0' + date.getDate()).slice(-2);
-    const hours = ('0' + date.getHours()).slice(-2);
-    const minutes = ('0' + date.getMinutes()).slice(-2);
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  onDateChange(formattedDate: string): void {
+    this.startDate = formattedDate;
   }
 }

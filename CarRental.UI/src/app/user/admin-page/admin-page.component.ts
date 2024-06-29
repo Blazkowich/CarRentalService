@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IVehicle } from '../../models/vehicle.model';
 import { VehicleService } from '../../services/vehicle.service';
-import { AuthService } from '../../services/auth.service';
-import { CommonModule, formatDate } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AdminPageService } from '../../services/admin-page.service';
 import { IUser } from '../../models/user.model';
@@ -25,7 +24,6 @@ export class AdminPageComponent implements OnInit {
 
   constructor(
     private vehicleService: VehicleService,
-    private authService: AuthService,
     private adminService: AdminPageService,
     private router: Router,
     private dialog: MatDialog

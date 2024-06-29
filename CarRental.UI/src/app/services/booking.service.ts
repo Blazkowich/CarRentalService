@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable, catchError, map } from "rxjs";
+import { Observable, catchError, map, tap } from "rxjs";
 import { IBooking } from "../models/booking.model";
 import { environment } from "../../environments/environment";
-import { mapBookingApiToApp } from "../shared/mappers/booking.mapper";
 import { ErrorHandleService } from "../shared/error.handle";
 
 @Injectable({
@@ -31,7 +30,6 @@ export class BookingService {
   getBookingHistory(userId: string): Observable<IBooking[]> {
     const url = `${this.apiUrl}/bookingHistoryByUser/${userId}`;
     return this.http.get<IBooking[]>(url).pipe(
-      map((response: IBooking[]) => response.map(mapBookingApiToApp)),
       catchError(this.errorHandler.handleError)
     );
   }
@@ -39,7 +37,13 @@ export class BookingService {
   getActiveBooking(userId: string): Observable<IBooking[]> {
     const url = `${this.apiUrl}/activeBookingByUser/${userId}`;
     return this.http.get<IBooking[]>(url).pipe(
-      map((response: IBooking[]) => response.map(mapBookingApiToApp)),
+      catchError(this.errorHandler.handleError)
+    );
+  }
+
+  getReservationTypes(): Observable<string[]> {
+    const url = `${this.apiUrl}/getReservationTypes`;
+    return this.http.get<string[]>(url).pipe(tap(x => console.log(x)),
       catchError(this.errorHandler.handleError)
     );
   }

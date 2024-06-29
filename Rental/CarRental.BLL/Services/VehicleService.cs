@@ -5,6 +5,8 @@ using CarRental.BLL.Services.Interfaces;
 using CarRental.DAL.Context.Entities;
 using CarRental.DAL.Context.Entities.Enum;
 using CarRental.DAL.Repositories.RentalUnitOfWork;
+using CarRental.Shared.CustomExceptions;
+using System.ComponentModel.DataAnnotations;
 
 namespace CarRental.BLL.Services;
 
@@ -75,5 +77,29 @@ public class VehicleService(IRentalUnitOfWork rentalUnitOfWork, IMapper mapper) 
     {
         var getAllAvailables = await _rentalUnitOfWork.VehiclesRepository.GetAllAvailableVehicles();
         return _mapper.Map<List<Vehicle>>(getAllAvailables);
+    }
+
+    public List<string> GetEnumToString(Type enumType)
+    {
+        if (!enumType.IsEnum)
+        {
+            throw new BadRequestException($"{enumType.Name} is not an enum type.");
+        }
+
+        var vehicleTypes = Enum.GetValues(enumType)
+                               .Cast<Enum>()
+                               .Select(v => GetDisplayName(v))
+                               .ToList();
+        return vehicleTypes;
+    }
+
+    private static string GetDisplayName(Enum value)
+    {
+        var displayAttribute = value.GetType()
+                                   .GetField(value.ToString())
+                                   .GetCustomAttributes(typeof(DisplayAttribute), false)
+                                   .SingleOrDefault() as DisplayAttribute;
+
+        return displayAttribute?.Name ?? value.ToString();
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { IVehicle } from './../../models/vehicle.model';
 import { CommonModule } from '@angular/common';
@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [CommonModule, RouterModule]
 })
-export class VehicleDetailComponent implements OnInit, OnDestroy {
+export class VehicleDetailComponent implements OnInit{
   pageTitle: string = "Vehicle Detail";
   errorMessage = '';
   vehicle: IVehicle | undefined;
@@ -44,11 +44,6 @@ export class VehicleDetailComponent implements OnInit, OnDestroy {
         this.errorMessage = 'Vehicle ID not found';
       }
     }
-
-  ngOnDestroy(): void {
-    this.vehSub.unsubscribe();
-    this.avSub.unsubscribe();
-  }
 
   getVehicle(id: string): void {
     this.vehicleDetailsService.getVehicle(id).subscribe({

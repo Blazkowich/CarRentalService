@@ -22,4 +22,6 @@ public interface IVehicleService
     Task<List<Vehicle>> GetAllAvailableVehiclesAsync();
 
     Task<List<Vehicle>> GetVehiclesByReservationTypeAsync(ReservationTypeBLL reservationType);
+
+    List<string> GetEnumToString(Type enumType);
 }

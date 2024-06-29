@@ -4,7 +4,6 @@ import { Observable, catchError, map, tap } from 'rxjs';
 import { IVehicle } from '../models/vehicle.model';
 import { ErrorHandleService } from '../shared/error.handle';
 import { environment } from '../../environments/environment';
-import { mapVehicleApiToApp } from '../shared/mappers/vehicle.mapper';
 
 @Injectable({
   providedIn: 'root'
@@ -16,20 +15,17 @@ export class VehicleService {
 
   getVehicles(): Observable<IVehicle[]> {
     return this.http.get<any[]>(this.apiUrl).pipe(
-      map((response: any[]) => response.map(mapVehicleApiToApp)),
       catchError(this.errorHandle.handleError)
     );
   }
 
   getAvailableVehicles(): Observable<IVehicle[]> {
     return this.http.get<IVehicle[]>(`${this.apiUrl}/available`).pipe(
-      map((response: IVehicle[]) => response.map(mapVehicleApiToApp)),
       catchError(this.errorHandle.handleError));
   }
 
   getVehicleById(id: string): Observable<IVehicle> {
     return this.http.get<any>(`${this.apiUrl}/byId/${id}`).pipe(
-      map(mapVehicleApiToApp),
       catchError(this.errorHandle.handleError)
     );
   }
@@ -47,5 +43,12 @@ export class VehicleService {
   deleteVehicle(id: string): Observable<{}> {
     return this.http.delete(`${this.apiUrl}`, { body: { Id: id } }).pipe(
       catchError(this.errorHandle.handleError));
+  }
+
+  getVehicleTypes(): Observable<string[]> {
+    const url = `${this.apiUrl}/getVehicleTypes`;
+    return this.http.get<string[]>(url).pipe(
+      catchError(this.errorHandle.handleError)
+    );
   }
 }

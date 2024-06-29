@@ -30,8 +30,8 @@ export class UserService {
       return this.http.post<IUser>(url, requestBody).pipe(
         catchError(this.errorHanlde.handleError),
         tap((response) => {
-          if (response && response.Token) {
-            this.authService.setTokenAndName(response.Token, response.FirstName, response.Id, response.Role);
+          if (response && response.token) {
+            this.authService.setTokenAndName(response.token, response.firstName, response.id, response.role);
           }
         })
       );

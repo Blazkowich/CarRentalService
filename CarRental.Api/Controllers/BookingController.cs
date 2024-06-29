@@ -13,9 +13,13 @@ namespace CarRental.Api.Controllers;
 [ApiController]
 [Route("booking")]
 [Authorize]
-public class BookingController(IBookingService bookingService, IMapper mapper) : ControllerBase
+public class BookingController(
+    IBookingService bookingService, 
+    IVehicleService vehicleService,
+    IMapper mapper) : ControllerBase
 {
     private readonly IBookingService _bookingService = bookingService;
+    private readonly IVehicleService _vehicleService = vehicleService;
     private readonly IMapper _mapper = mapper;
 
     [HttpGet]
@@ -81,5 +85,12 @@ public class BookingController(IBookingService bookingService, IMapper mapper) :
         var activeBooking = await _bookingService.GetActiveBookingsByUser(userId);
 
         return _mapper.Map<List<BookingResponseFull>>(activeBooking);
+    }
+
+    [HttpGet("getReservationTypes")]
+    [AllowAnonymous]
+    public List<string> GetReservationTypes()
+    {
+        return _vehicleService.GetEnumToString(typeof(ReservationTypeApi));
     }
 }

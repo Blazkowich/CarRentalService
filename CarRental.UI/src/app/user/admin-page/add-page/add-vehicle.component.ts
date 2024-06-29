@@ -5,6 +5,7 @@ import { VehicleService } from '../../../services/vehicle.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { BookingService } from '../../../services/booking.service';
 
 @Component({
   selector: 'app-add-vehicle-page',
@@ -26,21 +27,18 @@ export class AddVehiclePageComponent implements OnInit {
     imageUrl: ''
   };
 
-  vehicleTypes = [
-    'Sedan',
-    'Coupe',
-    'Van',
-    'HatchBack',
-    'SUV',
-    'Jeep',
-    'MiniVan',
-    'Limousine'
-  ];
-  reservationTypes = ['Reserved', 'Free'];
+  vehicleTypes: string[] = [];
+  reservationTypes: string[] = [];
 
-  constructor(private vehicleService: VehicleService, private router: Router) {}
+  constructor(
+    private vehicleService: VehicleService,
+    private bookingService: BookingService,
+    private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getVehicleTypes();
+    this.getReservationTypes();
+  }
 
   onSubmit(): void {
     this.vehicleService.addVehicle(this.newVehicle).subscribe(
@@ -56,5 +54,27 @@ export class AddVehiclePageComponent implements OnInit {
 
   onCancel(): void {
     this.router.navigate(['/admin-page']);
+  }
+
+  getVehicleTypes(): void {
+    this.vehicleService.getVehicleTypes().subscribe(
+      (types: string[]) => {
+        this.vehicleTypes = types;
+      },
+      (error: any) => {
+        console.error('Error fetching vehicle types:', error);
+      }
+    );
+  }
+
+  getReservationTypes(): void {
+    this.bookingService.getReservationTypes().subscribe(
+      (types: string[]) => {
+        this.reservationTypes = types;
+      },
+      (error: any) => {
+        console.error('Error fetching vehicle types:', error);
+      }
+    );
   }
 }

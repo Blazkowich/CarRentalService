@@ -2,8 +2,8 @@
   <h2>{{ title }}</h2>
   <form (ngSubmit)="logIn()" #loginForm="ngForm">
     <div class="login-input-container">
-      <input type="text" placeholder="Username" [(ngModel)]="UserName" name="UserName" required autocomplete="current-username">
-      <input type="password" placeholder="Password" [(ngModel)]="Password" name="Password" required autocomplete="current-password">
+      <input type="text" placeholder="Username" [(ngModel)]="user.userName" name="UserName" required autocomplete="current-username">
+      <input type="password" placeholder="Password" [(ngModel)]="user.password" name="Password" required autocomplete="current-password">
       <button type="submit">Login</button>
     </div>
   </form>

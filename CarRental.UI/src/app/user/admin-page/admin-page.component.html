@@ -4,10 +4,10 @@
     <div class="card-body">
       <div *ngFor="let user of users">
         <div class="user-info">
-          <span>{{ user.FirstName }} {{ user.LastName }}</span>
+          <span>{{ user.firstName }} {{ user.lastName }}</span>
           <br />
           <br />
-          <button class="btn btn-primary" (click)="getChatByUserId(user.Id)">View Chat</button>
+          <button class="btn btn-primary" (click)="getChatByUserId(user.id)">View Chat</button>
         </div>
       </div>
     </div>

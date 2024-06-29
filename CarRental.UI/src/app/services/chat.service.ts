@@ -4,7 +4,6 @@ import { BehaviorSubject, Observable, catchError, concatMap, interval, map } fro
 import { IChat } from "../models/chat.model";
 import { ErrorHandleService } from "../shared/error.handle";
 import { environment } from "../../environments/environment";
-import { mapChatApiToApp, mapChatAppToApi } from "../shared/mappers/chat.mapper";
 
 @Injectable({
   providedIn: 'root'
@@ -67,7 +66,6 @@ export class ChatService {
   getChatMessages(userId: string): Observable<IChat[]> {
     const url = `${this.apiUrl}/messages/${userId}`;
     return this.http.get<IChat[]>(url).pipe(
-      map((response: any[]) => response.map(mapChatApiToApp)),
       catchError((error: HttpErrorResponse) => {
         console.error();
         return this.errorHandle.handleError(error);
@@ -78,7 +76,6 @@ export class ChatService {
   getChatMessagesForAdmin(userId: string): Observable<IChat[]> {
     const url = `${this.apiUrl}/messages/foradmin/${userId}`;
     return this.http.get<IChat[]>(url).pipe(
-      map((response: any[]) => response.map(mapChatApiToApp)),
       catchError((error: HttpErrorResponse) => {
         console.error(`Error fetching chat messages for user ${userId}: ${error.message}`, error);
         return this.errorHandle.handleError(error);
@@ -89,7 +86,6 @@ export class ChatService {
   getAllChatMessages(): Observable<IChat[]> {
     const url = `${this.apiUrl}/messages`;
     return this.http.get<IChat[]>(url).pipe(
-      map((response: any[]) => response.map(mapChatApiToApp)),
       catchError((error: HttpErrorResponse) => {
         console.error('Error fetching all chat messages:', error.message, error);
         return this.errorHandle.handleError(error);

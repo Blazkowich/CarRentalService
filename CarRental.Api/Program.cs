@@ -25,6 +25,7 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace CarRental.Api;
 
@@ -80,9 +81,9 @@ public class Program
 
         builder.Services.AddCors(options =>
         {
-            options.AddDefaultPolicy(builder =>
+            options.AddDefaultPolicy(opt =>
             {
-                builder.WithOrigins("http://localhost:4200") 
+                opt.WithOrigins(builder.Configuration.GetSection("ApiUrl").Get<string>()) 
                        .AllowAnyHeader()
                        .AllowAnyMethod()
                        .AllowCredentials();
@@ -109,7 +110,7 @@ public class Program
         {
             options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
             options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-            options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             options.JsonSerializerOptions.AllowTrailingCommas = true;
             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });

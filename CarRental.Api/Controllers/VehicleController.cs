@@ -85,9 +85,11 @@ public class VehicleController(IVehicleService vehicleService, IMapper mapper) :
     {
         await _vehicleService.DeleteVehicleAsync(vehicle.Id);
     }
-    //add vehicle
 
-    //update vehicle
-
-    //remove vehicle
+    [HttpGet("getVehicleTypes")]
+    [AllowAnonymous]
+    public List<string> GetVehicleTypes()
+    {
+        return _vehicleService.GetEnumToString(typeof(VehicleTypeEnumApi));
+    }
 }

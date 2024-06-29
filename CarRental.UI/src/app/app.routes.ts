@@ -6,7 +6,6 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { VehicleDetailComponent } from './main-page/page-details/page-details.component';
 import { EmailComponent } from './support-pages/support-email/support-email.component';
 import { UserChatComponent } from './support-pages/support-chat/userChat/user-support-chat.component';
-import { UserPageComponent } from './user/user-page/user-page.component';
 import { AuthGuard } from './auth-Guard/auth.guard';
 import { HistoryRentingPageComponent } from './user/user-page/history-page/history-page.component';
 import { ActiveRentingPageComponent } from './user/user-page/active-page/active-page.component';
@@ -53,11 +52,6 @@ export const routes: Routes = [
     path: 'admin-chat',
     component: AdminChatComponent,
     canActivate: [AdminGuard]
-  },
-  {
-    path: 'user-page',
-    component: UserPageComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: 'admin-page',
