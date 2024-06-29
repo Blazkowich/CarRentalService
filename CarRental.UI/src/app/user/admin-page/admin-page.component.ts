@@ -8,7 +8,7 @@ import { AdminPageService } from '../../services/admin-page.service';
 import { IUser } from '../../models/user.model';
 import { IChat } from '../../models/chat.model';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from './confirmation/confirmation.component';
+import { ConfirmationDialogComponent } from '../../confirmation-popup-window/removing-vehicle/confirmation.component';
 
 @Component({
   selector: 'app-admin-page',

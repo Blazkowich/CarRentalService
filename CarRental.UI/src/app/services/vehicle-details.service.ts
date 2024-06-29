@@ -4,13 +4,14 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { IVehicle } from '../models/vehicle.model';
 import { ErrorHandleService } from '../shared/error.handle';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VehicleDetailsService {
-  private getVehicleByIdapiUrl = 'https://localhost:7060/vehicles/byId';
-  private getAvailabilityDateapiUrl = 'https://localhost:7060/booking/availableFrom';
+  private getVehicleByIdapiUrl = `${environment.apiUrl}/vehicles/byId`;
+  private getAvailabilityDateapiUrl = `${environment.apiUrl}/booking/availableFrom`;
 
   constructor(private http: HttpClient, private errorHanlde: ErrorHandleService) { }
 

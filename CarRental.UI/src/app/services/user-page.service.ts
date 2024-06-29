@@ -4,12 +4,13 @@ import { IBooking } from "../models/booking.model";
 import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { ErrorHandleService } from "../shared/error.handle";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserPageService {
-  private vehiclesApiUrl = 'https://localhost:7060/booking';
+  private vehiclesApiUrl = `${environment.apiUrl}/booking`;
 
   constructor(private http: HttpClient, private errorHandler: ErrorHandleService) { }
 

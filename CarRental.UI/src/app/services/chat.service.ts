@@ -3,12 +3,13 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, catchError, concatMap, interval, map, switchMap, throwError } from "rxjs";
 import { IChat } from "../models/chat.model";
 import { ErrorHandleService } from "../shared/error.handle";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-  private apiUrl = 'https://localhost:7060/chat';
+  private apiUrl = `${environment.apiUrl}/chat`;
   private newMessageSubject = new BehaviorSubject<IChat[]>([]);
   userId: string | null = null;
 

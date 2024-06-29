@@ -4,25 +4,19 @@ import { Observable, catchError, tap, throwError } from 'rxjs';
 import { IUser } from '../models/user.model';
 import { AuthService } from './auth.service';
 import { ErrorHandleService } from '../shared/error.handle';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'https://localhost:7060/auth';
-  private userApiUrl = 'https://localhost:7060/users';
+  private apiUrl = `${environment.apiUrl}/auth`;
+  private userApiUrl = `${environment.apiUrl}/users`;
 
   constructor(
     private http: HttpClient,
     private authService: AuthService,
     private errorHanlde: ErrorHandleService) { }
-
-    private getAuthHeaders(): HttpHeaders {
-      const token = localStorage.getItem('authToken');
-      return new HttpHeaders({
-        'Authorization': `Bearer ${token}`
-      });
-    }
 
     logIn(login: string, password: string): Observable<IUser> {
       const url = `${this.apiUrl}/login`;
@@ -69,7 +63,7 @@ export class UserService {
 
   getUserIdByName(userName: string): Observable<string> {
     const url = `${this.userApiUrl}/byName/${userName}`;
-    return this.http.get<string>(url, { headers: this.getAuthHeaders() });
+    return this.http.get<string>(url);
   }
 
   logout(): void {

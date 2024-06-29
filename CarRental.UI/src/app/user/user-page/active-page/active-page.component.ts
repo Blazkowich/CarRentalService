@@ -7,7 +7,7 @@ import { VehicleService } from '../../../services/vehicle.service';
 import { AuthService } from '../../../services/auth.service';
 import { UserPageService } from '../../../services/user-page.service';
 import { MatDialog } from '@angular/material/dialog';
-import { CancelConfirmationDialogComponent } from './confirmation-cancel/cancel-confirmation.component';
+import { CancelConfirmationDialogComponent } from '../../../confirmation-popup-window/booking-cancel/cancel-confirmation.component';
 import { BookingService } from '../../../services/booking.service';
 
 @Component({

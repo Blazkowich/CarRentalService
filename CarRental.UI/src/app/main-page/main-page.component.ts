@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationBookingDialogComponent } from '../booking/confirmation-booking/confirmation-booking.component';
+import { ConfirmationBookingDialogComponent } from '../confirmation-popup-window/booking-options/confirmation-booking.component';
 
 @Component({
   selector: 'app-main-page',

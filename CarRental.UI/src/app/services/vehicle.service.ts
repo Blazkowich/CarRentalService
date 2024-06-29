@@ -1,26 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, } from '@angular/common/http';
 import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { IVehicle } from '../models/vehicle.model';
 import { ErrorHandleService } from '../shared/error.handle';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VehicleService {
-  private apiUrl = 'https://localhost:7060/vehicles';
+  private apiUrl = `${environment.apiUrl}/vehicles`;
 
   constructor(private http: HttpClient, private errorHandle: ErrorHandleService) { }
-
-  private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken');
-    if (!token) {
-      console.log();
-    }
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-  }
 
   getVehicles(): Observable<IVehicle[]> {
     return this.http.get<IVehicle[]>(this.apiUrl).pipe(
@@ -44,20 +35,17 @@ export class VehicleService {
   }
 
   addVehicle(vehicle: IVehicle): Observable<IVehicle> {
-    const headers = this.getAuthHeaders();
-    return this.http.post<IVehicle>(this.apiUrl, vehicle, {headers}).pipe(
+    return this.http.post<IVehicle>(this.apiUrl, vehicle ).pipe(
       catchError(this.errorHandle.handleError));
   }
 
   updateVehicle(vehicle: IVehicle): Observable<IVehicle> {
-    const headers = this.getAuthHeaders();
-    return this.http.put<IVehicle>(this.apiUrl, vehicle, {headers}).pipe(
+    return this.http.put<IVehicle>(this.apiUrl, vehicle ).pipe(
       catchError(this.errorHandle.handleError));
   }
 
   deleteVehicle(id: string): Observable<{}> {
-    const headers = this.getAuthHeaders();
-    return this.http.delete(`${this.apiUrl}`, { headers, body: { Id: id } }).pipe(
+    return this.http.delete(`${this.apiUrl}`, { body: { Id: id } }).pipe(
       catchError(this.errorHandle.handleError));
   }
 }

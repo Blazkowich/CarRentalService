@@ -4,13 +4,14 @@ import { ErrorHandleService } from "../shared/error.handle";
 import { Observable, catchError, tap } from "rxjs";
 import { IUser } from "../models/user.model";
 import { IChat } from "../models/chat.model";
+import { environment } from "../../environments/environment";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminPageService {
-private chatApiUrl = 'https://localhost:7060/chat';
+private chatApiUrl = `${environment.apiUrl}/chat`;
 
   constructor(private http: HttpClient, private errorHandler: ErrorHandleService) { }
 

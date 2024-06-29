@@ -3,12 +3,13 @@ import { Injectable } from "@angular/core";
 import { Observable, catchError, throwError } from "rxjs";
 import { IEmail } from "../models/email.model";
 import { ErrorHandleService } from "../shared/error.handle";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmailService {
-  private apiUrl = 'https://localhost:7060/email';
+  private apiUrl = `${environment.apiUrl}/email`;
 
   constructor(private http: HttpClient, private errorHanlde: ErrorHandleService) { }
 

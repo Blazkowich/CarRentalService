@@ -41,7 +41,6 @@ export class EditVehiclePageComponent implements OnInit {
       this.vehicleService.getVehicleById(id).subscribe(
         (vehicle: IVehicle | undefined) => {
           this.vehicle = vehicle;
-          console.log(this.vehicle);
         },
         (error: any) => {
           console.error('Error fetching vehicle:', error);
