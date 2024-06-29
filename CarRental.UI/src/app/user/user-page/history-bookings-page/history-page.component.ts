@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, formatDate } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { IVehicle } from '../../../models/vehicle.model';
 import { IBooking } from '../../../models/booking.model';
@@ -16,8 +16,7 @@ import { BookingService } from '../../../services/booking.service';
 })
 export class HistoryRentingPageComponent implements OnInit {
   title = 'History Rentings';
-  vehicles: IVehicle[] = []
-  bookingHistory: IBooking[] = [];
+  bookingHistoryDetails: HistoryBookingDetail[] = [];
   userId: string | null = null;
   imageWidth = 200;
   imageMargin = 0;
@@ -41,8 +40,12 @@ export class HistoryRentingPageComponent implements OnInit {
   getBookingHistory(userId: string): void {
     this.bookingService.getBookingHistory(userId).subscribe(
       (bookings: IBooking[]) => {
-        this.bookingHistory = bookings;
-        this.fetchVehicleDetailsForBookingHistory();
+        const bookingDetailsPromises = bookings.map(booking => this.fetchVehicleDetailsForBooking(booking));
+        Promise.all(bookingDetailsPromises).then(bookingDetails => {
+          this.bookingHistoryDetails = bookingDetails;
+        }).catch(error => {
+          console.error('Error fetching vehicle details:', error);
+        });
       },
       (error: any) => {
         console.error('Error fetching booking history:', error);
@@ -50,22 +53,26 @@ export class HistoryRentingPageComponent implements OnInit {
     );
   }
 
-  fetchVehicleDetailsForBookingHistory(): void {
-    this.vehicles = [];
-    for (const booking of this.bookingHistory) {
+  fetchVehicleDetailsForBooking(booking: IBooking): Promise<HistoryBookingDetail> {
+    return new Promise<HistoryBookingDetail>((resolve, reject) => {
       this.vehicleService.getVehicleById(booking.vehicleId).subscribe(
         (vehicle: IVehicle | undefined) => {
           if (vehicle) {
-            this.vehicles.push(vehicle);
+            const bookingDetail: HistoryBookingDetail = {
+              booking: booking,
+              vehicleName: vehicle.name,
+              vehicleImageUrl: vehicle.imageUrl
+            };
+            resolve(bookingDetail);
           } else {
-            console.error(`Vehicle details not found for booking ${booking.id}`);
+            reject(`Vehicle details not found for booking ${booking.id}`);
           }
         },
         (error: any) => {
-          console.error(`Error fetching vehicle details for booking ${booking.id}:`, error);
+          reject(`Error fetching vehicle details for booking ${booking.id}: ${error}`);
         }
       );
-    }
+    });
   }
 
   onBack(): void {
@@ -76,17 +83,23 @@ export class HistoryRentingPageComponent implements OnInit {
     return this.authService.isLoggedIn();
   }
 
-  getVehicleImageUrl(vehicleId: string): string | undefined {
-    const vehicle = this.vehicles.find(v => v.id === vehicleId);
-    return vehicle ? vehicle.imageUrl : undefined;
-  }
-
-  getVehicleName(vehicleId: string): string | undefined {
-    const vehicle = this.vehicles.find(v => v.id === vehicleId);
-    return vehicle ? vehicle.name : 'Vehicle Name Not Available';
-  }
-
   isAdmin(): boolean {
     return this.authService.isAdmin();
   }
+
+  getVehicleImageUrl(vehicleId: string): string | undefined {
+    const bookingDetail = this.bookingHistoryDetails.find(detail => detail.booking.vehicleId === vehicleId);
+    return bookingDetail ? bookingDetail.vehicleImageUrl : undefined;
+  }
+
+  getVehicleName(vehicleId: string): string | undefined {
+    const bookingDetail = this.bookingHistoryDetails.find(detail => detail.booking.vehicleId === vehicleId);
+    return bookingDetail ? bookingDetail.vehicleName : 'Vehicle Name Not Available';
+  }
+}
+
+interface HistoryBookingDetail {
+  booking: IBooking;
+  vehicleName?: string;
+  vehicleImageUrl?: string;
 }

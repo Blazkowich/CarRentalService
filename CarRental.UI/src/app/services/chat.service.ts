@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, catchError, concatMap, interval, map } from "rxjs";
+import { BehaviorSubject, Observable, Subscription, catchError, concatMap, interval, map } from "rxjs";
 import { IChat } from "../models/chat.model";
 import { ErrorHandleService } from "../shared/error.handle";
 import { environment } from "../../environments/environment";
@@ -11,6 +11,7 @@ import { environment } from "../../environments/environment";
 export class ChatService {
   private apiUrl = `${environment.apiUrl}/chat`;
   private newMessageSubject = new BehaviorSubject<IChat[]>([]);
+  private pollingSubscription: Subscription | undefined;
   userId: string | null = null;
 
   constructor(
@@ -22,7 +23,7 @@ export class ChatService {
      }
 
   private startPolling(userId: string): void {
-    interval(5000)
+    this.pollingSubscription = interval(5000)
       .pipe(
         concatMap(() => this.getChatMessages(userId))
       )
@@ -30,8 +31,24 @@ export class ChatService {
         next: (messages: IChat[]) => {
           this.newMessageSubject.next(messages);
         },
-        error: () => {console.log();}
+        error: () => { }
       });
+    }
+
+  private stopPolling(): void {
+    if (this.pollingSubscription) {
+      this.pollingSubscription.unsubscribe();
+    }
+  }
+
+  setUserLoggedIn(userId: string): void {
+    this.userId = userId;
+    this.startPolling(userId);
+  }
+
+  setUserLoggedOut(): void {
+    this.userId = null;
+    this.stopPolling();
   }
 
   getNotificationCount(userId: string): Observable<number> {

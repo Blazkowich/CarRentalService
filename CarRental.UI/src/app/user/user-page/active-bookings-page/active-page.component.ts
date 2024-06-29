@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, formatDate } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { IVehicle } from '../../../models/vehicle.model';
 import { IBooking } from '../../../models/booking.model';
@@ -18,9 +18,7 @@ import { ConfirmationDialogComponent } from '../../../confirmation-popup-window/
 })
 export class ActiveRentingPageComponent implements OnInit {
   title = 'Active Rentings';
-  availableVehicles: IVehicle[] = [];
-  vehicles: IVehicle[] = []
-  activeBookings: IBooking[] = [];
+  activeBookingDetails: ActiveBookingDetail[] = [];
   userId: string | null = null;
   imageWidth = 200;
   imageMargin = 0;
@@ -34,7 +32,6 @@ export class ActiveRentingPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAvailableVehicles();
     this.userId = this.authService.getUserId();
     if (this.userId) {
       this.getActiveBookings(this.userId);
@@ -46,8 +43,12 @@ export class ActiveRentingPageComponent implements OnInit {
   getActiveBookings(userId: string): void {
     this.bookingService.getActiveBooking(userId).subscribe(
       (bookings: IBooking[]) => {
-        this.activeBookings = bookings;
-        this.fetchVehicleDetailsForActiveBookings();
+        const bookingDetailsPromises = bookings.map(booking => this.fetchVehicleDetailsForBooking(booking));
+        Promise.all(bookingDetailsPromises).then(bookingDetails => {
+          this.activeBookingDetails = bookingDetails;
+        }).catch(error => {
+          console.error('Error fetching vehicle details:', error);
+        });
       },
       (error: any) => {
         console.error('Error fetching active bookings:', error);
@@ -55,34 +56,26 @@ export class ActiveRentingPageComponent implements OnInit {
     );
   }
 
-  fetchVehicleDetailsForActiveBookings(): void {
-    this.vehicles = [];
-
-    for (const booking of this.activeBookings) {
+  fetchVehicleDetailsForBooking(booking: IBooking): Promise<ActiveBookingDetail> {
+    return new Promise<ActiveBookingDetail>((resolve, reject) => {
       this.vehicleService.getVehicleById(booking.vehicleId).subscribe(
         (vehicle: IVehicle | undefined) => {
           if (vehicle) {
-            this.vehicles.push(vehicle);
+            const bookingDetail: ActiveBookingDetail = {
+              booking: booking,
+              vehicleName: vehicle.name,
+              vehicleImageUrl: vehicle.imageUrl
+            };
+            resolve(bookingDetail);
           } else {
-            console.error(`Vehicle details not found for booking ${booking.id}`);
+            reject(`Vehicle details not found for booking ${booking.id}`);
           }
         },
         (error: any) => {
-          console.error(`Error fetching vehicle details for booking ${booking.id}:`, error);
+          reject(`Error fetching vehicle details for booking ${booking.id}: ${error}`);
         }
       );
-    }
-  }
-
-  getAvailableVehicles(): void {
-    this.vehicleService.getAvailableVehicles().subscribe(
-      (vehicles: IVehicle[]) => {
-        this.availableVehicles = vehicles;
-      },
-      (error: any) => {
-        console.error('Error fetching available vehicles:', error);
-      }
-    );
+    });
   }
 
   cancelBookingOfVehicle(booking: IBooking): void {
@@ -94,8 +87,7 @@ export class ActiveRentingPageComponent implements OnInit {
       if (result) {
         this.bookingService.cancelBooking(booking).subscribe(
           () => {
-            this.activeBookings = this.activeBookings.filter(b => b.id !== booking.id);
-            this.vehicles = this.vehicles.filter(v => v.id !== booking.vehicleId);
+            this.activeBookingDetails = this.activeBookingDetails.filter(b => b.booking.id !== booking.id);
             console.log('Cancelled booking for vehicle ID', booking.vehicleId);
           },
           (error: any) => {
@@ -110,16 +102,6 @@ export class ActiveRentingPageComponent implements OnInit {
     return this.authService.isLoggedIn();
   }
 
-  getVehicleImageUrl(vehicleId: string): string | undefined {
-    const vehicle = this.vehicles.find(v => v.id === vehicleId);
-    return vehicle ? vehicle.imageUrl : undefined;
-  }
-
-  getVehicleName(vehicleId: string): string | undefined {
-    const vehicle = this.vehicles.find(v => v.id === vehicleId);
-    return vehicle ? vehicle.name : 'Vehicle Name Not Available';
-  }
-
   isAdmin(): boolean {
     return this.authService.isAdmin();
   }
@@ -127,4 +109,10 @@ export class ActiveRentingPageComponent implements OnInit {
   onBack(): void {
     this.router.navigate(['/main-page']);
   }
+}
+
+interface ActiveBookingDetail {
+  booking: IBooking;
+  vehicleName?: string;
+  vehicleImageUrl?: string;
 }

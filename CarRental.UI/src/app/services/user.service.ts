@@ -5,6 +5,7 @@ import { IUser } from '../models/user.model';
 import { AuthService } from './auth.service';
 import { ErrorHandleService } from '../shared/error.handle';
 import { environment } from '../../environments/environment';
+import { Registration } from '../models/registration.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private errorHanlde: ErrorHandleService) { }
+    private errorHandle: ErrorHandleService) { }
 
     logIn(login: string, password: string): Observable<IUser> {
       const url = `${this.apiUrl}/login`;
@@ -28,7 +29,7 @@ export class UserService {
       };
 
       return this.http.post<IUser>(url, requestBody).pipe(
-        catchError(this.errorHanlde.handleError),
+        catchError(this.errorHandle.handleError),
         tap((response) => {
           if (response && response.token) {
             this.authService.setTokenAndName(response.token, response.firstName, response.id, response.role);
@@ -37,29 +38,12 @@ export class UserService {
       );
     }
 
-  register(
-    UserName: string,
-    FirstName: string,
-    LastName: string,
-    Email: string,
-    PhoneNumber: number,
-    Address: string,
-    Password: string
-  ): Observable<IUser> {
-    const url = `${this.apiUrl}/register`;
-    const requestBody = {
-      UserName,
-      FirstName,
-      LastName,
-      Email,
-      PhoneNumber,
-      Address,
-      Password
-    };
-    return this.http.post<IUser>(url, requestBody).pipe(
-      catchError(this.errorHanlde.handleError)
-    );
-  }
+    register(registrationData: Registration): Observable<IUser> {
+      const url = `${this.apiUrl}/register`;
+      return this.http.post<IUser>(url, registrationData).pipe(
+        catchError(this.errorHandle.handleError)
+      );
+    }
 
   getUserIdByName(userName: string): Observable<string> {
     const url = `${this.userApiUrl}/byName/${userName}`;

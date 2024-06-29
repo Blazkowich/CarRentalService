@@ -1,0 +1,41 @@
+<div class="card">
+  <div class="col-md-6">
+    <div *ngIf="activeBookingDetails.length > 0">
+      <h2>Active Bookings</h2>
+      <div *ngFor="let detail of activeBookingDetails" class="booking-item">
+        <div class="booking-details">
+          <div class="booking-info">
+            <div class="booking-image">
+              <img
+                *ngIf="detail.vehicleImageUrl"
+                [src]="detail.vehicleImageUrl"
+                [alt]="detail.vehicleName"
+                [style.width.px]="imageWidth"
+                [style.margin.px]="imageMargin"
+                class="img-fluid">
+              <span *ngIf="!detail.vehicleImageUrl">Image Not Available</span>
+            </div>
+            <div class="booking-text">
+              <p><strong>Vehicle:</strong> {{ detail.vehicleName }}</p>
+              <p><strong>Booking Date:</strong> {{ detail.booking.startDate | date: 'dd-MMM-yyyy hh:mm' }}</p>
+              <p><strong>End Date:</strong> {{ detail.booking.endDate | date: 'dd-MMM-yyyy hh:mm' }}</p>
+              <p><strong>Price:</strong> {{ detail.booking.totalPrice }}</p>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <button class="btn btn-success" (click)="cancelBookingOfVehicle(detail.booking)">Cancel Booking</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="card-footer text-center mt-3">
+  <div class="card-body">
+    <button class="btn btn-outline-secondary"
+            style="width: 100px"
+            (click)="onBack()">
+      <i class="fa fa-chevron-left"></i> Back
+    </button>
+  </div>
+</footer>

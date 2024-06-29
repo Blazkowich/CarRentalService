@@ -1,13 +1,13 @@
 <div class="register-container">
   <h2>Register</h2>
   <div class="register-input-container">
-    <input type="text" placeholder="Username" [(ngModel)]="UserName" name="UserName">
-    <input type="text" placeholder="First Name" [(ngModel)]="FirstName" name="FirstName">
-    <input type="text" placeholder="Last Name" [(ngModel)]="LastName" name="LastName">
-    <input type="email" placeholder="Email" [(ngModel)]="Email" name="Email">
-    <input type="tel" placeholder="Phone Number" [(ngModel)]="PhoneNumber" name="PhoneNumber">
-    <input type="text" placeholder="Address" [(ngModel)]="Address" name="Address">
-    <input type="password" placeholder="Password" [(ngModel)]="Password" name="Password">
+    <input type="text" placeholder="Username" [(ngModel)]="registration.userName" name="UserName">
+    <input type="text" placeholder="First Name" [(ngModel)]="registration.firstName" name="FirstName">
+    <input type="text" placeholder="Last Name" [(ngModel)]="registration.lastName" name="LastName">
+    <input type="email" placeholder="Email" [(ngModel)]="registration.email" name="Email">
+    <input type="tel" placeholder="Phone Number" [(ngModel)]="registration.phoneNumber" name="PhoneNumber">
+    <input type="text" placeholder="Address" [(ngModel)]="registration.address" name="Address">
+    <input type="password" placeholder="Password" [(ngModel)]="registration.password" name="Password">
     <button (click)="register()">Register</button>
   </div>
 </div>
