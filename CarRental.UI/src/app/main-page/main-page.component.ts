@@ -8,6 +8,8 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationBookingDialogComponent } from '../confirmation-popup-window/booking-options/confirmation-booking.component';
+import { MatIconModule } from '@angular/material/icon';
+import { BookingService } from '../services/booking.service';
 
 @Component({
   selector: 'app-main-page',
@@ -17,7 +19,8 @@ import { ConfirmationBookingDialogComponent } from '../confirmation-popup-window
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule]
+    RouterModule,
+    MatIconModule]
 })
 export class MainPageComponent implements OnInit, OnDestroy {
   title = 'CarRental Rental Service';
@@ -29,32 +32,14 @@ export class MainPageComponent implements OnInit, OnDestroy {
   errorMessage: string = '';
   sub!: Subscription;
   showImage = true;
-
+  duration = 1;
   private _listFilter: string = '';
-  get listFilter(): string {
-    return this._listFilter;
-  }
 
-  openBookingDialog(vehicleId: string, vehicleName: string): void {
-    const dialogRef = this.dialog.open(ConfirmationBookingDialogComponent, {
-      width: '600px',
-      data: { vehicleId: vehicleId, vehicleName: vehicleName }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-      }
-    });
-  }
-
-  set listFilter(value: string) {
-    this._listFilter = value.trim().toLocaleLowerCase();
-    this.filteredVehicles = this.performFilter(this._listFilter);
-  }
 
   constructor(
     private vehicleService: VehicleService,
     private authService: AuthService,
+    private bookingService: BookingService,
     public dialog: MatDialog
     ) { }
 
@@ -65,6 +50,39 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.filteredVehicles = this.vehicles;
       },
       error: err => this.errorMessage = err
+    });
+  }
+
+  get listFilter(): string {
+    return this._listFilter;
+  }
+
+  set listFilter(value: string) {
+    this._listFilter = value.trim().toLocaleLowerCase();
+    this.filteredVehicles = this.performFilter(this._listFilter);
+  }
+
+  openBookingDialog(vehicleId: string, vehicleName: string): void {
+    const dialogRef = this.dialog.open(ConfirmationBookingDialogComponent, {
+      width: '600px',
+      data: { vehicleId: vehicleId, vehicleName: vehicleName, duration: this.duration }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.bookVehicle(vehicleId, result.duration);
+      }
+    });
+  }
+
+  bookVehicle(vehicleId: string, duration: number): void {
+    this.bookingService.bookVehicle(vehicleId, duration).subscribe({
+      next: booking => {
+        console.log('Booking successful:', booking);
+      },
+      error: err => {
+        console.error('Error booking vehicle:', err);
+      }
     });
   }
 

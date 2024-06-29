@@ -18,7 +18,7 @@ import { DatePickerFormComponent } from '../../date-picker-form/date-picker-form
 })
 export class ConfirmationBookingDialogComponent {
   vehicleName: string | null = null;
-  duration: number = 1;
+  duration: number | undefined;
   startDate: string = '';
 
   constructor(
@@ -33,7 +33,11 @@ export class ConfirmationBookingDialogComponent {
   }
 
   onConfirm(): void {
-    this.dialogRef.close({ startDate: this.startDate, duration: this.duration });
+    if (this.startDate && this.duration) {
+      this.dialogRef.close({ startDate: this.startDate, duration: this.duration });
+    } else {
+      console.error('Error: startDate or duration is undefined.');
+    }
   }
 
   onDateChange(formattedDate: string): void {

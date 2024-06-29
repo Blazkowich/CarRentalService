@@ -46,10 +46,10 @@ public class BookingController(
         return _mapper.Map<BookingResponseFull>(reserveVehicle);
     }
 
-    [HttpPost("{duration}")]
-    public async Task<BookingResponseFull> BookVehicle(Guid vehicleId, int duration)
+    [HttpPost("book")]
+    public async Task<BookingResponseFull> BookVehicle([FromBody] BookingRequest bookingRequest)
     {
-        var bookVehicle = await _bookingService.BookVehicleAsync(vehicleId, duration, HttpContext.User);
+        var bookVehicle = await _bookingService.BookVehicleAsync(bookingRequest.VehicleId, bookingRequest.Duration, HttpContext.User);
 
         return _mapper.Map<BookingResponseFull>(bookVehicle);
     }

@@ -13,8 +13,9 @@
         <thead>
           <tr>
             <th>
-              <button class='btn btn-primary' (click)='toggleImage()'>
-                {{showImage ? 'Hide' : 'Show'}} Image
+              <button class="btn-showImage btn btn-primary" (click)="toggleImage()">
+                <mat-icon *ngIf="showImage" class="arrow-icon">keyboard_arrow_down</mat-icon>
+                <mat-icon *ngIf="!showImage" class="arrow-icon">keyboard_arrow_right</mat-icon>
               </button>
             </th>
             <th>Vehicle</th>
@@ -28,13 +29,14 @@
         <tbody>
           <tr *ngFor="let vehicle of filteredVehicles" class="align-items-center">
             <td class="align-middle">
-              <img
-              *ngIf="showImage"
-              [src]="vehicle.imageUrl"
-              [alt]="vehicle.name"
-              [style.width.px]="imageWidth"
-              [style.margin.px]="imageMargin"
-              class="img-fluid">
+              <ng-container *ngIf="showImage">
+                <img
+                  [src]="vehicle.imageUrl"
+                  [alt]="vehicle.name"
+                  [style.width.px]="imageWidth"
+                  [style.margin.px]="imageMargin"
+                  class="img-fluid">
+              </ng-container>
             </td>
             <td class="align-middle">
               <a [routerLink]="['/page-details', vehicle.id]">{{ vehicle.name }}</a>

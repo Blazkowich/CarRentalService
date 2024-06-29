@@ -19,4 +19,6 @@ public class BookingRequest
     public double TotalPrice { get; set; }
 
     public BookingTypeApi BookingCondition { get; set; }
+
+    public int Duration { get; set; }
 }
