@@ -52,8 +52,7 @@ export class EditVehiclePageComponent implements OnInit {
   onSubmit(): void {
     if (this.vehicle) {
       this.vehicleService.updateVehicle(this.vehicle).subscribe(
-        (updatedVehicle: IVehicle) => {
-          console.log('Vehicle updated successfully', updatedVehicle);
+        () => {
           this.router.navigate(['/admin-page']);
         },
         (error: any) => {

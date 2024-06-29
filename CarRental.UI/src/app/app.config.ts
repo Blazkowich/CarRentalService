@@ -1,16 +1,16 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
-import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
-import { IMAGE_CONFIG, NgOptimizedImage } from '@angular/common';
-import { AuthInterceptor } from './shared/auth.Interceptor';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { IMAGE_CONFIG } from '@angular/common';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { authInterceptor } from './shared/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authInterceptor])),
     {
       provide: IMAGE_CONFIG,
       useValue:
@@ -18,11 +18,6 @@ export const appConfig: ApplicationConfig = {
         disableImageSizeWarning: true,
         disableImageLazyLoadWarning: true
       }
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
     },
     provideAnimationsAsync(),
   ]

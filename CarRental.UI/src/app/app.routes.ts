@@ -7,13 +7,13 @@ import { VehicleDetailComponent } from './main-page/page-details/page-details.co
 import { EmailComponent } from './support-pages/support-email/support-email.component';
 import { UserChatComponent } from './support-pages/support-chat/userChat/user-support-chat.component';
 import { UserPageComponent } from './user/user-page/user-page.component';
-import { AuthGuard } from './authGuard/auth.guard';
+import { AuthGuard } from './auth-Guard/auth.guard';
 import { HistoryRentingPageComponent } from './user/user-page/history-page/history-page.component';
 import { ActiveRentingPageComponent } from './user/user-page/active-page/active-page.component';
 import { AdminPageComponent } from './user/admin-page/admin-page.component';
-import { AdminGuard } from './authGuard/admin.guard';
-import { MainGuard } from './authGuard/main.guard';
-import { LoginRegisterGuard } from './authGuard/login-register.guard';
+import { AdminGuard } from './auth-Guard/admin.guard';
+import { MainGuard } from './auth-Guard/main.guard';
+import { LoginRegisterGuard } from './auth-Guard/login-register.guard';
 import { AdminChatComponent } from './support-pages/support-chat/adminChat/admin-support-chat.component';
 import { AddVehiclePageComponent } from './user/admin-page/add-page/add-vehicle.component';
 import { EditVehiclePageComponent } from './user/admin-page/edit-page/edit-vehicle.component';
