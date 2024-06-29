@@ -1,4 +1,4 @@
-﻿using Api.Bootstrapping.CustomExceptions;
+﻿using CarRental.Shared.CustomExceptions;
 using AutoMapper;
 using CarRental.Api.ApiModels.Auth.Request;
 using CarRental.Api.ApiModels.Auth.Response;

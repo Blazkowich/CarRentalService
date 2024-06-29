@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Api.Bootstrapping.Middleware;
+namespace CarRental.Shared.Middleware;
 
 public class GlobalExceptionHandlingMiddleware(
     RequestDelegate next,

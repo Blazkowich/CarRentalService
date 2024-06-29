@@ -4,7 +4,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
 
-namespace Api.Bootstrapping.Extensions;
+namespace CarRental.Shared.Extensions;
 
 public static class ResponseLoggerExtension
 {

@@ -1,8 +1,8 @@
-﻿using Api.Bootstrapping.Middleware;
+﻿using CarRental.Shared.Middleware;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 
-namespace Api.Bootstrapping.Extensions;
+namespace CarRental.Shared.Extensions;
 
 
 public static class GlobalExceptionHandlingMiddlewareExtension

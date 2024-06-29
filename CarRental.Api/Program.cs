@@ -1,6 +1,6 @@
-using Api.Bootstrapping.CustomExceptions;
-using Api.Bootstrapping.Extensions;
-using Api.Bootstrapping.Middleware;
+using CarRental.Shared.CustomExceptions;
+using CarRental.Shared.Extensions;
+using CarRental.Shared.Middleware;
 using CarRental.Api.ApiAutoMapper;
 using CarRental.Api.ApiAutoMapper.Auth;
 using CarRental.Auth.BLL.AutoMapper;

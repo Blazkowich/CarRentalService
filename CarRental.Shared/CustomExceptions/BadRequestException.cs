@@ -1,4 +1,4 @@
-﻿namespace Api.Bootstrapping.CustomExceptions;
+﻿namespace CarRental.Shared.CustomExceptions;
 
 [Serializable]
 public class BadRequestException : Exception

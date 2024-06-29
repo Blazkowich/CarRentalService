@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Auth.BLL", "Auth\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Auth.DAL", "Auth\CarRental.Auth.DAL\CarRental.Auth.DAL.csproj", "{942AFCA0-C5DF-40AA-8A78-D3ECB895C327}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Shared", "Api.Bootstrapping\CarRental.Shared.csproj", "{E67F2FA0-8558-413A-A5DB-D55FF207C846}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support", "Support", "{2FE66A79-FFDE-4DCB-8382-DC36024BAD76}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Support.Email", "Support\CarRental.Support.Email\CarRental.Support.Email.csproj", "{058D6497-666E-43A3-9800-8A04989C9C45}"
@@ -47,6 +45,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CarRental.UI", "CarRental.U
 		VWDPort = "53359"
 		SlnRelativePath = "CarRental.UI\"
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Shared", "CarRental.Shared\CarRental.Shared.csproj", "{1EA11220-8559-49D5-8C04-B67E58C27526}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,10 +78,6 @@ Global
 		{942AFCA0-C5DF-40AA-8A78-D3ECB895C327}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{942AFCA0-C5DF-40AA-8A78-D3ECB895C327}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{942AFCA0-C5DF-40AA-8A78-D3ECB895C327}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E67F2FA0-8558-413A-A5DB-D55FF207C846}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E67F2FA0-8558-413A-A5DB-D55FF207C846}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E67F2FA0-8558-413A-A5DB-D55FF207C846}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E67F2FA0-8558-413A-A5DB-D55FF207C846}.Release|Any CPU.Build.0 = Release|Any CPU
 		{058D6497-666E-43A3-9800-8A04989C9C45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{058D6497-666E-43A3-9800-8A04989C9C45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{058D6497-666E-43A3-9800-8A04989C9C45}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -94,6 +90,10 @@ Global
 		{48EF1D48-6135-4F1D-9375-99B87433B3E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48EF1D48-6135-4F1D-9375-99B87433B3E9}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{48EF1D48-6135-4F1D-9375-99B87433B3E9}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{1EA11220-8559-49D5-8C04-B67E58C27526}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EA11220-8559-49D5-8C04-B67E58C27526}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EA11220-8559-49D5-8C04-B67E58C27526}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EA11220-8559-49D5-8C04-B67E58C27526}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

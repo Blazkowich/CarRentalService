@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Api.Bootstrapping.Extensions;
+namespace CarRental.Shared.Extensions;
 
 public static class EnumExtension
 {

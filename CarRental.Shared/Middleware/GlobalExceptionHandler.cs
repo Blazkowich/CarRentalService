@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System.Net;
 using System.Text.Json;
 
-namespace Api.Bootstrapping.Middleware;
+namespace CarRental.Shared.Middleware;
 
 public class GlobalExceptionHandler(IReadOnlyDictionary<Type, HttpStatusCode> handledExceptionsMap) : IExceptionHandler
 {
