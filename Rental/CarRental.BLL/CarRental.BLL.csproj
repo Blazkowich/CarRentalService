@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Api.Bootstrapping\Api.Bootstrapping.csproj" />
+    <ProjectReference Include="..\..\Api.Bootstrapping\CarRental.Shared.csproj" />
     <ProjectReference Include="..\..\Auth\CarRental.Auth.BLL\CarRental.Auth.BLL.csproj" />
     <ProjectReference Include="..\CarRental.DAL\CarRental.DAL.csproj" />
   </ItemGroup>

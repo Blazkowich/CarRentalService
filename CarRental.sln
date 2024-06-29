@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Auth.BLL", "Auth\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Auth.DAL", "Auth\CarRental.Auth.DAL\CarRental.Auth.DAL.csproj", "{942AFCA0-C5DF-40AA-8A78-D3ECB895C327}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Bootstrapping", "Api.Bootstrapping\Api.Bootstrapping.csproj", "{E67F2FA0-8558-413A-A5DB-D55FF207C846}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Shared", "Api.Bootstrapping\CarRental.Shared.csproj", "{E67F2FA0-8558-413A-A5DB-D55FF207C846}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support", "Support", "{2FE66A79-FFDE-4DCB-8382-DC36024BAD76}"
 EndProject

@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Api.Bootstrapping\Api.Bootstrapping.csproj" />
+    <ProjectReference Include="..\..\Api.Bootstrapping\CarRental.Shared.csproj" />
     <ProjectReference Include="..\CarRental.Auth.DAL\CarRental.Auth.DAL.csproj" />
   </ItemGroup>
 
