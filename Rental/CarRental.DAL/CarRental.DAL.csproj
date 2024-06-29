@@ -35,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CarRental.DAL.Common\CarRental.DAL.Common.csproj" />
+    <ProjectReference Include="..\..\CarRental.DAL.Common\CarRental.DAL.Common.csproj" />
   </ItemGroup>
 
 </Project>
