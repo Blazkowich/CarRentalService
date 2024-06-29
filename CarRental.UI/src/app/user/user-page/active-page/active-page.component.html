@@ -7,24 +7,24 @@
           <div class="booking-info">
             <div class="booking-image">
               <img
-                *ngIf="getVehicleImageUrl(booking.VehicleId)"
-                [src]="getVehicleImageUrl(booking.VehicleId)"
-                [alt]="getVehicleName(booking.VehicleId)"
+                *ngIf="getVehicleImageUrl(booking.vehicleId)"
+                [src]="getVehicleImageUrl(booking.vehicleId)"
+                [alt]="getVehicleName(booking.vehicleId)"
                 [style.width.px]="imageWidth"
                 [style.margin.px]="imageMargin"
                 class="img-fluid">
-              <span *ngIf="!getVehicleImageUrl(booking.VehicleId)">Image Not Available</span>
+              <span *ngIf="!getVehicleImageUrl(booking.vehicleId)">Image Not Available</span>
             </div>
             <div class="booking-text">
-              <p><strong>Vehicle:</strong> {{ getVehicleName(booking.VehicleId) }}</p>
-              <p><strong>Booking Date:</strong> {{ booking.StartDate | date: 'dd-MMM-yyyy hh:mm' }}</p>
-              <p><strong>End Date:</strong> {{ booking.EndDate | date: 'dd-MMM-yyyy hh:mm' }}</p>
-              <p><strong>Price: </strong>{{ booking.TotalPrice }}</p>
+              <p><strong>Vehicle:</strong> {{ getVehicleName(booking.vehicleId) }}</p>
+              <p><strong>Booking Date:</strong> {{ booking.startDate | date: 'dd-MMM-yyyy hh:mm' }}</p>
+              <p><strong>End Date:</strong> {{ booking.endDate | date: 'dd-MMM-yyyy hh:mm' }}</p>
+              <p><strong>Price: </strong>{{ booking.totalPrice }}</p>
             </div>
           </div>
         </div>
         <br/>
-        <button class="btn btn-success" (click)="cancelVehicle(booking)">Cancel Booking</button>
+        <button class="btn btn-success" (click)="cancelBookingOfVehicle(booking)">Cancel Booking</button>
       </div>
     </div>
   </div>

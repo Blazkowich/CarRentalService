@@ -33,22 +33,22 @@
         <tr *ngFor="let vehicle of vehicles" class="align-items-center">
           <td class="align-middle">
             <img
-              [src]="vehicle.ImageUrl"
-              [alt]="vehicle.Name"
+              [src]="vehicle.imageUrl"
+              [alt]="vehicle.name"
               [style.width.px]="200"
               [style.margin.px]="0"
               class="img-fluid"
             />
           </td>
           <td class="align-middle">
-            <a [routerLink]="['/page-details', vehicle.Id]">{{ vehicle.Name }}</a>
+            <a [routerLink]="['/page-details', vehicle.id]">{{ vehicle.name }}</a>
           </td>
-          <td class="align-middle">{{ vehicle.Type }}</td>
-          <td class="align-middle">{{ vehicle.ReservationType }}</td>
-          <td class="align-middle">{{ vehicle.Price | currency: 'USD':'symbol':'1.2-2' }}</td>
+          <td class="align-middle">{{ vehicle.type }}</td>
+          <td class="align-middle">{{ vehicle.reservationType }}</td>
+          <td class="align-middle">{{ vehicle.price | currency: 'USD':'symbol':'1.2-2' }}</td>
           <td class="align-middle">
-            <button class="btn btn-primary" [routerLink]="['/edit-vehicle', vehicle.Id]">Edit</button>
-            <button class="btn btn-danger" (click)="deleteVehicle(vehicle.Id)">Delete</button>
+            <button class="btn btn-primary" [routerLink]="['/edit-vehicle', vehicle.id]">Edit</button>
+            <button class="btn btn-danger" (click)="deleteVehicle(vehicle.id)">Delete</button>
           </td>
         </tr>
       </tbody>

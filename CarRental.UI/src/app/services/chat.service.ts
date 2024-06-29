@@ -1,9 +1,10 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, catchError, concatMap, interval, map, switchMap, throwError } from "rxjs";
+import { BehaviorSubject, Observable, catchError, concatMap, interval, map } from "rxjs";
 import { IChat } from "../models/chat.model";
 import { ErrorHandleService } from "../shared/error.handle";
 import { environment } from "../../environments/environment";
+import { mapChatApiToApp, mapChatAppToApi } from "../shared/mappers/chat.mapper";
 
 @Injectable({
   providedIn: 'root'
@@ -21,16 +22,6 @@ export class ChatService {
     }
      }
 
-  private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken');
-    if (!token) {
-      console.log();
-    }
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-  }
-
   private startPolling(userId: string): void {
     interval(5000)
       .pipe(
@@ -46,8 +37,7 @@ export class ChatService {
 
   getNotificationCount(userId: string): Observable<number> {
     const url = `${this.apiUrl}/unread/count/${userId}`;
-    const headers = this.getAuthHeaders();
-    return this.http.get<number>(url, { headers }).pipe(
+    return this.http.get<number>(url).pipe(
       catchError((error: HttpErrorResponse) => {
         return this.errorHandle.handleError(error);
       })
@@ -56,8 +46,7 @@ export class ChatService {
 
   sendMessageToSupport(message: string): Observable<void> {
     const url = `${this.apiUrl}/send`;
-    const headers = this.getAuthHeaders();
-    return this.http.post<void>(url, { message }, { headers }).pipe(
+    return this.http.post<void>(url, { message }).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error(`Error sending message: ${error.message}`, error);
         return this.errorHandle.handleError(error);
@@ -67,8 +56,7 @@ export class ChatService {
 
   sendMessageToUser(userId: string, message: string): Observable<void> {
     const url = `${this.apiUrl}/sendtouser`;
-    const headers = this.getAuthHeaders();
-    return this.http.post<void>(url, { userId, message }, { headers }).pipe(
+    return this.http.post<void>(url, { userId, message }).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error(`Error sending message: ${error.message}`, error);
         return this.errorHandle.handleError(error);
@@ -78,10 +66,10 @@ export class ChatService {
 
   getChatMessages(userId: string): Observable<IChat[]> {
     const url = `${this.apiUrl}/messages/${userId}`;
-    const headers = this.getAuthHeaders();
-    return this.http.get<IChat[]>(url, { headers }).pipe(
+    return this.http.get<IChat[]>(url).pipe(
+      map((response: any[]) => response.map(mapChatApiToApp)),
       catchError((error: HttpErrorResponse) => {
-        console.error(`Error fetching chat messages for user ${userId}: ${error.message}`, error);
+        console.error();
         return this.errorHandle.handleError(error);
       })
     );
@@ -89,8 +77,8 @@ export class ChatService {
 
   getChatMessagesForAdmin(userId: string): Observable<IChat[]> {
     const url = `${this.apiUrl}/messages/foradmin/${userId}`;
-    const headers = this.getAuthHeaders();
-    return this.http.get<IChat[]>(url, { headers }).pipe(
+    return this.http.get<IChat[]>(url).pipe(
+      map((response: any[]) => response.map(mapChatApiToApp)),
       catchError((error: HttpErrorResponse) => {
         console.error(`Error fetching chat messages for user ${userId}: ${error.message}`, error);
         return this.errorHandle.handleError(error);
@@ -100,8 +88,8 @@ export class ChatService {
 
   getAllChatMessages(): Observable<IChat[]> {
     const url = `${this.apiUrl}/messages`;
-    const headers = this.getAuthHeaders();
-    return this.http.get<IChat[]>(url, { headers }).pipe(
+    return this.http.get<IChat[]>(url).pipe(
+      map((response: any[]) => response.map(mapChatApiToApp)),
       catchError((error: HttpErrorResponse) => {
         console.error('Error fetching all chat messages:', error.message, error);
         return this.errorHandle.handleError(error);
@@ -111,15 +99,13 @@ export class ChatService {
 
   markMessageAsRead(messageId: string): Observable<void> {
     const url = `${this.apiUrl}/messages/${messageId}/read`;
-    const headers = this.getAuthHeaders();
-    return this.http.patch<void>(url, {}, { headers }).pipe(
+    return this.http.patch<void>(url, {}).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error(`Error marking message as read: ${error.message}`, error);
         return this.errorHandle.handleError(error);
       })
     );
   }
-
 
   notifyNewMessage(messages: IChat[]): void {
     this.newMessageSubject.next(messages);

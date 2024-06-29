@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, } from '@angular/common/http';
-import { Observable, catchError, map, tap, throwError } from 'rxjs';
+import { Observable, catchError, map, tap } from 'rxjs';
 import { IVehicle } from '../models/vehicle.model';
 import { ErrorHandleService } from '../shared/error.handle';
 import { environment } from '../../environments/environment';
+import { mapVehicleApiToApp } from '../shared/mappers/vehicle.mapper';
 
 @Injectable({
   providedIn: 'root'
@@ -14,24 +15,23 @@ export class VehicleService {
   constructor(private http: HttpClient, private errorHandle: ErrorHandleService) { }
 
   getVehicles(): Observable<IVehicle[]> {
-    return this.http.get<IVehicle[]>(this.apiUrl).pipe(
-      catchError(this.errorHandle.handleError));
+    return this.http.get<any[]>(this.apiUrl).pipe(
+      map((response: any[]) => response.map(mapVehicleApiToApp)),
+      catchError(this.errorHandle.handleError)
+    );
   }
 
   getAvailableVehicles(): Observable<IVehicle[]> {
     return this.http.get<IVehicle[]>(`${this.apiUrl}/available`).pipe(
+      map((response: IVehicle[]) => response.map(mapVehicleApiToApp)),
       catchError(this.errorHandle.handleError));
   }
 
-  getVehicleById(id: string): Observable<IVehicle | undefined> {
-    return this.http.get<IVehicle>(`${this.apiUrl}/byId/${id}`).pipe(
-      catchError(this.errorHandle.handleError));
-  }
-  getVehicle(id: string): Observable<IVehicle | undefined> {
-    return this.getVehicles()
-      .pipe(
-        map((vehicles: IVehicle[]) => vehicles.find(p => p.Id === id))
-      );
+  getVehicleById(id: string): Observable<IVehicle> {
+    return this.http.get<any>(`${this.apiUrl}/byId/${id}`).pipe(
+      map(mapVehicleApiToApp),
+      catchError(this.errorHandle.handleError)
+    );
   }
 
   addVehicle(vehicle: IVehicle): Observable<IVehicle> {

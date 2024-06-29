@@ -119,7 +119,7 @@ export class AppComponent implements OnInit, OnDestroy{
 
   private subscribeToNewMessages(): void {
     this.chatService.newMessage().subscribe((messages: IChat[]) => {
-      const unreadMessages = messages.filter(msg => !msg.Read && msg.SenderId !== this.userId);
+      const unreadMessages = messages.filter(msg => !msg.read && msg.senderId !== this.userId);
       this.notificationCount = unreadMessages.length;
     });
   }

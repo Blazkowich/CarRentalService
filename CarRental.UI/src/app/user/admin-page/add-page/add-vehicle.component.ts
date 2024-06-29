@@ -17,13 +17,13 @@ import { RouterModule } from '@angular/router';
 export class AddVehiclePageComponent implements OnInit {
   title = 'Add Vehicle';
   newVehicle: IVehicle = {
-    Id: '',
-    Name: '',
-    Description: '',
-    Type: '',
-    ReservationType: '',
-    Price: 0,
-    ImageUrl: ''
+    id: '',
+    name: '',
+    description: '',
+    type: '',
+    reservationType: '',
+    price: 0,
+    imageUrl: ''
   };
 
   vehicleTypes = [

@@ -5,7 +5,7 @@ import { IVehicle } from '../../../models/vehicle.model';
 import { IBooking } from '../../../models/booking.model';
 import { VehicleService } from '../../../services/vehicle.service';
 import { AuthService } from '../../../services/auth.service';
-import { UserPageService } from '../../../services/user-page.service';
+import { BookingService } from '../../../services/booking.service';
 
 @Component({
   selector: 'app-history-renting-page',
@@ -25,7 +25,7 @@ export class HistoryRentingPageComponent implements OnInit {
   constructor(
     private vehicleService: VehicleService,
     private authService: AuthService,
-    private userPageService: UserPageService,
+    private bookingService: BookingService,
     private router: Router
   ) {}
 
@@ -39,7 +39,7 @@ export class HistoryRentingPageComponent implements OnInit {
   }
 
   getBookingHistory(userId: string): void {
-    this.userPageService.getBookingHistory(userId).subscribe(
+    this.bookingService.getBookingHistory(userId).subscribe(
       (bookings: IBooking[]) => {
         this.bookingHistory = bookings;
         this.fetchVehicleDetailsForBookingHistory();
@@ -52,18 +52,17 @@ export class HistoryRentingPageComponent implements OnInit {
 
   fetchVehicleDetailsForBookingHistory(): void {
     this.vehicles = [];
-
     for (const booking of this.bookingHistory) {
-      this.vehicleService.getVehicleById(booking.VehicleId).subscribe(
+      this.vehicleService.getVehicleById(booking.vehicleId).subscribe(
         (vehicle: IVehicle | undefined) => {
           if (vehicle) {
             this.vehicles.push(vehicle);
           } else {
-            console.error(`Vehicle details not found for booking ${booking.Id}`);
+            console.error(`Vehicle details not found for booking ${booking.id}`);
           }
         },
         (error: any) => {
-          console.error(`Error fetching vehicle details for booking ${booking.Id}:`, error);
+          console.error(`Error fetching vehicle details for booking ${booking.id}:`, error);
         }
       );
     }
@@ -78,13 +77,13 @@ export class HistoryRentingPageComponent implements OnInit {
   }
 
   getVehicleImageUrl(vehicleId: string): string | undefined {
-    const vehicle = this.vehicles.find(v => v.Id === vehicleId);
-    return vehicle ? vehicle.ImageUrl : undefined;
+    const vehicle = this.vehicles.find(v => v.id === vehicleId);
+    return vehicle ? vehicle.imageUrl : undefined;
   }
 
   getVehicleName(vehicleId: string): string | undefined {
-    const vehicle = this.vehicles.find(v => v.Id === vehicleId);
-    return vehicle ? vehicle.Name : 'Vehicle Name Not Available';
+    const vehicle = this.vehicles.find(v => v.id === vehicleId);
+    return vehicle ? vehicle.name : 'Vehicle Name Not Available';
   }
 
   isAdmin(): boolean {

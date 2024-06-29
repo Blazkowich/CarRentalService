@@ -30,20 +30,20 @@
             <td class="align-middle">
               <img
               *ngIf="showImage"
-              [src]="vehicle.ImageUrl"
-              [alt]="vehicle.Name"
+              [src]="vehicle.imageUrl"
+              [alt]="vehicle.name"
               [style.width.px]="imageWidth"
               [style.margin.px]="imageMargin"
               class="img-fluid">
             </td>
             <td class="align-middle">
-              <a [routerLink]="['/page-details', vehicle.Id]">{{ vehicle.Name }}</a>
+              <a [routerLink]="['/page-details', vehicle.id]">{{ vehicle.name }}</a>
             </td>
-            <td class="align-middle">{{ vehicle.Type }}</td>
-            <td class="align-middle">{{ vehicle.ReservationType }}</td>
-            <td class="align-middle">{{ vehicle.Price | currency:'USD':'symbol':'1.2-2' }}</td>
+            <td class="align-middle">{{ vehicle.type }}</td>
+            <td class="align-middle">{{ vehicle.reservationType }}</td>
+            <td class="align-middle">{{ vehicle.price | currency:'USD':'symbol':'1.2-2' }}</td>
             <td class="align-middle" *ngIf="isLoggedIn()">
-              <button class="btn btn-primary" (click)="openBookingDialog(vehicle.Id, vehicle.Name)">Book</button>
+              <button class="btn btn-primary" (click)="openBookingDialog(vehicle.id, vehicle.name)">Book</button>
             </td>
           </tr>
         </tbody>

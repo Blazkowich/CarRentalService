@@ -17,6 +17,7 @@ export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   title = 'Chat With Support';
   message: string = '';
   messages: IChat[] = [];
+  reversedMessages: IChat[] = [];
   chatSub: Subscription[] = [];
   userId: string | null = null;
   notificationCount = 0;
@@ -75,10 +76,11 @@ export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (this.userId) {
       this.chatService.getChatMessages(this.userId).subscribe(
         (messages: IChat[]) => {
+          this.reversedMessages = messages.slice().reverse();
           this.messages = messages;
           messages.forEach(message => {
-            if (!message.Read && message.ReceiverId == this.userId) {
-              this.markMessageAsRead(message.Id);
+            if (!message.read && message.receiverId == this.userId) {
+              this.markMessageAsRead(message.id);
             }
           });
           this.scrollToBottom();

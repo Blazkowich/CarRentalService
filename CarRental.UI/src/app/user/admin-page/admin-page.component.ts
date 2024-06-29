@@ -50,7 +50,7 @@ export class AdminPageComponent implements OnInit {
   editVehicle(vehicle: IVehicle): void {
     this.vehicleService.updateVehicle(vehicle).subscribe(
       (updatedVehicle: IVehicle) => {
-        const index = this.vehicles.findIndex(v => v.Id === updatedVehicle.Id);
+        const index = this.vehicles.findIndex(v => v.id === updatedVehicle.id);
         if (index !== -1) {
           this.vehicles[index] = updatedVehicle;
         }
@@ -81,7 +81,7 @@ export class AdminPageComponent implements OnInit {
       if (result) {
         this.vehicleService.deleteVehicle(vehicleId).subscribe(
           () => {
-            this.vehicles = this.vehicles.filter(v => v.Id !== vehicleId);
+            this.vehicles = this.vehicles.filter(v => v.id !== vehicleId);
             console.log('Deleted vehicle with ID', vehicleId);
           },
           (error: any) => {

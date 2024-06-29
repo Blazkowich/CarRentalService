@@ -1,8 +1,8 @@
+import { IChat } from './../../../models/chat.model';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Observable, Subscription, catchError, tap, throwError } from 'rxjs';
 import { ChatService } from '../../../services/chat.service';
-import { IChat } from '../../../models/chat.model';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -18,6 +18,7 @@ export class AdminChatComponent implements OnInit, OnDestroy {
   title = 'Chat With User';
   message: string = '';
   messages: IChat[] = [];
+  reversedMessages: IChat[] = [];
   chatSub: Subscription[] = [];
   userId: string | null = null;
   userIdFromChat: string | null = null;
@@ -88,15 +89,16 @@ export class AdminChatComponent implements OnInit, OnDestroy {
 
     return this.chatService.getChatMessagesForAdmin(this.userId).pipe(
       tap((messages: IChat[]) => {
+        this.reversedMessages = messages.slice().reverse();
         this.messages = messages;
         messages.forEach(message => {
-          if (message.Sender !== "Admin") {
-            this.userIdFromChat = message.SenderId;
+          if (message.sender !== "Admin") {
+            this.userIdFromChat = message.senderId;
           } else {
-            this.userIdFromChat = message.ReceiverId;
+            this.userIdFromChat = message.receiverId;
           }
-          if (!message.Read && message.ReceiverId === this.userId) {
-            this.markMessageAsRead(message.Id);
+          if (!message.read && message.receiverId === this.userId) {
+            this.markMessageAsRead(message.id);
           }
         });
         this.scrollToBottom();

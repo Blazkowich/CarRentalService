@@ -2,12 +2,12 @@
   <h2>{{ title }}</h2>
   <div class="chat-messages-container" #messageContainer>
     <div *ngIf="messages.length > 0; else noMessages" class="message-list">
-      <div *ngFor="let msg of messages.slice().reverse(); let i = index"
-           [ngClass]="{'message-item-sent': msg.SenderId === userId, 'message-item-received': msg.SenderId !== userId}">
+      <div *ngFor="let msg of reversedMessages;"
+           [ngClass]="{'message-item-sent': msg.senderId === userId, 'message-item-received': msg.senderId !== userId}">
         <div class="message-header">
-          <strong>{{ msg.Sender }}</strong>
+          <strong>{{ msg.sender }}</strong>
         </div>
-        <p>{{ msg.Message }}</p>
+        <p>{{ msg.message }}</p>
       </div>
     </div>
     <ng-template #noMessages>

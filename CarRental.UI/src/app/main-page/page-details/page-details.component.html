@@ -1,6 +1,6 @@
 <div class="card align-items-center">
   <div class="card-body row justify-content-center" *ngIf="vehicle">
-    <h5 class="card-title">{{vehicle.Name }}</h5>
+    <h5 class="card-title">{{vehicle.name }}</h5>
   </div>
 
   <div class="card-body row justify-content-center" *ngIf="vehicle">
@@ -9,8 +9,8 @@
         <img class="img-fluid"
              [style.max-width.px]="600"
              [style.margin.px]="2"
-             [src]="vehicle.ImageUrl"
-             [alt]="vehicle.Name">
+             [src]="vehicle.imageUrl"
+             [alt]="vehicle.name">
       </div>
 
       <div class="card">
@@ -18,16 +18,16 @@
           <div class="card-body">
 
             <div class="col-md-12 text-center">Name:
-              {{ vehicle.Name }}</div>
+              {{ vehicle.name }}</div>
 
           <div class="col-md-12 text-center">
-            Description: {{ vehicle.Description }}</div>
+            Description: {{ vehicle.description }}</div>
 
           <div class="col-md-12 text-center">Free From:
             {{ availableFrom }}</div>
 
             <div class="col-md-12 text-center">Price:
-              {{ vehicle.Price | currency:'USD':'symbol' }}</div>
+              {{ vehicle.price | currency:'USD':'symbol' }}</div>
           </div>
 
         </div>

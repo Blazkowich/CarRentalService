@@ -88,7 +88,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     filterBy = filterBy.toLocaleLowerCase();
     return this.vehicles.filter((vehicle: IVehicle) =>
-      vehicle.Name.toLocaleLowerCase().includes(filterBy)
+      vehicle.name.toLocaleLowerCase().includes(filterBy)
     );
   }
 }

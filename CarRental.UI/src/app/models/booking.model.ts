@@ -1,14 +1,14 @@
 import { IVehicle } from "./vehicle.model";
 
 export interface IBooking {
-  Id: string;
-  CustomerId: string;
-  VehicleId: string;
-  BookingDate: Date;
-  StartDate: Date;
-  EndDate: Date;
-  TotalPrice: number;
-  BookingCondition: string;
+  id: string;
+  customerId: string;
+  vehicleId: string;
+  bookingDate: Date;
+  startDate: Date;
+  endDate: Date;
+  totalPrice: number;
+  bookingCondition: string;
   vehicle: IVehicle;
   duration: number;
 }

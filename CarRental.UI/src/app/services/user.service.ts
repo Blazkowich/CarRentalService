@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, catchError, tap } from 'rxjs';
 import { IUser } from '../models/user.model';
 import { AuthService } from './auth.service';
 import { ErrorHandleService } from '../shared/error.handle';
