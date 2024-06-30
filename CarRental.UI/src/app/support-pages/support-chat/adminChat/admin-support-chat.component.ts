@@ -2,7 +2,7 @@ import { IChat } from './../../../models/chat.model';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Observable, Subscription, catchError, tap, throwError } from 'rxjs';
 import { ChatService } from '../../../services/chat.service';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -32,29 +32,37 @@ export class AdminChatComponent implements OnInit, OnDestroy {
   constructor(
     private chatService: ChatService,
     private router: Router,
+    private route: ActivatedRoute,
     private userService: UserService
   ) {
     this.userId = localStorage.getItem('userId')
   }
 
   ngOnInit(): void {
-    this.loadMessages().subscribe(
-      (messages: IChat[]) => {
-        this.messages = messages;
+    this.route.paramMap.subscribe(params => {
+      this.userId = params.get('userId');
+      if (this.userId) {
+        this.loadMessages().subscribe(
+          (messages: IChat[]) => {
+            this.messages = messages;
 
-        this.chatService.newMessage().subscribe((newMessages: IChat[]) => {
-          this.messages = newMessages;
-          this.scrollToBottom();
-        });
+            this.chatService.newMessage().subscribe((newMessages: IChat[]) => {
+              this.messages = newMessages;
+              this.scrollToBottom();
+            });
 
-        if (!this.userId && this.userName) {
-          this.getUserIdFromUserName();
-        }
-      },
-      (error) => {
-        console.error('Failed to load messages:', error);
+            if (!this.userId && this.userName) {
+              this.getUserIdFromUserName();
+            }
+          },
+          (error) => {
+            console.error('Failed to load messages:', error);
+          }
+        );
+      } else {
+        console.error('User ID not found in route parameters.');
       }
-    );
+    });
   }
 
   ngAfterViewChecked() {
@@ -113,7 +121,7 @@ export class AdminChatComponent implements OnInit, OnDestroy {
   markMessageAsRead(messageId: string): void {
     this.chatService.markMessageAsRead(messageId).subscribe(
       () => {
-        console.log(`Message ${messageId} marked as read.`);
+        console.log();
       },
       (error) => {
         console.error(`Error marking message ${messageId} as read:`, error);

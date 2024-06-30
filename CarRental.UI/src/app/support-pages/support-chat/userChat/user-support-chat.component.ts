@@ -97,7 +97,7 @@ export class UserChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   markMessageAsRead(messageId: string): void {
     this.chatService.markMessageAsRead(messageId).subscribe(
       () => {
-        console.log(`Message ${messageId} marked as read.`);
+        console.log();
       },
       (error) => {
         console.error(`Error marking message ${messageId} as read:`, error);

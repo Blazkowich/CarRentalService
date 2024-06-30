@@ -49,7 +49,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'admin-chat',
+    path: 'admin-chat/:userId',
     component: AdminChatComponent,
     canActivate: [AdminGuard]
   },

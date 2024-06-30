@@ -8,6 +8,7 @@ import { IUser } from '../../models/user.model';
 import { IChat } from '../../models/chat.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../confirmation-popup-window/removing-cancel-confirmation/confirmation.component';
+import { ChatDataService } from '../../services/chat-data.service';
 
 @Component({
   selector: 'app-admin-page',
@@ -25,6 +26,7 @@ export class AdminPageComponent implements OnInit {
   constructor(
     private vehicleService: VehicleService,
     private adminService: AdminPageService,
+    private chatDataService: ChatDataService,
     private router: Router,
     private dialog: MatDialog
   ) {}
@@ -96,8 +98,8 @@ export class AdminPageComponent implements OnInit {
   getChatByUserId(userId: string): void {
     this.adminService.getChatByUserId(userId).subscribe(
       (chats: IChat[]) => {
-        const encodedChats = encodeURIComponent(JSON.stringify(chats));
-        this.router.navigate([`/admin-chat`, { chats: encodedChats }]);
+        this.chatDataService.setChats(chats);
+        this.router.navigate([`/admin-chat/${userId}`]);
       },
       (error: any) => {
         console.error('Error fetching chat:', error);

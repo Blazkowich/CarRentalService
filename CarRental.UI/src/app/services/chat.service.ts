@@ -61,7 +61,7 @@ export class ChatService {
   }
 
   sendMessageToSupport(message: string): Observable<void> {
-    const url = `${this.apiUrl}/send`;
+    const url = `${this.apiUrl}/sendtoadmin`;
     return this.http.post<void>(url, { message }).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error(`Error sending message: ${error.message}`, error);

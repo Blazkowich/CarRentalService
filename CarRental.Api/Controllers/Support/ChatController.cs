@@ -12,7 +12,7 @@ namespace CarRental.Api.Controllers.Support
     {
         private readonly IChatMapped _chatMapped = chatMapped;
 
-        [HttpPost("send")]
+        [HttpPost("sendtoadmin")]
         public async Task<IActionResult> SendMessage([FromBody] ChatRequest chat)
         {
             await _chatMapped.SendToSupportMessage(HttpContext.User, chat.Message);
