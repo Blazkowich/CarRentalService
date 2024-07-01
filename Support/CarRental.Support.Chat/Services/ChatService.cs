@@ -43,15 +43,7 @@ namespace CarRental.Support.Chat.Services
 
             await _chatMessageService.SaveMessage(chatMessage);
 
-            await _hubContext.Clients.All.SendAsync("ReceiveMessage", new
-            {
-                from = userConnection.Name,
-                text = message,
-                isIncoming = true
-            });
-
-            string chatId = $"{userConnection.Id}_{userConnection.Name}";
-            _userChats.AddOrUpdate(chatId, userConnection.Name, (key, oldValue) => userConnection.Name);
+            await _hubContext.Clients.Group("Admin").SendAsync("ReceiveMessage", userConnection.Name, message);
         }
 
         public async Task SendMessageToUser(ClaimsPrincipal currentUser, string userId, string message)
@@ -83,15 +75,7 @@ namespace CarRental.Support.Chat.Services
 
             await _chatMessageService.SaveMessage(chatMessage);
 
-            await _hubContext.Clients.User(userConnection.Id.ToString()).SendAsync("ReceiveMessage", new
-            {
-                from = "Admin",
-                text = message,
-                isIncoming = false
-            });
-
-            string chatId = $"{userConnection.Id}_{userConnection.Name}";
-            _userChats.AddOrUpdate(chatId, userConnection.Name, (key, oldValue) => userConnection.Name);
+            await _hubContext.Clients.User(userConnection.Id.ToString()).SendAsync("ReceiveMessage", "Admin", message);
         }
 
 

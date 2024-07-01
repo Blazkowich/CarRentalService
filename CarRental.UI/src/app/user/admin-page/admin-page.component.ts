@@ -9,6 +9,7 @@ import { IChat } from '../../models/chat.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../confirmation-popup-window/removing-cancel-confirmation/confirmation.component';
 import { ChatDataService } from '../../services/chat-data.service';
+import { ChatSignalRService } from '../../services/signalR.service';
 
 @Component({
   selector: 'app-admin-page',
@@ -22,11 +23,13 @@ export class AdminPageComponent implements OnInit {
   availableVehicles: IVehicle[] = [];
   vehicles: IVehicle[] = []
   users: IUser[] = [];
+  messages: IChat[] = [];
 
   constructor(
     private vehicleService: VehicleService,
     private adminService: AdminPageService,
     private chatDataService: ChatDataService,
+    private chatService: ChatSignalRService,
     private router: Router,
     private dialog: MatDialog
   ) {}
@@ -34,6 +37,18 @@ export class AdminPageComponent implements OnInit {
   ngOnInit(): void {
     this.getVehicles();
     this.getUsersByMessages();
+
+    this.adminService.getUsersByMessages();
+
+    this.chatService.users$.subscribe((users: IUser[]) => {
+      this.users = users.filter(user => user.role !== 'Admin');
+    });
+
+    this.chatService.message$.subscribe((message: IChat | null) => {
+      if (message) {
+        this.messages.push(message);
+      }
+    });
   }
 
   getVehicles(): void {
@@ -94,7 +109,6 @@ export class AdminPageComponent implements OnInit {
     });
   }
 
-
   getChatByUserId(userId: string): void {
     this.adminService.getChatByUserId(userId).subscribe(
       (chats: IChat[]) => {
@@ -107,16 +121,8 @@ export class AdminPageComponent implements OnInit {
     );
   }
 
-
   getUsersByMessages(): void {
-    this.adminService.getUsersByMessages().subscribe(
-      (users: IUser[]) => {
-        this.users = users;
-      },
-      (error: any) => {
-        console.error('Error fetching users:', error);
-      }
-    )
+    this.chatService.getUsersByMessages();
   }
 
   onBack(): void {

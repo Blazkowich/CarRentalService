@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { ChatService } from './chat.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,7 @@ export class AuthService {
   private roleKey = 'role';
   private logoutTimeout: any;
 
-  constructor(private router: Router, private chatService: ChatService) { }
+  constructor(private router: Router) { }
 
   setTokenAndName(
     token: string,
@@ -36,7 +35,6 @@ export class AuthService {
   }
 
   getUserId(): string | null {
-    this.chatService.setUserLoggedIn(this.IdKey);
     return localStorage.getItem(this.IdKey);
   }
 
@@ -57,7 +55,6 @@ export class AuthService {
     this.clearUserName();
     this.clearUserId();
     this.clearRole();
-    this.chatService.setUserLoggedOut();
     this.router.navigate(['/login']);
   }
 

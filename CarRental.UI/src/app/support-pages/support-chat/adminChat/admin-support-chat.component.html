@@ -1,9 +1,9 @@
 <div class="chat-container">
   <h2>{{ title }}</h2>
   <div class="chat-messages-container" #messageContainer>
-    <div *ngIf="messages.length > 0; else noMessages" class="message-list">
-      <div *ngFor="let msg of reversedMessages;"
-           [ngClass]="{'message-item-sent': msg.senderId === userId, 'message-item-received': msg.senderId !== userId}">
+    <div *ngIf="reversedMessages.length > 0; else noMessages" class="message-list">
+      <div *ngFor="let msg of reversedMessages"
+           [ngClass]="{'message-item-sent': msg.senderId === 'replace with fetched userId', 'message-item-received': msg.senderId !== 'replace with fetched userId'}">
         <div class="message-header">
           <strong>{{ msg.sender }}</strong>
         </div>

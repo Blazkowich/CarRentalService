@@ -166,7 +166,7 @@ public class Program
         app.UseHttpsRedirection();
         app.UseRouting();
 
-        app.MapHub<ChatService>("/chat");
+        app.MapHub<ChatHub>("/chatHub");
 
         app.UseAuthentication();
         app.UseAuthorization();

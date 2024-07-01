@@ -1,23 +1,22 @@
-import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from './services/auth.service';
-import { IChat } from './models/chat.model';
-import { ChatService } from './services/chat.service';
-import { Subscription, interval } from 'rxjs';
+import { ChatSignalRService } from './services/signalR.service';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrls: ['./app.component.css'],
+  standalone: true,
   imports: [
     RouterOutlet,
     CommonModule,
     RouterModule,
   ]
 })
-export class AppComponent implements OnInit, OnDestroy{
+export class AppComponent implements OnInit, OnDestroy {
   title = 'CarRental Rental Service';
   userName: string | null = null;
   userId: string | null = null;
@@ -25,36 +24,23 @@ export class AppComponent implements OnInit, OnDestroy{
   isLightMode = true;
   notificationCount = 0;
   @ViewChild('userOptionsContainer') userOptionsContainer!: ElementRef;
-  private intervalSubscription: Subscription | undefined;
+  private unreadCountSubscription: Subscription | undefined;
 
-  constructor(private authService: AuthService, private chatService: ChatService) {
-    this.userId = localStorage.getItem('userId')
+  constructor(private authService: AuthService, private chatSignalRService: ChatSignalRService) {
+    this.userId = localStorage.getItem('userId');
     if (this.isLoggedIn()) {
-      this.startNotificationInterval();
+      this.subscribeToUnreadCount();
     }
-    console.log(this.notificationCount);
   }
 
   ngOnInit(): void {
     this.authService.startLogoutTimer();
     this.addClickOutsideListener();
-    this.subscribeToNewMessages();
   }
 
   ngOnDestroy(): void {
-    this.stopNotificationInterval();
-  }
-
-  updateNotificationCount(): void {
-    if (this.isLoggedIn()) {
-      this.chatService.getNotificationCount(this.userId!).subscribe(
-        (count: number) => {
-          this.notificationCount = count;
-        },
-        (error) => {
-          console.error('Error fetching notification count:', error);
-        }
-      );
+    if (this.unreadCountSubscription) {
+      this.unreadCountSubscription.unsubscribe();
     }
   }
 
@@ -80,19 +66,12 @@ export class AppComponent implements OnInit, OnDestroy{
     this.authService.resetLogoutTimer();
   }
 
-  startNotificationInterval(): void {
-    if (!this.intervalSubscription) {
-      this.intervalSubscription = interval(5000).subscribe(() => {
-        this.updateNotificationCount();
-      });
-    }
-  }
-
-  stopNotificationInterval(): void {
-    if (this.intervalSubscription) {
-      this.intervalSubscription.unsubscribe();
-      this.intervalSubscription = undefined;
-    }
+  subscribeToUnreadCount(): void {
+    this.unreadCountSubscription = this.chatSignalRService.getUnreadCount().subscribe(count => {
+      if (count > this.notificationCount) {
+        this.notificationCount = count;
+      }
+    });
   }
 
   fetchName(): string | null {
@@ -109,18 +88,13 @@ export class AppComponent implements OnInit, OnDestroy{
 
   logout(): void {
     this.authService.logOut();
-    this.stopNotificationInterval();
-
+    if (this.unreadCountSubscription) {
+      this.unreadCountSubscription.unsubscribe();
+    }
+    this.notificationCount = 0; // Reset notification count on logout
   }
 
   toggleUserOptions(): void {
     this.showUserOptions = !this.showUserOptions;
-  }
-
-  private subscribeToNewMessages(): void {
-    this.chatService.newMessage().subscribe((messages: IChat[]) => {
-      const unreadMessages = messages.filter(msg => !msg.read && msg.senderId !== this.userId);
-      this.notificationCount = unreadMessages.length;
-    });
   }
 }

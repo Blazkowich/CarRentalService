@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, tap } from 'rxjs';
+import { Observable, catchError, map, tap } from 'rxjs';
 import { IUser } from '../models/user.model';
 import { AuthService } from './auth.service';
 import { ErrorHandleService } from '../shared/error.handle';
@@ -48,6 +48,14 @@ export class UserService {
   getUserIdByName(userName: string): Observable<string> {
     const url = `${this.userApiUrl}/byName/${userName}`;
     return this.http.get<string>(url);
+  }
+
+  getUsers(): Observable<IUser[]> {
+    const url = `${this.userApiUrl}`;
+    return this.http.get<IUser[]>(url).pipe(
+      map(users => users.filter(user => user.userName !== 'Admin')),
+      catchError(this.errorHandle.handleError)
+    );
   }
 
   logout(): void {
